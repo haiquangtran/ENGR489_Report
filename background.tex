@@ -1,0 +1,140 @@
+\chapter{Background Survey \& Related Work}\label{C:background}
+
+\section{Collaborative Filtering}
+
+Historically, people have relied on recommendations and mentions
+from their peers or the advice of experts to support decisions and discover
+new material 
+
+collaborative filtering, a class of methods that
+recommend items to users based on the preferences other users have
+expressed for those items.
+There is also a growing interest in problems surrounding
+recommendation. Algorithms for understanding and predicting user
+preferences do not exist in a vacuum — they are merely one piece of
+a broader user experience. A recommender system must interact with
+the user, both to learn the user’s preferences and provide recommendations;
+these concerns pose challenges for user interface and interaction
+design. Systems must have accurate data from which to compute their
+recommendations and preferences, leading to work on how to collect
+reliable data and reduce the noise in user preference data sets. Users
+also have many different goals and needs when they approach systems,
+from basic needs for information to more complex desires for privacy
+with regards to their preferences.
+
+In his keynote address at the 2009 ACM Conference on Recommender Systems,Martin \cite{martin2009recsys} argued that algorithms themselves are only a small part of the problem of providing recommendations to users. We haev a number of algorithms that work fairly well, and while there is room to refine them, there is much work to be done on user experience, data colelction, and other problems which make up the whole of the recommender experience. 
+
+Collaborative filtering (CF) is a popular recommendation algorithm
+that bases its predictions and recommendations on the ratings or behavior
+of other users in the system.
+
+There are other methods for performing recommendation, such as
+finding items similar to the items liked by a user using textual similarity
+in metadata (content-based filtering or CBF). The focus of this survey
+is on collaborative filtering methods, although content-based filtering
+will enter our discussion at times when it is relevant to overcoming a particular recommender system difficulty.
+
+\cite{schafer2007collaborative}
+
+TODO: reword.
+Collaborative filtering is a recommendation algorithm that predicts items (filtering) about the interests of a user by collecting preferences or taste information from other users (collaborating). The underlying assumption of the collaborative filtering approach is that similar users will have similar tastes, thus we can make recommendations based on this idea. 
+
+Collaborative Filtering is a technique used in many recommender systems. The main idea behind collaborative filtering is to analyse previous user behaviour such as their previous ratings on items to find trends in these patterns. By learning these trends this technique is able to identify new user item relationships to recommend items that the user may have not seen yet. 
+
+
+However, this means that the algorithm is reliant on previous user behaviour to give good recommendations. This makes collaborative filtering difficult to address new products and users. This problem is referred to as the 'Cold Start' problem where there are not many users who have rated any items yet. (Content based filtering is superior in this context). However, the advantage of Collaborative filtering is that does not require domain knowledge of the products and users. It purely focuses on the previous user rating actions, and recommendations are generally more accurate than Content based filtering \cite{koren2009matrix}. 
+
+There are two main areas that encompass collaborative filtering, these areas are neighborhood methods and latent factor models which will be explained in detail further on. 
+
+% \section{Challenges}
+% \subsection{Cold Start}
+% \subsection{Data Sparsity}
+% \subsection{Synonyms}
+% \subsection{Scalability}
+% \subsection{Grey Sheep}
+% \subsection{Shilling attacks}
+% \subsection{Diversity and the Long Tail}
+
+\section{Neighbourhood Methods}
+
+
+Neighbourhood methods cluster together items or users that are most similar to each other according to similarity measures. Users and items are treated 
+
+\subsection{User Based Collaborative Filtering}
+
+It was first introduced in the GroupLens Usenet article recommender \cite{grouplens}. 
+
+User based collaborative filtering uses a similarity measure to find users that are similar to each other, and then recommends food based on this metric. User based collaborative filtering methods aim at finding users that are similar to one another, and recommending items to them based on each of their previous behaviours. There is high chance that similar users will prefer similar items. For example, two users may like eating spicy food. the first user has indicated that they like eating chicken vindaloo and hot chilli peppers. The second user has indicated that they like eating hot chilli peppers. Therefore, since these two users previous behaviours are similar as they both have indicated their enjoyment of hot chilli peppers, they are to be considered similar. We can recommend to the second user that they should try chicken vindaloo, since the first user liked it and the two users have similar tastes.  
+
+
+\subsection{Item Based Collaborative Filtering}
+
+Another approach that is commonly used is called item based collaborative filtering. Instead of finding users that are similar to one another, item based collaborative filtering focuses on previous behaviour of the user, and recommends similar new items based on what items the user previously liked. Item based collaborative filtering differs to user based collaborative filtering because it uses a similarity measure to find similar items to items that the user has already indicated interest in. For example, a user could have previously liked the following dishes: a chicken sandwich, chicken nuggets, and chicken soup. Item based collaborative filtering will find similar items to this user by using a similarity measure on their previous items they indicated they liked. By using this technique, it may recommend new items to the user such as chicken salad, or a chicken burger since all those items contain chicken. This is the main idea behind item based collaborative filtering. 
+
+\subsubsection{Slope One}
+
+\subsection{Challenges}
+A key problem of collaborative filtering is how to combine and weight the preferences of user neighbors. Sometimes, users can immediately rate the recommended items. As a result, the system gains an increasingly accurate representation of user preferences over time.
+
+\subsection{Similarity Measures}
+\subsubsection{Pearson's Coefficient}
+\subsubsection{Euclidean Distance \& Manhattan Distance}
+\subsubsection{Cosine Similarity}
+\subsubsection{Jaccard Index}
+
+\section{Latent Factor Methods}
+
+Latent factor models look at analysing the previous actions of users and creating a feature vectors for items and users. These item and user features are used to predict future items that the user may like. 
+
+\subsection{Singular Value Decomposition}
+\subsubsection{Stochastic Gradient Descent}
+\subsubsection{Alternating Least Squares}
+
+
+\section{Literature Review}
+
+Talk about Content based filtering
+Talk about netflix and matrix factorization
+Talk about user and item based filtering
+Neighbour etc
+
+Performance,
+Accuracy,
+Scalability
+
+The term 'collaborative filtering' was first introduced by \citeauthor{goldberg1992using} in \citeyear{goldberg1992using} which was used in a recommender system called Tapestry \cite{koren2009matrix, goldberg1992using}. 
+
+ALL FROM : \cite{}
+
+Tapstry \cite{goldberg1992using} allowed users to query for items in an information domain, such as corporate email, based on other users' opinions or actions. Tapestry was a manual collaborative filtering system: queries such as "give me all the messages forwarded by John" could be fulfilled. It required effort on the part of its users, but allowed them to harness the reactions of previous readers of a piece of correspondence to determine its relevance to them \cite{grouplens}. 
+
+This gave rise to the innovation of new collaborative filtering techniques. Automated collaborative filtering systems automatically located relevant opinions and aggregated them to provide recommendations. GroupLens \cite{grouplens} were the first to use a user-based collaborative filtering technique to recommend articles that may be of interest to a user. Users would need to provide ratings or other observable actions to provide the system with personalised results based on this feedback. 
+
+Collaborative filtering was found to be useful because no context of the items was needed such as item attributes; items could be recommended purely from past rating behaviours of other users \cite{koren2009matrix, grouplens}. 
+
+
+Collaborative filtering during the 1990's became a topic of interest with an increased number of recommender systems being developed. Ringo for music, BellCore Video Recommender for movies, and Jester for jokes. The potential in personalised recommendations to users meant that increased scales and improved customer experience 
+
+TODO: [10,151]. 
+
+In the late 1990's, commercial deployments of recommender technology began to emerge. Amazon.com perhaps the most widely-known application. Based on purchase history, browsing history, and the item a user is currently viewing, they recommend items for the user to consider purchasing. 
+
+Since Amazon’s adoption, recommender technology, often based on
+collaborative filtering, has been integrated into many e-commerce and
+online systems. A significant motivation for doing this is to increase
+sales volume — customers may purchase an item if it is suggested to
+them but might not seek it out otherwise
+
+The toolbox of recommender techniques has also grown beyond
+collaborative filtering to include content-based approaches based on
+information retrieval, bayesian inference, and case-based reasoning
+methods
+TODO: [132, 139].
+These methods consider the actual content or attributes of the items to be recommended instead of or in addition to user rating patterns. 
+
+Hybrid recommender systems [24] have also emerged as various recommender strategies have mature, combining multiple algorithms into composite systems that ideally build on the strengths of their component algorithms. Collaborative filtering, however,
+has remained an effective approach, both alone and hybridized
+with content-based approaches.
+
+
+It was first introduced in the GroupLens Usenet article recommender \cite{grouplens}. 

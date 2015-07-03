@@ -1,0 +1,70 @@
+\chapter{Work Done}\label{C:work_done}
+
+\section{Assumptions}
+
+\section{Design Decisions}
+
+\subsection{WOTM Recommendations Component}
+TODO: Should this be in DESIGN DECISIONS???
+
+WOTM Recommendations is an extension to the system that is a REST API handling all the data that is needed to make recommendations to users. It connects to the main wotm\_dev database and stores previous user events such as the users likes/dislikes and their preferences. It uses this data to recommend food to the users and sends it back to WOTM Web. 
+
+The reason why we did not want to merge these events in the WOTM API is because it will then be tightly coupled to that system. By extracting it out, it means that WOTM API and WOTM Recommendations are not dependent on each other, and have their own sole purposes. WOTM API manages user and dish data, whilst WOTM recommendations manages everything to do with the recommendations. In that way, if we decide to remove recommendations, then we do not have to change code from the WOTM API, since it is loosely coupled to it. 
+
+\subsection{Open source projects}
+Spotify/Annoy, JRubyMahout, Apache Hadoop, 
+\subsubsection{Apache Mahout}
+\subsubsection{Recommendable}
+\subsubsection{PredictionIO}
+\subsubsection{GraphLab}
+
+\subsection{Recommender System}
+\subsubsection{Online Learning vs Offline Learning}
+
+\subsection{User Model}
+
+\subsubsection{Normalized vs Denormalized}
+
+PostgresSQL, NoSQL, Graph Database? Neo4J
+
+\subsubsection{Implicit vs Explicit Ratings}
+
+\subsubsection{Boolean Ratings vs Likert Scales Ratings}
+
+Although prediction accuracy is important, it is not the only factor that a recommender should focus on and acts as one facet in wide range of facets \cite{martin2009recsys}. \citeauthor{martin2009recsys} explains that the goal of a recommender system is to improve user experience however, designing a recommender system to fit application remains a challenge.  that user experience recommender system ratings should be highly based on the user experience \cite{martin2009recsys}. By focusing on the user experience, users will be able to easily rate food dishes they like, in turn, leading to the system collecting more recommendations from the ease of use. For this reason, the simplest model that allows users to easily rate a dish would be a simple boolean rating such as a like/dislike. The advantage is the ease of use for the simplicity, however it means that recommendations will not be as accurate as explicit rating values such as from 1-5 stars or 1-10 stars. By easing the user experience for rating food dishes it can increase data collection at the expense of accuracy. Using scaled ratings mean that we learn more about the user preferences because of the scaled factor indicating how much the user likes a dish or not. This means that model collaborative filtering techniques are able to learn what the user likes and dislikes quicker as well as leading to more accurate recommendations. 
+
+A trade-off to consider is whether or not accurate recommendations are more important than the user experience. Since What's On The Menu aims at being a mobile application, the limitations are the small form factor that mobile phone screens have. With a scaled rating system, the user has to be shown these possible options in order to rate the dish, which may take up additional space that is not needed on such small screens. Because of this, having a 1-5 star rating system may degrade the user experience as opposed to a simple like/dislike rating system. This may lead to less data being collected and in the long term affect the recommendations that are provided to the users. But on the other hand, since it is scaled ratings, it means we are able to convey more information from each rating. This means that the recommender system is more likely to predict accurate recommendations with less ratings. 
+
+However, one could argue that the accuracy of the ratings may not matter a great deal. For instance, a recommender system could predict two dishes the user  may like based on previous rating patterns. The first dish is predicted with a 90\% prediction accuracy, and the second dish is predicted with a 70\% prediction accuracy that user will like these dishes. But is the difference in prediction accuracy important if the user likes both dishes? As long as the recommender system has provided the user with dishes they like, the interval of accuracy between those predicted dishes do not drastically matter. In addition to this, dishes with higher predicted accuracy may seem like obvious choices of dishes that users may have already tried, whereas dishes with a lower predicted accuracy may be less obvious dishes that they may like, but have not tried yet. It should not matter how much the user likes the dish as long as the user likes the dishes that are recommended. A recommender system using boolean values would eventually reach that of using likert scale ratings.
+TODO: 
+
+Although this will happen in the long term, new values and ratings will be less accurate that join the system. 
+
+
+Foursquare is an application that asks users to rate items according to a series of questions. These questions consist of "What do you like about this place?", "What is this place known for?" and so on. From these questions they are able infer a particular rating for the item, as well as collect data from the users to give more accurate recommendations. This rating system may risk users not rating the items because of the long list of questions it asks. Users may also have short attention spans and do not want to do such tasks.
+
+For these reasons, we found that simple like/dislike events would best suit the collection of data for the recommender system because of the simplified structure which increases the user experience. The recommender system can be extended to take in additional events that may portray additional information such as a "want" indicating that a user "wants" a dish but has not yet tried it before. However, caution must be taken as more events will affect the user experience of the application. 
+
+\section{Implementation}
+
+\subsection{Neighbourhood Collaborative Filtering}
+\subsubsection{Modified Jaccard Index}
+
+
+\subsection{Latent Factor Model}
+\subsubsection{Alternating Least Squares}
+
+\subsection{Recommendation Engines}
+
+
+\subsubsection{Feedback from Recommendations}
+
+\cite{martin2009recsys}
+Adapt nature of recommendations as user gains more experience with the recommender - a new user may need more verifiable recommendations and may lack the trust needed for high-risk recommendations. 
+How to balance serving the individual now vs. serving the individual and community long-term. 
+
+Part of the research challenge is to design interfaces that give users control over the recommendation process without overwhelming the user or rendering the tool too complicated for novice users. 
+
+
+
+

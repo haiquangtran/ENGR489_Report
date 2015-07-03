@@ -1,0 +1,123 @@
+%% $RCSfile: proj_report_outline.tex,v $
+%% $Revision: 1.2 $
+%% $Date: 2010/04/23 02:40:16 $
+%% $Author: kevin $
+
+\documentclass[11pt
+              , a4paper
+              , twoside
+              , openright
+              ]{report}
+
+
+\usepackage{float} % lets you have non-floating floats
+
+\usepackage{url} % for typesetting urls
+\usepackage[numbers]{natbib}
+
+%
+%  We don't want figures to float so we define
+%
+\newfloat{fig}{thp}{lof}[chapter]
+\floatname{fig}{Figure}
+
+%% These are standard LaTeX definitions for the document
+%%                            
+\title{Food Recommendations}
+\author{Hai Quang Tran : 300224467}
+
+%% This file can be used for creating a wide range of reports
+%%  across various Schools
+%%
+%% Set up some things, mostly for the front page, for your specific document
+%
+% Current options are:
+% [ecs|msor]              Which school you are in.
+%
+% [bschonscomp|mcompsci]  Which degree you are doing
+%                          You can also specify any other degree by name
+%                          (see below)
+% [font|image]            Use a font or an image for the VUW logo
+%                          The font option will only work on ECS systems
+%
+\usepackage[ecs,image]{vuwproject}
+
+% You should specifiy your supervisor here with
+    \supervisors{John Clegg, Dr Xiaoying Gao, Dr Ian Welch}
+% use \supervisors if there is more than one supervisor
+
+% Unless you've used the bschonscomp or mcompsci
+%  options above use
+  \otherdegree{Bachelor of Engineering with Honours}
+% here to specify degree
+
+% Comment this out if you want the date printed.
+\date{}
+
+\begin{document}
+
+% Make the page numbering roman, until after the contents, etc.
+\frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+
+Rewrite - 
+
+The goal of this report is to demonstrate what has been achieved in the first three months of the Food Recommendations project and outline the working plan for the remainder of the project. 
+
+The project looks at how a recommender system can be used to recommend food dishes to users based on their personal preferences, their previous actions such as likes/dislikes, and other factors such as their location and price. In particular, this project explores collaborative filtering techniques by leveraging existing research and looks at extending these algorithms to best suit the use case of recommending food to users. 
+
+The literature review looks at existing recommender systems that use collaborative filtering techniques and compares the advantages and disadvantages of each technique to identify a proposed solution that is suitable for our use case. 
+
+Suitability of these algorithms will be considered on factors that are important for a web-centric mobile application called 'What's On The Menu' which is currently being developed. The recommender system will have to account for a range of factors from the user experience, the accuracy of the recommendation system, and the speed/performance that the system can provide recommendations to users.
+
+The system will be tested using evaluation techniques (yet to be identified) on real user data. The user data will be collected during the course of Trimester 2, and will test the accuracy in addition to the performance and scalability of the system. This is yet to be determined. 
+
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\maketitle
+
+% \include{acknowledge}
+
+\tableofcontents
+
+% we want a list of the figures we defined
+% \listofs{Figures}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% individual chapters included here
+\include{introduction}
+\include{background}
+\include{work_done}
+\include{future_plan}
+\include{request_for_feedback}
+% \include{using}
+% \include{example}
+% \include{conclusion}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\backmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% % \bibliographystyle{ieeetr}
+% \bibliographystyle{acm}
+\bibliographystyle{IEEEtranN}
+\bibliography{sample}
+% \nocite{*}
+
+\end{document}

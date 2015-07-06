@@ -1,18 +1,5 @@
 \chapter{Introduction}\label{C:intro}
 
-Specific tasks, information needs, and item domains
-represent unique problems for recommenders, and design and evaluation
-of recommenders needs to be done based on the user tasks to
-be supported. Effective deployments must begin with careful analysis
-of prospective users and their goals. Based on this analysis, system
-designers have a host of options for the choice of algorithm and for its
-embedding in the surrounding user experience \cite{schafer2007collaborative}
-
-— can be difficult
-without prior direct knowledge of the candidates.
-
-TODO: SHOULD THE PROBLEM OF COMPARING COLLABORATIVE FILTERING BE HERE?
-
 With the vast amount of food options around us, it is often difficult to decide what to eat. On some days we could feel like eating our favourite foods, but on other days we could feel more explorative, wanting to try something new. There are many factors that determine our decisions on what we want to eat such as our preferences, our current mood, and what food providers are nearby. Additionally, some of us may have food intolerance's which restrict our food options. With abundant options and many factors such as price, cuisine type, meat type, we can become overwhelmed, making it difficult to decide what we want to eat. 
 
 What’s On The Menu (WOTM) is a web-centric mobile application that is focused on recommending food dishes to users based on the user’s personal preferences, previous actions such as likes/dislikes, and other factors such as location, price, and so forth. These personalised recommendations are important as it saves time for users and allows users to explore preferred food options they otherwise might not have discovered alone. 
@@ -24,7 +11,7 @@ Collaborative filtering is a recommendation technique that predicts how much a u
 TODO: EDIT GOAL
 The goal of this project is to find out which types of collaborative filtering algorithms will be best suited to the What's On The Menu (WOTM) application. This project aims to explore this, by implementing different types of collaborative filtering techniques to recommend food to users based on their personal preferences and previous behaviours, in addition to how to model data from the user, whilst considering the user experience. 
 
-TODO: edit
+TODO: need help
 Additional goals will include the performance, and scalability of providing recommendations to users. How well the system adapts to a large increasing amount of users, and whether the system is able to perform these calculations at a fast rate. In addition to this, it should provide an easy experience for users.
 
 \section{What's On The Menu Overview}
@@ -40,15 +27,8 @@ By creating a separate component for recommendations it enforces modularity, com
 
 WOTM API represents the application programming interface that manages the main data in the application such as the food dishes, restaurants, users etc. It has a separate database called wotm\_dev where all this data is stored. Admins/developers are able to use this component through a REST API to access information, and manipulate information about users and dishes from and to the database. It determines what goes into the database and what goes out. Since it manages all essential data from the system, dishes, and users go through this API. For example, when new dishes are available, then through this API, we are able to store the new dish and send it to the database. Updating dishes, and deleting dishes is taken care of in this API. This is the same case for users. New users are handled through this layer, and are sent to the database. Updating user information, and deleting users is also handled in this class.
 
-\subsection{WOTM Recommendations}
-TODO: Should this be in DESIGN DECISIONS???
-
-WOTM Recommendations is an extension to the system that is a REST API handling all the data that is needed to make recommendations to users. It connects to the main wotm\_dev database and stores previous user events such as the users likes/dislikes and their preferences. It uses this data to recommend food to the users and sends it back to WOTM Web. 
-
-The reason why we did not want to merge these events in the WOTM API is because it will then be tightly coupled to that system. By extracting it out, it means that WOTM API and WOTM Recommendations are not dependent on each other, and have their own sole purposes. WOTM API manages user and dish data, whilst WOTM recommendations manages everything to do with the recommendations. In that way, if we decide to remove recommendations, then we do not have to change code from the WOTM API, since it is loosely coupled to it. 
-
 \subsection{WOTM Web}
 
-WOTM Web is a component that is responsible for the client-side of the application. It manages the user interface objects that will be rendered to users in their browser. It gets this data from the WOTM API database, which stores all the main objects such as food dishes, restaurants, and so forth. WOTM Web is also responsible for managing user accounts and authentication. Users are able to sign up to the application by creating a new account or via Facebook, Twitter, and Google+. In order to handle user data and authentication, WOTM Web stores data within a database called WOTM\_web\_dev. Users have dynamic data stored on their accounts such as their previous likes/dislikes, their preferences and their favourite restaurants. This component then uses this data to send the information to the Recommendations API which uses this data to send recommendations back to the user (See Figure 1). 
+WOTM Web is a component that is responsible for the client-side of the application. It manages the user interface objects that will be rendered to users in their browser. It gets this data from the WOTM API database, which stores all the main objects such as food dishes, restaurants, and so forth. WOTM Web is also responsible for managing user accounts and authentication. Users are able to sign up to the application by creating a new account or via Facebook, Twitter, and Google+. In order to handle user data and authentication, WOTM Web stores data within a database called WOTM\_web\_dev. Users have dynamic data stored on their accounts such as their previous likes/dislikes, their preferences and their favourite restaurants. This component plans on sending the information to a new component for recommendations, which should use this data to send recommendations back to the user (See Section 3.2.1). 
 
 

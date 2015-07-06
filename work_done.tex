@@ -1,22 +1,35 @@
 \chapter{Work Done}\label{C:work_done}
 
-\section{Assumptions}
+\section{Limitations}
+
+Since the existing components of WOTM are done in the programming language Ruby, it meant that we are restricted to this language. In addition, most of the data in the application was modelled, including the dishes, restaurants, users and so on. The only data that hadn't been modelled yet was the data required for the recommender system such as like/dislikes and preferences. The existing system used the database postgreSQL which was another restriction.  
 
 \section{Design Decisions}
 
 \subsection{WOTM Recommendations Component}
 TODO: Should this be in DESIGN DECISIONS???
+PUT IMAGE.
 
-WOTM Recommendations is an extension to the system that is a REST API handling all the data that is needed to make recommendations to users. It connects to the main wotm\_dev database and stores previous user events such as the users likes/dislikes and their preferences. It uses this data to recommend food to the users and sends it back to WOTM Web. 
+WOTM Recommendations is made as an extension to the existing system. WOTM Recommendations is a REST API that is used to handle all the data needed to make recommendations to the users. It connects to the main WOTM API database (wotm\_dev) and stores previous user events such as the users likes/dislikes and their preferences. It uses this data to recommend food to the users and sends it back to WOTM Web API. 
 
 The reason why we did not want to merge these events in the WOTM API is because it will then be tightly coupled to that system. By extracting it out, it means that WOTM API and WOTM Recommendations are not dependent on each other, and have their own sole purposes. WOTM API manages user and dish data, whilst WOTM recommendations manages everything to do with the recommendations. In that way, if we decide to remove recommendations, then we do not have to change code from the WOTM API, since it is loosely coupled to it. 
 
+TODO: check if this is right.
+Also by creating a new component it does not restrict us from using a different programming language if we desire. Since we are using REST, we are able to pass data from one component to another using a flexible language such as JSON or XML, however, we decided to use Ruby as the programming language as it meant that no extra overhead would be needed to convert data from one language to another. 
+
+The advantage of using the programming language Ruby is that it is open source, and that the community for Ruby is large. Because of this, there will be libraries and ruby programs that are typically called 'gems' that other people have already created. 
+
 \subsection{Open source projects}
-Spotify/Annoy, JRubyMahout, Apache Hadoop, 
+
+Open source projects can be utilised saving time, since we do not need to start from scratch and can adapt or modify projects to fit our needs. The open source community has a range of projects that are available and we are able to make modifications to suit our needs. In particular, a range of machine learning libraries are available that incorporate different types of collaborative filtering techniques. All that was needed was to set them up, and feed through our specific application data and run the algorithms that we needed. Spotify have an open source project called annoy \cite{annoy} that uses a nearest neighbours method of collaborative filtering written in C++. Recommendable was another candidate that looked promising. Recommendable also uses neighbourhood collaborative filtering methods and is written in Ruby \cite{recommendable}. There were many other open-source software such as easyrec \cite{easyrec} and lenskit \cite{lenskit} that had a range of different collaborative filtering techniques. Eventually, we narrowed the list to what would appear to be the most suitable for this project below. 
 \subsubsection{Apache Mahout}
+
+Apache Mahout is an open source library written in Java \cite{mahout, mahoutaction}. Apache Mahout is made to run with Apache Hadoop to do parallel processing for scalability. It's main goal is to "build an environment for quickly creating scalable performant machine learning applications" \cite{mahout}. It contains many machine learning algorithms and forms of collaborative filtering. In particular, it contains user-based CF, item-based CF, matrix factorization models using alternating least squares, and a weighted matrix factorization approach using singular value decomposition. It also contains built in similarity measures such as Pearson's correlation, Euclidean distance, Cosine similarity, Spearman's Correlation and more. These similarity measures can easily be switched out with different CF algorithms and so on. 
+Although Apache Mahout looks appealing, we did not choose to use it because it would require extensive overhead. Since it is a Java library it requires a Java Virtual Machine (JVM) to be executed. Since our database is in PostgreSQL we would need tools such as Java Database Connectivity (JDBC) to communicate with the database to feed the data to the algorithms. Another option would be using JRuby which is a implementation of Ruby that runs on a Java Virtual Machine allowing the use of Ruby and Java code for easy integration with Java libraries.
+There is JRuby Mahout Library that could be used but is not maintained or updated frequently. Although a REST interface could be used with Java, it would require us to incorporate the Spring framework, in addition to using a server such as Tomcat to run on. Because of these reasons, we decided not to use this library for now.
+
 \subsubsection{Recommendable}
 \subsubsection{PredictionIO}
-\subsubsection{GraphLab}
 
 \subsection{Recommender System}
 \subsubsection{Online Learning vs Offline Learning}
@@ -44,6 +57,19 @@ Although this will happen in the long term, new values and ratings will be less 
 Foursquare is an application that asks users to rate items according to a series of questions. These questions consist of "What do you like about this place?", "What is this place known for?" and so on. From these questions they are able infer a particular rating for the item, as well as collect data from the users to give more accurate recommendations. This rating system may risk users not rating the items because of the long list of questions it asks. Users may also have short attention spans and do not want to do such tasks.
 
 For these reasons, we found that simple like/dislike events would best suit the collection of data for the recommender system because of the simplified structure which increases the user experience. The recommender system can be extended to take in additional events that may portray additional information such as a "want" indicating that a user "wants" a dish but has not yet tried it before. However, caution must be taken as more events will affect the user experience of the application. 
+
+
+
+
+
+\cite{schafer2007collaborative}
+LOL WHAT? Users prefer more granularity in their ratings interfaces — on a
+5-star scale, they like to be able to give half-star ratings — so it is
+beneficial for the user experience to allow a relatively fine-grained rating
+process, but the increased granularity of ratings will not necessarily
+translate into more accurate recommendations [34]. <----
+
+
 
 \section{Implementation}
 

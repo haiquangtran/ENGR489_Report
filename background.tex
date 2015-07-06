@@ -71,6 +71,19 @@ User based collaborative filtering uses a similarity measure to find users that 
 
 Another approach that is commonly used is called item based collaborative filtering. Instead of finding users that are similar to one another, item based collaborative filtering focuses on previous behaviour of the user, and recommends similar new items based on what items the user previously liked. Item based collaborative filtering differs to user based collaborative filtering because it uses a similarity measure to find similar items to items that the user has already indicated interest in. For example, a user could have previously liked the following dishes: a chicken sandwich, chicken nuggets, and chicken soup. Item based collaborative filtering will find similar items to this user by using a similarity measure on their previous items they indicated they liked. By using this technique, it may recommend new items to the user such as chicken salad, or a chicken burger since all those items contain chicken. This is the main idea behind item based collaborative filtering. 
 
+\cite{schafer2007collaborative}
+
+ Rather than using
+similarities between users’ rating behavior to predict preferences, item–
+item CF uses similarities between the rating patterns of items. If two
+items tend to have the same users like and dislike them, then they are
+similar and users are expected to have similar preferences for similar
+items. In its overall structure, therefore, this method is similar to earlier
+content-based approaches to recommendation and personalization, but
+item similarity is deduced from user preference patterns rather than
+extracted from item data.
+
+
 \subsubsection{Slope One}
 
 \subsection{Challenges}
@@ -93,48 +106,59 @@ Latent factor models look at analysing the previous actions of users and creatin
 
 \section{Literature Review}
 
-Talk about Content based filtering
-Talk about netflix and matrix factorization
-Talk about user and item based filtering
-Neighbour etc
+The term 'collaborative filtering' was first introduced in \citeyear{goldberg1992using} by \citeauthor{goldberg1992using} to describe the technique used in Tapestry, one of the earliest known recommender systems \cite{koren2009matrix,  goldberg1992using, itembased, survey}.
 
-Performance,
-Accuracy,
-Scalability
+Tapestry \cite{goldberg1992using} was created to handle electronic documents and used manual collaborative filtering, allowing users to query information based on others opinions about the documents. These opinions were in the form of annotations or replies which users were encouraged to make on documents to increase probability of relevant results returned from queries \cite{schafer2007collaborative}. Tapestry relied on opinions from a small community such as an office workgroup, where each person's opinion was trusted. Larger communities could not rely on every person knowing each other, leading to new collaborative filtering techniques being developed \cite{itembased}. 
 
-The term 'collaborative filtering' was first introduced by \citeauthor{goldberg1992using} in \citeyear{goldberg1992using} which was used in a recommender system called Tapestry \cite{koren2009matrix, goldberg1992using}. 
+More recommender systems emerged as value was seen in the potential to increase sales from recommendations - customers may purchase suggested items that they might not have seen otherwise \cite{schafer2007collaborative}. Perhaps the most popular recommender system in the late 1990's was used in Amazon.com, collecting user purchase history, browsing history, and recently viewed items to recommend items that the user may buy \cite{schafer2007collaborative}. Other recommender systems consisted of Jester \cite{goldberg} for jokes, and Ringo \cite{ringo} for music.
+% /cite{schafer2007collaborative, toward}
+GroupLens \cite{grouplens} were the first to introduce a neighbourhood collaborative filtering technique. Building upon the Tapestry concept, GroupLens created an automated user based collaborative filtering technique for recommending Usenet articles that users may be interested in. The advantage of neighbourhood methods is that they are intuitive, easy to implement, and produce highly effective results \cite{survey, scalable}. Despite providing accurate recommendations, user-based collaborative filtering techniques were computed in real time and performance would degrade as more users and items were added to the system, leading to scalability and performance issues \cite{dimension, itembased, evaluationitem}.
 
-ALL FROM : \cite{}
+This required collaborative filtering techniques that could easily scale and still produce high quality recommendations leading to the exploration of item-based collaborative filtering. Item-based collaborative filtering techniques were developed to address scalability limitations of the user-based techniques \cite{survey}. \citeauthor{itembased} analyzed various item-based recommendation algorithms, computing item-item similarities and comparing the accuracy with traditional KNN user based collaborative filtering techniques \cite{itembased}. \citeauthor{itembased} found that items remained fairly static in the system, whereas user behaviours and preferences would often change. Because items were found mostly static, it meant precomputation could occur for item similarities. By having precomputed item similarities, traditional item-based collaborative filtering can then be applied, thus performance and scalability would be increased \cite{scalable}.
 
-Tapstry \cite{goldberg1992using} allowed users to query for items in an information domain, such as corporate email, based on other users' opinions or actions. Tapestry was a manual collaborative filtering system: queries such as "give me all the messages forwarded by John" could be fulfilled. It required effort on the part of its users, but allowed them to harness the reactions of previous readers of a piece of correspondence to determine its relevance to them \cite{grouplens}. 
+Other techniques such as model based collaborative filtering have been investigated to overcome the performance and scalability issues. Well known model based techniques include Bayesian belief nets \cite{baysian}, clustering models \cite{clustering}, and latent semantic models \cite{latent}. These models are based on learning patterns from users previous actions to predict new items, and are expensive but can be built offline allowing high scalability. The resulting model is "very small, very fast, and essentially as accurate as nearest neighbor methods" \cite{itembased}. \citeauthor{itembased} found Bayesian networks to be practical in the context where user "preferences change slowly with respect to the model" \cite{itembased}. However, these models are not suitable for environments where the user preference model should be updated rapidly or frequently. Since model based approaches do not have to compute similarity measures to form neighbourhoods, they tend to produce faster recommendations and outperform neighbourhood models in terms of accuracy of recommendations \cite{toward, itembased}. 
 
-This gave rise to the innovation of new collaborative filtering techniques. Automated collaborative filtering systems automatically located relevant opinions and aggregated them to provide recommendations. GroupLens \cite{grouplens} were the first to use a user-based collaborative filtering technique to recommend articles that may be of interest to a user. Users would need to provide ratings or other observable actions to provide the system with personalised results based on this feedback. 
+Although collaborative filtering is considered to be one of the most successful approaches to recommender systems \cite{survey, toward}, they suffer from the problem of data sparsity \cite{toward, survey, itembased, koren2009matrix, koren2011, dimension}. Data sparsity is when only a small subset of user ratings on items are recorded, leading to a insufficient number of ratings to produce accurate recommendations. Data sparsity specifically tends to appear in the 'cold start' problem, where new items or new users are entered into the system, but not enough information is supplied to produce accurate recommendations since recommendations are based on common items or users \cite{survey}.
 
-Collaborative filtering was found to be useful because no context of the items was needed such as item attributes; items could be recommended purely from past rating behaviours of other users \cite{koren2009matrix, grouplens}. 
+To alleviate this problem, hybrid approaches were investigated that combined collaborative filtering and other recommender techniques such as content based filtering. \citeauthor{toward} suggested creating user profiles such that demographic information could be included in similarity measures to provide extra content to find similar users or items. This effectively makes use of content-based filtering where recommendations are produced based on the content and attributes of the items, learning what attributes the user likes \cite{toward}. Well-known hybrid techniques include content-boosted collaborative filtering \cite{hybrid}, and personality diagnosis \cite{hybrid2, survey}. Hybrid approaches were implemented to address the limitations of collaborative filtering and content-based filtering techniques \cite{toward}, but have increased complexity leading to more expensive computations. Additionally, external information is needed about the content of the items which may not be available, thus making hybrid approaches impractical in certain scenarios \cite{survey}. \citeauthor{dimension} found a different approach that used dimension reduction techniques such as Singular Value Decomposition, making sparse rating models more dense by reducing the dimensionality of the product space, thereby condensing the modelled ratings of users and producing less missing information \cite{dimension}. 
 
-
-Collaborative filtering during the 1990's became a topic of interest with an increased number of recommender systems being developed. Ringo for music, BellCore Video Recommender for movies, and Jester for jokes. The potential in personalised recommendations to users meant that increased scales and improved customer experience 
-
-TODO: [10,151]. 
-
-In the late 1990's, commercial deployments of recommender technology began to emerge. Amazon.com perhaps the most widely-known application. Based on purchase history, browsing history, and the item a user is currently viewing, they recommend items for the user to consider purchasing. 
-
-Since Amazon’s adoption, recommender technology, often based on
-collaborative filtering, has been integrated into many e-commerce and
-online systems. A significant motivation for doing this is to increase
-sales volume — customers may purchase an item if it is suggested to
-them but might not seek it out otherwise
-
-The toolbox of recommender techniques has also grown beyond
-collaborative filtering to include content-based approaches based on
-information retrieval, bayesian inference, and case-based reasoning
-methods
-TODO: [132, 139].
-These methods consider the actual content or attributes of the items to be recommended instead of or in addition to user rating patterns. 
-
-Hybrid recommender systems [24] have also emerged as various recommender strategies have mature, combining multiple algorithms into composite systems that ideally build on the strengths of their component algorithms. Collaborative filtering, however,
-has remained an effective approach, both alone and hybridized
-with content-based approaches.
+In 2006, the Netflix Prize competition attracted interest in the field of recommender systems \cite{survey}. Netflix offered a \$ 1 million dollar prize to the first team to improve their movie recommender system by 10\%. This attracted interest in the research field of recommender systems. The team "BellKor in Pragmatic Chaos" won the competition in 2009 basing their solution on a combination of latent factor models and neighbourhood models \cite{winning, survey}. These models took into account many biases which improved the predication accuracy. \citeauthor{koren2009matrix} were part of the winning team, and wrote a paper explaining how temporal effects, and user biases could be accounted for in latent factor models such as Singular Value Decomposition, making it superior to neighbourhood methods \cite{koren2009matrix}. \citeauthor{koren2011} later published a paper about their findings and solutions to the Netflix Prize competition in \cite{koren2011} and \cite{winners}.
 
 
-It was first introduced in the GroupLens Usenet article recommender \cite{grouplens}. 
+\section{Discussion of Literature Review}
+
+TODO: DELETE?
+
+Although actions from users are required to provide personalised results, the advantage of collaborative filtering is that no prior knowledge or context is required about the items to provide recommendations to users. Items could be recommended to users purely based on past behaviour from others \cite{koren2009matrix, schafer2007collaborative}. 
+
+For this reason, collaborative filtering is preferred over content based filtering, a technique where items are recommended based on learning users preferences from previous items that users liked, and recommending similar items based on the attributes of those items. Additionally, content based filtering is prone to recommending only a small subset of items, since it recommended items based on the attributes that the user liked. Traditional collaborative filtering is able to address this concern since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes, generally being more accurate \cite{koren2009matrix}.  In content based filtering it is also hard to extract features or would have to be manually put in which may not be practical \cite{toward}. Another problem is overspecialization, recommending only similar items to users thus restricting variety \cite{toward}.
+
+
+
+It is evident that there has been an abundance of existing research on collaborative filtering techniques and ways to improve the prediction accuracy. However, \citeauthor{schafer2007collaborative} states these factors alone, do not contribute to making a good recommender system \cite{schafer2007collaborative}. Instead, \citeauthor{schafer2007collaborative} states that recommendation is not a "one-size-fits-all problem"  \cite{schafer2007collaborative}. Specific tasks, information needs, and item domains represent unique problems for recommenders, and design and evaluation of recommenders needs to be done based on the user tasks to be supported" \cite{schafer2007collaborative}. Similarly, \citeauthor{martin2009recsys} argues that the recommender algorithms is only one factor from many for providing recommendations to users. \citeauthor{martin2009recsys} explains that the user experience, data collection, and other problems which make up the whole of the recommender experience need to be considered \cite{schafer2007collaborative, martin2009recsys}.
+
+For this reason, this project focuses on the goal of providing a recommender system that fits the needs for the "What's On The Menu" application. This involves considering how users ratings will be collected, the user experience, the recommendation process, and what factors are considered to be important in the recommendation process such as scalability, prediction accuracy, and performance.
+
+
+
+
+
+
+
+
+TODO: remove this? Do I talk about this stuff here?
+
+
+Existing research also focuses on the scalability and performance of these collaborative filtering techniques. In terms of scalability, the "What's On The Menu" application is not expected to contain anywhere near the number of users or items as existing recommender systems used by Netflix, Facebook, and Google. For this reason, neighbourhood methods may be a good choice, as they provide for the ability to explain the reasoning behind the recommendations, as well as give good accurate results. Scalability should not be a top concern with this application. Therefore, real time computation may be a factor to consider. 
+
+The main focus of the recommender system will be on how to make the user experience as easy as possible for the users. This will enable the collection of user data to provide these recommendations. Another focus will be on the performance in which the recommender system can provide recommendations to the users. In this case, prediction accuracy may be less important than the speed and the performance of recommendations being produced. If the recommendation process is slow, then users will be less likely to continue using the application. On the other hand, if prediction accuracy is not very good, then users will be recommended items that they may potentially not like. A fair trade-off must be considered. 
+
+% + main challenges, sparsity \cite{survey, dimension}, scalability, synonymy \cite{dimension}, gray sheep, shilling attacks, privacy protection, etc \cite{survey}.
+
+\section{Representational State Transfer (REST)}
+
+REST stands for REpresentational State Transfer. REST is an architectural style for building a software application that can be used to communicate to other systems through the HTTP protocol. It uses resources to represent important data that can be retrieved by other systems via methods from the HTTP Protocol (GET, POST, PUT, DELETE etc). It utilizes a client-server, and is stateless in the sense that all the data that is needed is sent through the HTTP protocol to the other system.
+
+\section{Application Program Interface (API)}
+
+API stands for Application Program Interface. An API describes the methods and ways in which others can interact and use these tools to build software applications. It specifies how software components should interact and how the software methods, or services behave. 

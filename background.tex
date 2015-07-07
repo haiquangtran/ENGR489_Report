@@ -2,7 +2,7 @@
 
 \section{Collaborative Filtering}
 
-Collaborative filtering is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative}. The main idea behind collaborative filtering is that rating behaviour of others can be used to predict items that the active user will be interested in. Intuitively, this algorithm stems from the assumption that users that have similar opinions for items that they have both rated, tend to have similar tastes to each other, usually having common opinions about other items  \cite{schafer2007collaborative}. For example, most of us have friends with similar opinions and tastes to us. Perhaps you and a friend both like eating chicken sandwiches. Since you and your friend have similar tastes, your friend may then be able to suggest to you another food dish that you might enjoy such as duck with rice. Collaborative filtering uses the same concept, but usually on a larger scale. 
+Collaborative filtering (CF) is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative, survey}. The main idea behind collaborative filtering is that rating behaviour of others can be used to predict items that the active user will be interested in. Intuitively, this algorithm stems from the assumption that users that have similar opinions for items that they have both rated, tend to have similar tastes to each other, usually having common opinions about other items  \cite{schafer2007collaborative}. For example, most of us have friends with similar opinions and tastes to us. Perhaps you and a friend both like eating chicken sandwiches. Since you and your friend have similar tastes, your friend may then be able to suggest to you another food dish that you might enjoy such as duck with rice. Collaborative filtering uses the same concept, but usually on a larger scale. 
 
 TODO: Add matrix image. See figure 1.
 
@@ -17,6 +17,8 @@ TODO: Take this out or leave in?
 
 Collaborative filtering is preferred over content based filtering, a technique where items are recommended based on learning users preferences from previous rating patterns of the user, and recommending similar items based on the attributes of those items. Additionally, content based filtering is prone to recommending only a small subset of items, since it recommends items based on attributes of the items, leading to overspecialization thus restricting variety \cite{toward}. Another problem of content-based filtering is that it is difficult to extract features from the items and users, and manually labelling these features may not be practical \cite{toward}. Traditional collaborative filtering are able to address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. For these reasons, we chose to not address content-based filtering, but explain it because hybrid collaborative filtering approaches use it. 
 
+Using the user-item ratings matrix, a list of top N recommendations is usually given to the user representing the items that they will like, computed through collaborative filtering techniques. For example, the active user may be recommended 10 food dishes that might be of interest to them whenever they log on.  
+
 There are two main areas that encompass collaborative filtering, these areas are neighborhood methods and latent factor models which will be explained in following sections \cite{koren2009matrix}. 
 
 % \section{Challenges}
@@ -30,36 +32,38 @@ There are two main areas that encompass collaborative filtering, these areas are
 
 \section{Neighbourhood Methods}
 
-Neighbourhood methods group together items or users that are most similar to each other according to similarity measures.
+Neighbourhood CF methods can be classified into the class of memory-based collaborative filtering because they use heuristics to find the similarity between items or users \cite{schafer2007collaborative}. The main idea of this approach is to use the user-item ratings matrix to compute the similarity between users or items which are then used for making recommendations. This typically involves finding all user-user similarities or item-item similarities, and then using neighbourhood algorithms such as K-Nearest Neighbour to find the K most similar items or users, usually referred to as the neighbours. The K most similar items or K most similar users are then used to predict how the active user will feel about specific items, thus being able to make recommendations for the active user based on their neighbours. Since these neighbours may contain quirky characteristics that are not common among other items or users. For this reason, methods usually tend to take the weighted average of the neighbours ratings or simple weighted average to generate predictions for the active user \cite{survey}. 
 
-\subsection{User Based Collaborative Filtering}
+Common similarity measures that are used are Pearson's Correlation, Cosine similarity, Euclidean distance and so forth, finding similar users to the active user or similar items that the active user has previously performed actions on. The most common neighbourhood method that is used to find the most similar users or items is the K-Nearest Neighbour algorithm. This algorithm finds the K-nearest neighbours based on a heuristic, in this case, the similarity measure. Other neighbourhood algorithms are K-Means, K-d Trees, and Locality Sensitive Hashing. 
 
-User based collaborative filtering uses a similarity measure to find users that are similar to each other, and then recommends food based on this metric. User based collaborative filtering methods aim at finding users that are similar to one another, and recommending items to them based on each of their previous behaviours. There is high chance that similar users will prefer similar items. For example, two users may like eating spicy food. the first user has indicated that they like eating chicken vindaloo and hot chilli peppers. The second user has indicated that they like eating hot chilli peppers. Therefore, since these two users previous behaviours are similar as they both have indicated their enjoyment of hot chilli peppers, they are to be considered similar. We can recommend to the second user that they should try chicken vindaloo, since the first user liked it and the two users have similar tastes.  
+% A key problem of collaborative filtering is how to combine and weight the preferences of user neighbors. Sometimes, users can immediately rate the recommended items. As a result, the system gains an increasingly accurate representation of user preferences over time.
 
+The following section explains the difference between user-based CF and item-based CF.
 
-\subsection{Item Based Collaborative Filtering}
-
-Another approach that is commonly used is called item based collaborative filtering. Instead of finding users that are similar to one another, item based collaborative filtering focuses on previous behaviour of the user, and recommends similar new items based on what items the user previously liked. Item based collaborative filtering differs to user based collaborative filtering because it uses a similarity measure to find similar items to items that the user has already indicated interest in. For example, a user could have previously liked the following dishes: a chicken sandwich, chicken nuggets, and chicken soup. Item based collaborative filtering will find similar items to this user by using a similarity measure on their previous items they indicated they liked. By using this technique, it may recommend new items to the user such as chicken salad, or a chicken burger since all those items contain chicken. This is the main idea behind item based collaborative filtering. 
-
-\cite{schafer2007collaborative}
-
- Rather than using
-similarities between users’ rating behavior to predict preferences, item–
-item CF uses similarities between the rating patterns of items. If two
-items tend to have the same users like and dislike them, then they are
-similar and users are expected to have similar preferences for similar
-items. In its overall structure, therefore, this method is similar to earlier
-content-based approaches to recommendation and personalization, but
-item similarity is deduced from user preference patterns rather than
-extracted from item data.
+% +Advantages
+%     -   explain
+%     - easy to create etc
+%     - easy facilitation of new data
+%     - content independence of itemsbeing reocmmended
+%     - good scaling with co-rated items
+% +Disadvantages
+%     - performance decrease with sparse data
+%     - scalability and problems with large datasets
+%     - adding new items required inclusion of the new item and re-insertion of all elements in the structure
 
 
-\subsubsection{Slope One}
 
-\subsection{Challenges}
-A key problem of collaborative filtering is how to combine and weight the preferences of user neighbors. Sometimes, users can immediately rate the recommended items. As a result, the system gains an increasingly accurate representation of user preferences over time.
+\subsection{User-Based Collaborative Filtering}
+
+User based CF uses a similarity measure to find like-minded individuals that are similar to each other, producing recommendations to the active user based on ratings of similar users. The defining characteristic of user-based CF is based upon the similarities between users \cite{mahoutaction}. A concrete example would be if two users that both like eating fast food. the first user has indicated that they like eating a Big Mac and also like eating the Whopper Burger. Similarly, the second user has indicated that they like eating the Big Mac. Therefore, since these two users previous behaviours are similar as they both have indicated their enjoyment of Fast foods, in this case, Big Macs, they are to be considered similar. We can then recommend to the second user that they should try the Whopper Burger, since the first user liked it and the two users have similar tastes. User-based CF has the same premise but typically on a larger scale - more ratings, users, and items are involved. 
+
+
+\subsection{Item-Based Collaborative Filtering}
+
+Another approach that is commonly used is called item based collaborative filtering. Instead of finding users that are similar to one another, item based collaborative filtering focuses on previous behaviour of the active user and recommends items that are similar to these items \cite{mahoutaction}. Similar items are extracted by the rating patterns of other users rather than the attributes of the item - Two items are considered similar if users rate them similarly \cite{schafer2007collaborative}. For example, a user could have previously liked the following dishes: a chicken sandwich, chicken nuggets, and chicken soup. Item based collaborative filtering will find similar items that the user has previously rated by using a similarity measure on their previous items they indicated they liked. By using this technique, it may recommend new items to the user such as chicken salad, or a chicken burger since all those items contain chicken. This is the main idea behind item based collaborative filtering. 
 
 \subsection{Similarity Measures}
+
 \subsubsection{Pearson's Coefficient}
 
 This method computes the statistical correlation
@@ -73,6 +77,8 @@ their similarity.
 \section{Latent Factor Methods}
 
 Latent factor models look at analysing the previous actions of users and creating a feature vectors for items and users. These item and user features are used to predict future items that the user may like. 
+
+The design and development of models (such as machine learning, data mining algorithms) can allow the system to learn to recognize complex patterns based on the training data, and then make intelligent predictions for the collaborative filtering tasks for test data or real-world data, based on the learned models. Model-based CF algorithms, such as Bayesian models, clustering models, and dependency networks, have been investigated to solve the shortcomings of memory-based CF algorithms [9, 71]. Usually, classification algorithms can be used as CF models if the user ratings are categorical, and regression models and SVD methods and be used for numerical ratings.
 
 \subsection{Singular Value Decomposition}
 \subsubsection{Stochastic Gradient Descent}

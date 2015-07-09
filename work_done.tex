@@ -7,14 +7,14 @@ The main limitations of this project is that it focuses on a mobile application,
 \section{Design Decisions}
 
 \subsection{WOTM Recommendations Component}
-TODO: Should this be in DESIGN DECISIONS???
-PUT IMAGE.
+
+\textcolor{red}{TODO: SHOULD THIS BE IN DESIGN DECISIONS? PUT IMAGE IN}
 
 WOTM Recommendations is made as an extension to the existing system. WOTM Recommendations is a REST API that is used to handle all the data needed to make recommendations to the users. It connects to the main WOTM API database (wotm\_dev) and stores previous user events such as the users likes/dislikes and their preferences. It uses this data to recommend food to the users and sends it back to WOTM Web API. 
 
 The reason why we did not want to merge these events in the WOTM API is because it will then be tightly coupled to that system. By extracting it out, it means that WOTM API and WOTM Recommendations are not dependent on each other, and have their own sole purposes. WOTM API manages user and dish data, whilst WOTM recommendations manages everything to do with the recommendations. In that way, if we decide to remove recommendations, then we do not have to change code from the WOTM API, since it is loosely coupled to it. 
 
-TODO: check if this is right.
+\textcolor{red}{TODO: CHECK IF THIS IS RIGHT}
 Also by creating a new component it does not restrict us from using a different programming language if we desire. Since we are using REST, we are able to pass data from one component to another using a flexible language such as JSON or XML, however, we decided to use Ruby as the programming language as it meant that no extra overhead would be needed to convert data from one language to another. 
 
 The advantage of using the programming language Ruby is that it is open source, and that the community for Ruby is large. Because of this, there will be libraries and ruby programs that are typically called 'gems' that other people have already created. 
@@ -38,7 +38,7 @@ We decided to implement and use this open source software first because it provi
 
 PredictionIO is an open-source machine learning server to build and deploy prediction applications \cite{predictionio, predictionio2}. PredictionIO is built ontop of Spark, a faster alternative to Apache Hadoop, which utilizes parallel processing for large distributed datasets. Developers are able to build predictive engine components with separation-of-concerns because it utilises a Model View Controller architecture that achieves low coupling. These engines are deploy as web services having a REST interface, which allows our applications to query against the web service. By deploying the engines as a web service it means that these engines are not dependent on each other, nor are dependent on our application. For instance, we can easily swap and evaluate different collaborative filtering algorithms on different engines. We can deploy these engines as a web service, and all our 'WOTM' application has to do is query the engine to receive recommendations from the engine. Various algorithms can also be built on different engines and then the results can be combined to provide a way to implement hybrid collaborative filtering techniques. 
 
-TODO: PUT IMAGE IN 
+\textcolor{red}{TODO: PUT IMAGE IN}
 
 All we have to do is to send our data to PredictionIO's event server. PredictionIO's event server stores our data in a distributed database called HBase which provides high availability and is high scalability. Since it is distributed it gives us the option to do parallel processing in addition to being able to easily scale. Data from the event server is then used by the algorithms on the engines to train and learn the recommendations. Our application can then query this engine via REST methods to retrieve the recommendations. 
 
@@ -104,7 +104,7 @@ Using Recommendable, we have an implementation of the basic nearest neighbour co
 \subsubsection{Modified Jaccard Index}
 
 Jaccardian similarity coefficient is an intuitive way of comparing people when the rating system is binary \cite{recommendable}. Recommendable uses a modified version. The modified version of Jaccard's Index is as shown:
-TODO: EXPLAIN HERE
+\textcolor{red}{TODO: EXPLAIN HERE}
 \[ u^n - u^n = z^n \]
 
 \subsection{Latent Factor Models}

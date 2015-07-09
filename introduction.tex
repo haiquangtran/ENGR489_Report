@@ -8,19 +8,19 @@ Existing applications such as Yelp, Foursquare have similar concepts but lack fi
 
 Collaborative filtering is a recommendation technique that predicts how much a user will like an item based based on previous rating patterns and behaviours of other users. 
 
-TODO: EDIT GOAL
+\textcolor{red}{TODO: EDIT GOAL}
 The goal of this project is to find out which types of collaborative filtering algorithms will be best suited to the What's On The Menu (WOTM) application. This project aims to explore this, by implementing different types of collaborative filtering techniques to recommend food to users based on their personal preferences and previous behaviours, in addition to how to model data from the user, whilst considering the user experience. 
 
-TODO: need help
+\textcolor{red}{TODO: need help}
 Additional goals will include the performance, and scalability of providing recommendations to users. How well the system adapts to a large increasing amount of users, and whether the system is able to perform these calculations at a fast rate. In addition to this, it should provide an easy experience for users.
 
 \section{What's On The Menu Overview}
 
 What's On The Menu (WOTM) is an existing system that aims at providing personalised food recommendations to users. It is currently in development and was created by John Clegg. WOTM consists of two components: WOTM Web and WOTM API. We will be extending the existing system by creating an additional component called WOTM Recommendations. This component will connect to the other components via REST calls to provide recommendations to the users, and will manage anything related to the recommender systems. Below is an image of the architecture. 
 
-TODO: SHOW IMAGE OF ARCHITECTURE and EXPLANATION
+\textcolor{red}{TODO: show image or architecture}
 
-By creating a separate component for recommendations it enforces modularity, composability, and granularity. These obey the Service Oriented Architecture principles to provide loose coupling. This means separate components do not highly depend on each other making it easy to extend, modify, and swap out any components with new components if desired. All these components are written in the Ruby programming language. If we decide to use another programming language for the recommendation component then we can can easily swap out the components and communicate to the other components via REST calls (TODO: EXPLAIN THIS???????). 
+By creating a separate component for recommendations it enforces modularity, composability, and granularity. These obey the Service Oriented Architecture principles to provide loose coupling. This means separate components do not highly depend on each other making it easy to extend, modify, and swap out any components with new components if desired. All these components are written in the Ruby programming language. If we decide to use another programming language for the recommendation component then we can can easily swap out the components and communicate to the other components via REST calls. 
 
 
 \subsection{WOTM API}

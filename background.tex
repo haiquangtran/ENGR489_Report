@@ -4,22 +4,21 @@
 
 Collaborative filtering (CF) is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative, survey}. The main idea behind collaborative filtering is that rating behaviour of others can be used to predict items that the active user will be interested in. Intuitively, this algorithm stems from the assumption that users that have similar opinions for items that they have both rated, tend to have similar tastes to each other, usually having common opinions about other items  \cite{schafer2007collaborative}. For example, most of us have friends with similar opinions and tastes to us. Perhaps you and a friend both like eating chicken sandwiches. Since you and your friend have similar tastes, your friend may then be able to suggest to you another food dish that you might enjoy such as duck with rice. Collaborative filtering uses the same concept, but usually on a larger scale. 
 
-TODO: Add matrix image. See figure 1.
+\textcolor{red}{TODO: Add matrix image. See figure 1.}
 
 Users express their preferences for a variety of different items through "ratings" which can be in different forms such as 1-5 star ratings, or ternary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) triplet. These ratings can be represented in the form of a user-item ratings matrix, where the rows of the matrix are the users, the columns of the matrix are the items, and the ratings are represented inside the matrix. Since the matrix contains sets of rating triplets, (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix usually contains sparse values within it. 
 
-Since the user-item ratings matrix can be sparse, collaborative filtering can struggle to address new products and users because there are not enough ratings or information to provide accurate recommendations to these users. Sparse ratings can also lead to another issue called the 'Cold Start' problem, where ratings for these new items or new users have not been collected yet.
+Since the user-item ratings matrix can be sparse, collaborative filtering can struggle to address new products and users because there are not enough ratings or information to provide accurate recommendations to these users. Sparse ratings can also lead to another issue called the 'Cold Start' problem, where ratings for these new items or new users have not been collected yet, in this context, content-based filtering is superior \cite{koren2009matrix}.
 
+In contrast, the advantage of collaborative filtering is that it does not require domain knowledge of the items or users to provide recommendations. It purely focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering \cite{koren2009matrix, schafer2007collaborative}. 
 
-(Content based filtering is superior in this context). In contrast, the advantage of collaborative filtering is that it does not require domain knowledge of the items or users to provide recommendations. It purely focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering \cite{koren2009matrix, schafer2007collaborative}. 
-
-TODO: Take this out or leave in?
+\textcolor{red}{TODO: Take this out or leave in?}
 
 Collaborative filtering is preferred over content based filtering, a technique where items are recommended based on learning users preferences from previous rating patterns of the user, and recommending similar items based on the attributes of those items. Additionally, content based filtering is prone to recommending only a small subset of items, since it recommends items based on attributes of the items, leading to overspecialization thus restricting variety \cite{toward}. Another problem of content-based filtering is that it is difficult to extract features from the items and users, and manually labelling these features may not be practical \cite{toward}. Traditional collaborative filtering are able to address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. For these reasons, we chose to not address content-based filtering, but explain it because hybrid collaborative filtering approaches use it. 
 
 Using the user-item ratings matrix, a list of top N recommendations is usually given to the user representing the items that they will like, computed through collaborative filtering techniques. For example, the active user may be recommended 10 food dishes that might be of interest to them whenever they log on.  
 
-There are two main areas that encompass collaborative filtering, these areas are neighborhood methods and latent factor models which will be explained in following sections \cite{koren2009matrix}. 
+There are three main areas of CF, these areas are memory-based CF techniques, model-based CF techniques, and hybrid-based CF techniques. In this project, we will be examining in particular, the neighbourhood methods which are a form of memory-based CF techniques, and latent factor models which are a form of model-based CF techniques \cite{survey, koren2009matrix}. Neighbourhood methods, and Latent factor models will be explained in the following sections. 
 
 % \section{Challenges}
 % \subsection{Cold Start}
@@ -32,9 +31,9 @@ There are two main areas that encompass collaborative filtering, these areas are
 
 \section{Neighbourhood Methods}
 
-Neighbourhood CF methods can be classified into the class of memory-based collaborative filtering because they use heuristics to find the similarity between items or users \cite{schafer2007collaborative}. The main idea of this approach is to use the user-item ratings matrix to compute the similarity between users or items which are then used for making recommendations. This typically involves finding all user-user similarities or item-item similarities, and then using neighbourhood algorithms such as K-Nearest Neighbour to find the K most similar items or users, usually referred to as the neighbours. The K most similar items or K most similar users are then used to predict how the active user will feel about specific items, thus being able to make recommendations for the active user based on their neighbours. Since these neighbours may contain quirky characteristics that are not common among other items or users. For this reason, methods usually tend to take the weighted average of the neighbours ratings or simple weighted average to generate predictions for the active user \cite{survey}. 
+Neighbourhood CF methods can be classified into the class of memory-based CF techniques because they use heuristics to find the similarity between items or users \cite{schafer2007collaborative}. The main idea of this approach is to use the user-item ratings matrix to compute the similarity between users or items which are then used for making recommendations. This typically involves finding all user-user similarities or item-item similarities, and then using neighbourhood algorithms such as K-Nearest Neighbour to find the K most similar items or users, usually referred to as the neighbours. The K most similar items or K most similar users are then used to predict how the active user will feel about specific items, thus being able to make recommendations for the active user based on their neighbours. Since these neighbours may contain quirky characteristics that are not common among other items or users. For this reason, methods usually tend to take the weighted average of the neighbours ratings or simple weighted average to generate predictions for the active user \cite{survey}. 
 
-Common similarity measures that are used are Pearson's Correlation, Cosine similarity, Euclidean distance and so forth, finding similar users to the active user or similar items that the active user has previously performed actions on. The most common neighbourhood method that is used to find the most similar users or items is the K-Nearest Neighbour algorithm. This algorithm finds the K-nearest neighbours based on a heuristic, in this case, the similarity measure. Other neighbourhood algorithms are K-Means, K-d Trees, and Locality Sensitive Hashing. 
+Common similarity measures that are used are Pearson's Correlation, Cosine similarity, Euclidean distance, Jaccardian similarity and so forth, finding similar users to the active user or similar items that the active user has previously performed actions on. The most common neighbourhood method that is used to find the most similar users or items is the K-Nearest Neighbour algorithm. This algorithm finds the K-nearest neighbours based on a heuristic, in this case, the similarity measure. Other neighbourhood algorithms are K-Means, K-d Trees, and Locality Sensitive Hashing \cite{survey}. 
 
 % A key problem of collaborative filtering is how to combine and weight the preferences of user neighbors. Sometimes, users can immediately rate the recommended items. As a result, the system gains an increasingly accurate representation of user preferences over time.
 
@@ -60,30 +59,57 @@ User based CF uses a similarity measure to find like-minded individuals that are
 
 \subsection{Item-Based Collaborative Filtering}
 
-Another approach that is commonly used is called item based collaborative filtering. Instead of finding users that are similar to one another, item based collaborative filtering focuses on previous behaviour of the active user and recommends items that are similar to these items \cite{mahoutaction}. Similar items are extracted by the rating patterns of other users rather than the attributes of the item - Two items are considered similar if users rate them similarly \cite{schafer2007collaborative}. For example, a user could have previously liked the following dishes: a chicken sandwich, chicken nuggets, and chicken soup. Item based collaborative filtering will find similar items that the user has previously rated by using a similarity measure on their previous items they indicated they liked. By using this technique, it may recommend new items to the user such as chicken salad, or a chicken burger since all those items contain chicken. This is the main idea behind item based collaborative filtering. 
+Another approach that is commonly used is called item based collaborative filtering. Instead of finding users that are similar to one another, item based collaborative filtering focuses on previous behaviour of the active user and recommends items that are similar to these items \cite{mahoutaction}. Similar items are extracted by the rating patterns of other users rather than the attributes of the item - Two items are considered similar if users rate them similarly \cite{schafer2007collaborative}. For example, a user could have previously liked the following dishes: a chicken sandwich, chicken nuggets, and chicken soup. Item based collaborative filtering will find similar items that the user has previously rated by using a similarity measure on their previous items they indicated they liked, with other items. By using this technique, it may recommend new items based on the users previous interests suggesting new items such as chicken salad, or a chicken burger since users who tend to like these dishes also liked the previous dishes of the active user. This is the main idea behind item based collaborative filtering. 
 
-\subsection{Similarity Measures}
-
-\subsubsection{Pearson's Coefficient}
-
-This method computes the statistical correlation
-(Pearson’s r) between two user’s common ratings to determine
-their similarity.
-
-\subsubsection{Euclidean Distance \& Manhattan Distance}
-\subsubsection{Cosine Similarity}
-\subsubsection{Jaccard Index}
 
 \section{Latent Factor Methods}
 
-Latent factor models look at analysing the previous actions of users and creating a feature vectors for items and users. These item and user features are used to predict future items that the user may like. 
 
-The design and development of models (such as machine learning, data mining algorithms) can allow the system to learn to recognize complex patterns based on the training data, and then make intelligent predictions for the collaborative filtering tasks for test data or real-world data, based on the learned models. Model-based CF algorithms, such as Bayesian models, clustering models, and dependency networks, have been investigated to solve the shortcomings of memory-based CF algorithms [9, 71]. Usually, classification algorithms can be used as CF models if the user ratings are categorical, and regression models and SVD methods and be used for numerical ratings.
+% \textcolor{red}{
+% Latent factor models, such as matrix factorization (aka, SVD), comprise
+% an alternative approach by transforming both items and users to the same latent factor
+% space. The latent space tries to explain ratings by characterizing both products
+% and users on factors automatically inferred from user feedback \cite{koren2011}
+% }
+
+Latent factor models can be classified into the class of model-based CF techniques because they try and explain ratings by automatically inferring meaningful information from users previous rating patterns which are then used to make intelligent predictions based on this meaningful information \cite{survey}. For example, these methods automatically try and learn about the properties or characteristics of the items such as the food dishes, and learn how much the user likes about each of these characteristics, otherwise known as latent factors \cite{koren2011}. 
+
+Matrix factorization is seen as one of the successful techniques of latent factor models \cite{koren2009matrix}. Singular Value Decomposition is a matrix factorization technique that is well-known and can be applied to the CF domain, identifying latent semantic factors \cite{koren2009matrix}. The following section talks about the matrix factorization technique of Singular Value Decomposition and how it is used to recommend items to users. 
+
+%  These methods have become popular in
+% recent years by combining good scalability with predictive
+% accuracy. In addition, they offer much flexibility for modeling
+% various real-life situations
 
 \subsection{Singular Value Decomposition}
-\subsubsection{Stochastic Gradient Descent}
+
+Singular Value Decomposition (SVD) decomposes the user-item ratings matrix, where both users and items are mapped to a joint latent factor space of dimensionality \begin{math} f \end{math} - the space containing the inferred properties of the food dishes, and how the users feel about those characteristics. The latent space tries to explain the ratings given from the user-item ratings matrix by considering these inferred latent factors. These latent factors are represented in the form of an item vector \begin{math} q_{i} \in \mathbb{R}^f  \end{math} and a user vector \begin{math} p_{u} \in \mathbb{R}^f  \end{math} , containing a specified number of factors for each item and user, which are used to predict how the user may feel about other items that they have not yet rated \cite{koren2009matrix}. Factors in the item vectors could be dimensions regarding the characteristics of the items. An example for food dishes are item vectors that discover factors measuring obvious dimensions in the food dish such as the ingredients, spice levels, cuisine type, or meat type; less defined dimensions such as carbohydrates, or uninterpreted dimensions in the food dish \cite{koren2009matrix}. User vectors contain factors that measure the extent that the user likes those factors which are the properties that are inferred from the food dishes \cite{koren2009matrix}. These factors in \begin{math} q_{i} \end{math} and \begin{math} p_{u} \end{math} can be positive or negative, representing the extent contained within each dish. 
+
+These feature vectors contain a specified number of factors for each item and user, which are used to predict how the user may feel about other items that they have not yet rated \cite{koren2009matrix}. For this model, a user's predicted rating for a dish would be the dot product of the food dish vector, and the user vector \begin{math} q_{i}^T p_{u} \end{math}. This approximates to the active user's rating of the current item, denoted by \begin{math} r_{ui} \end{math}, leading to the estimate \cite{koren2009matrix}
+
+\begin{equation}\label{eq:1}\tag{1} \widehat{r} = q_{i}^T p_{u} \end{equation}.
+
+% \begin{equation}\label{}
+
+This represents the active users interest about the overall dish since the user vector represents how much they like about the characteristics of the dish, and the item vector represents how much of the dish contains those characteristics \cite{koren2009matrix}.  
+
+Now that we understand how the predicted ratings for an item and user are computed, you may be wondering how we infer the item and user vectors explained above. 
+
+To do this, the system learns the model by fitting the previously observed ratings. However, directly modelling the observed ratings can lead to over fitting - being overspecialized leading to inaccurate future predictions. To prevent this, the idea is to use a regularized model that is used to generalize the previous ratings in a way that is able to predict future, unknown ratings. To learn the factor vectors for the items, and users, the system uses an equation that minimizes the regularized squared error on the set of known ratings
+
+\begin{equation}\label{eq:2}\tag{2}
+\displaystyle min_{q*,p*} \sum_{ (u,i) \in K} (r_{ui} - q_{i}^T p_{u}) + \lambda (\| q_{i} \|^2 + \| p_{u} \|^2 )
+\end{equation}.
+
+The constant \textcolor{red}{\begin{math}\lambda\end{math}} controls the regularization used to penalize the magnitudes to avoid over fitting, and is typically tuned by cross-validation. Minimization is typically performed by either Stochastic Gradient Descent or Alternating Least Squares \cite{koren2011}. 
+
+% In order to fill in these missing values, singular value decomposition is used to learn feature vectors (factors) of items and users. The items feature vectors represent the characteristics of the items, in this case: dishes. User feature vectors represent how much the user prefers these characteristics of the dish. However, since the user item matrix contains many missing values it is unwise to train directly from it, as it is highly to cause overfitting. You can use inductions? to fill in these will values, but it takes up space, and may cause a lot of error if you get it wrong. Therefore you use the ratings given, but use lambda to determine the strength of those ratings. From there you can learn these algorithms. 
+
+% Now you may be wondering how these feature vectors are learnt. These feature vectors are learnt through an equation, in which we minimise the square error to find the best latent features. By doing this, we use two algorithms to find the minimum error and to find the appropriate feature vectors.
+
 \subsubsection{Alternating Least Squares}
 
+Alternating Least Squares (ALS) works to find the item and user vectors by initializing the vectors with random values depending on how many factors are specified. From this, it fixes values of one of the vectors first such as the item vector, then computes and reassigns values of the user vector according to the minimization equation, shown as equation \ref{eq:2} above. After this, it alternates - the user vector values are now fixed, and the re-computation of the item feature values occur, trying achieve the result of the smallest value for the minimization equation. This technique keeps alternating between fixing the vector values, until there is a convergence where the values in the two vectors no longer change the the minimization equation, or there is small changes, hence the name Alternating Least Squares. This is used to find the minimum error from the equation mentioned above, to learn the factors in each of the vectors. 
 
 \section{Literature Review}
 
@@ -103,7 +129,7 @@ Although collaborative filtering is considered to be one of the most successful 
 
 To alleviate this problem, hybrid approaches were investigated that combined collaborative filtering and other recommender techniques such as content based filtering. \citeauthor{toward} suggested creating user profiles such that demographic information could be included in similarity measures to provide extra content to find similar users or items. This effectively makes use of content-based filtering where recommendations are produced based on the content and attributes of the items, learning what attributes the user likes \cite{toward}. Well-known hybrid techniques include content-boosted collaborative filtering \cite{hybrid}, and personality diagnosis \cite{hybrid2, survey}. Hybrid approaches were implemented to address the limitations of collaborative filtering and content-based filtering techniques \cite{toward}, but have increased complexity leading to more expensive computations. Additionally, external information is needed about the content of the items which may not be available, thus making hybrid approaches impractical in certain scenarios \cite{survey}. \citeauthor{dimension} found a different approach that used dimension reduction techniques such as Singular Value Decomposition, making sparse rating models more dense by reducing the dimensionality of the product space, thereby condensing the modelled ratings of users and producing less missing information \cite{dimension}. 
 
-In 2006, the Netflix Prize competition attracted interest in the field of recommender systems \cite{survey}. Netflix offered a \$ 1 million dollar prize to the first team to improve their movie recommender system by 10\%. This attracted interest in the research field of recommender systems. The team "BellKor in Pragmatic Chaos" won the competition in 2009 basing their solution on a combination of latent factor models and neighbourhood models \cite{winning, survey}. These models took into account many biases which improved the predication accuracy. \citeauthor{koren2009matrix} were part of the winning team, and wrote a paper explaining how temporal effects, and user biases could be accounted for in latent factor models such as Singular Value Decomposition, making it superior to neighbourhood methods \cite{koren2009matrix}. \citeauthor{koren2011} later published a paper about their findings and solutions to the Netflix Prize competition in \cite{koren2011} and \cite{winners}.
+In 2006, the Netflix Prize competition attracted interest in the field of recommender systems \cite{survey}. Netflix offered a \$ 1 million dollar prize to the first team to improve their movie recommender system by 10\%. This attracted interest in the research field of recommender systems. The team "BellKor in Pragmatic Chaos" won the competition in 2009 basing their solution on a combination of latent factor models and neighbourhood models \cite{winning, survey}. These models took into account many biases which improved the predication accuracy. \citeauthor{koren2009matrix} were part of the winning team, and wrote a paper explaining how temporal effects, and user biases could be accounted for in latent factor models such as Singular Value Decomposition, making it superior to neighbourhood methods because of its flexibility \cite{koren2009matrix}. \citeauthor{koren2011} later published a paper about their findings and solutions to the Netflix Prize competition in \cite{koren2011} and \cite{winners}.
 
 
 \section{Discussion of Literature Review}
@@ -112,14 +138,7 @@ It is evident that there has been an abundance of existing research on collabora
 
 For this reason, this project focuses on the goal of providing a recommender system that fits the needs for the "What's On The Menu" application. This involves considering how users ratings will be collected, the user experience, the recommendation process, and what factors are considered to be important in the recommendation process such as scalability, prediction accuracy, and performance.
 
-
-
-
-
-
-
-
-TODO: remove this? Do I talk about this stuff here?
+\textcolor{red}{TODO: remove this? Do I talk about this stuff here?}
 
 
 Existing research also focuses on the scalability and performance of these collaborative filtering techniques. In terms of scalability, the "What's On The Menu" application is not expected to contain anywhere near the number of users or items as existing recommender systems used by Netflix, Facebook, and Google. For this reason, neighbourhood methods may be a good choice, as they provide for the ability to explain the reasoning behind the recommendations, as well as give good accurate results. Scalability should not be a top concern with this application. Therefore, real time computation may be a factor to consider. 

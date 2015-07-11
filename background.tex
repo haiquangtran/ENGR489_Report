@@ -4,9 +4,14 @@
 
 Collaborative filtering (CF) is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative, survey}. The main idea behind collaborative filtering is that rating behaviours of others can be used to predict items that the active user will be interested in. Intuitively, this algorithm stems from the assumption that users having similar opinions for items that they have both rated tend to have similar tastes to each other, having similar opinions about other items  \cite{schafer2007collaborative}. For example, most of us have friends with similar opinions and tastes to us. Perhaps you and a friend both like eating chicken sandwiches. Since you and your friend have similar tastes, your friend may then be able to suggest to you another food dish that you might enjoy such as duck with rice. Collaborative filtering uses the same concept, but usually on a larger scale. 
 
-\textcolor{red}{TODO: Add matrix image. See figure 1.}
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{User-Item}
+\caption{A user-item ratings matrix containing scaled ratings from 1-5.}
+\label{fig:matrix}
+\end{figure}
 
-Users express their preferences for a variety of items through "ratings" which can be in different forms such as 1-5 star ratings, or binary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) triplet. These ratings can be represented in the form of a matrix, where the rows of the matrix are users, the columns of the matrix are items, and the ratings are represented inside the matrix \textcolor{red}{(See figure 1)}. Since the matrix contains sets of rating triplets, the (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix is usually sparse.
+Users express their preferences for a variety of items through "ratings" which can be in different forms such as 1-5 star ratings, or binary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) triplet. These ratings can be represented in the form of a matrix, where the rows of the matrix are users, the columns of the matrix are items, and the ratings are represented inside the matrix (See Figure \ref{fig:matrix}). Since the matrix contains sets of rating triplets, the (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix is usually sparse.
 
 Since the matrix can be sparse, collaborative filtering can struggle to address new items and users because there are not enough ratings to provide accurate recommendations to these users. Sparse ratings can also lead to another issue called the 'Cold Start' problem, where ratings for these new items or new users have not yet been collected. 
 
@@ -22,16 +27,16 @@ Since the matrix can be sparse, collaborative filtering can struggle to address 
 
 Using the matrix, a list of top N recommendations is usually given to the user representing the items they will like, computed through collaborative filtering techniques. For example, the active user may be recommended 10 food dishes that might be of interest to them whenever they log into WOTM.  
 
-\textcolor{red}{TODO: Take this out or leave in?}
+% \textcolor{red}{TODO: Take this out or leave in?}
 
-Collaborative filtering is preferred over content based filtering, a technique where items are recommended based on learning users preferences from previous rating patterns, recommending items based on the attributes and the preferences learnt from the user profile. Additionally, content based filtering is prone to recommending only a small subset of items, since it recommends items based on attributes of the items, leading to overspecialization thus restricting variety \cite{toward}. Another problem of content-based filtering is that it is difficult to extract features from items and users, and manually labelling these features may not be practical \cite{toward}. 
+% Collaborative filtering is preferred over content based filtering, a technique where items are recommended based on learning users preferences from previous rating patterns, recommending items based on the attributes and the preferences learnt from the user profile. Additionally, content based filtering is prone to recommending only a small subset of items, since it recommends items based on attributes of the items, leading to overspecialization thus restricting variety \cite{toward}. Another problem of content-based filtering is that it is difficult to extract features from items and users, and manually labelling these features may not be practical \cite{toward}. 
 
 
-The advantage of collaborative filtering is that it does not require domain knowledge of items or users to provide recommendations. It purely focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering \cite{koren2009matrix, schafer2007collaborative}. 
+% The advantage of collaborative filtering is that it does not require domain knowledge of items or users to provide recommendations. It purely focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering \cite{koren2009matrix, schafer2007collaborative}. 
 
-Traditional collaborative filtering are able to address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. However, in the 'cold start' problem, content-based filtering is superior than collaborative filtering because it does not rely on the opinion of other users \cite{koren2009matrix}.
+% Traditional collaborative filtering are able to address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. However, in the 'cold start' problem, content-based filtering is superior than collaborative filtering because it does not rely on the opinion of other users \cite{koren2009matrix}.
 
-For these reasons, we chose to not address content-based filtering, but explain it because hybrid collaborative filtering approaches use it. 
+% For these reasons, we chose to not address content-based filtering, but explain it because hybrid collaborative filtering approaches use it. 
 
 There are three main areas of CF, these areas are memory-based CF techniques, model-based CF techniques, and hybrid-based CF techniques. In this project, we will be examining in particular, the neighbourhood methods which are a form of memory-based CF techniques, and latent factor models which are a form of model-based CF techniques \cite{survey, koren2009matrix}. Neighbourhood methods, and Latent factor models will be explained in the following sections. 
 
@@ -128,7 +133,7 @@ To prevent this, the idea is to use a regularized model that is used to generali
 
 \subsubsection{Alternating Least Squares}
 
-The main purpose of Alternating Least Squares (ALS) is to find the minimum error from the equation mentioned above, to learn the factors in each of the vectors based on the rating matrix. ALS works to find the item and user vectors by initializing the vectors with random values depending on how many factors are specified. From this, it fixes values of one of the vectors first such as the item vector, then computes and reassigns values of the user vector according to the minimization equation, shown as equation \ref{eq:2} above. After this, it alternates - the user vector values are now fixed, and the re-computation of the item feature values occur, trying achieve the result of the smallest value for the minimization equation. This technique keeps alternating between fixing the vector values, until there is a convergence where the values in the two vectors no longer change the the minimization equation, or there is small changes, hence the name Alternating Least Squares. This is used to find the minimum error from the equation mentioned above, to learn the factors in each of the vectors. 
+The main purpose of Alternating Least Squares (ALS) is to find the minimum error from equation \ref{eq:2}, used to learn the factors in each of the vectors based on the rating matrix. ALS works to find the item and user vectors by initializing the vectors with random values depending on how many factors are specified. From this, it fixes values of one of the vectors first such as the item vector, then computes and reassigns values of the user vector according to the minimization equation, shown as equation \ref{eq:2} above. After this, it alternates - the user vector values are now fixed, and the re-computation of the item feature values occur, trying achieve the result of the smallest value for the minimization equation. This technique keeps alternating between fixing the vector values, until there is a convergence where the values in the two vectors no longer change the the minimization equation, or there is small changes, hence the name Alternating Least Squares. This is used to find the minimum error from the equation mentioned above, to learn the factors in each of the vectors. 
 
 \section{Literature Review}
 

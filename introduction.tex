@@ -2,19 +2,15 @@
 
 With the vast food options around us, it is often difficult to decide what to eat. On some days we may feel like eating our favourite foods, but on other days we could feel more explorative, wanting to try something new. There are many factors that determine our decisions on what we want to eat such as our preferences, our current mood, and what food providers are nearby. Other factors that may contribute is the price of the food dish, the cuisine type, the meat type, and so forth. Additionally, some of us may have food intolerances which restrict our food options.
 
-
-% With abundant options and many factors such as price, cuisine type, meat type, we can become overwhelmed, making it difficult to decide what we want to eat. 
-
 What’s On The Menu (WOTM) is a web-centric mobile application that is focused on recommending food dishes to users based on their personal preferences, previous actions such as likes/dislikes, and other factors such as location, price, and so forth. These personalised recommendations are important as it saves time for users and allows users to explore preferred food options they otherwise might not have discovered alone. 
 
 Existing applications such as Yelp and Foursquare have similar concepts but lack personalised recommendations for specific food dishes. These applications focus on a broader scope such as popular restaurants, coffee places, activities, and so forth. This can often lead to a cluttered interface, affecting the user experience, and may provoke confusion in users. Food spotting is an application that focuses on food dishes but does not provide personalised recommendations to users. Instead, they show popular food dishes and focus on crowd-sourcing, relying on users to upload food dishes. What's On The Menu (WOTM) differs as the goal is to provide personalised food recommendations to users through collaborative filtering. 
 
 Collaborative filtering is a popular recommendation technique used to recommend items to users based on previous rating patterns and the behaviours of others \cite{itembased, schafer2007collaborative, survey}. 
 
+\todo{State explicit goals}
 The goal of this project is to find which types of collaborative filtering algorithms best suit the WOTM application. Suitability of these algorithms will be considered on factors that are important for WOTM. The recommender system will have to account for a range of factors from the user experience, the accuracy of the recommendation system, and the speed/performance that the system can provide recommendations to users. This project aims to explore this, by implementing different types of collaborative filtering techniques to recommend food to users based on their personal preferences and previous behaviours.
 
-% \textcolor{red}{TODO: need help}
-% Additional goals will include the performance, and scalability of providing recommendations to users. How well the system adapts to a large increasing amount of users, and whether the system is able to perform these calculations at a fast rate. In addition to this, it should provide an easy experience for users.
 
 \section{What's On The Menu Overview}
 
@@ -24,31 +20,3 @@ What's On The Menu (WOTM) is an existing system that aims at providing personali
 \todo{Add motivation}
 \section{Project Goals}
 \todo{Add project goals}
-
-% Below is an image of the architecture. 
-
-% \textcolor{red}{TODO: show image or architecture}
-
-% By creating a separate component for recommendations it enforces modularity, composability, and granularity. These obey the Service Oriented Architecture principles to provide loose coupling. This means separate components do not highly depend on each other making it easy to extend, modify, and swap out any components with new components if desired. All these components are written in the Ruby programming language. If we decide to use another programming language for the recommendation component then we can can easily swap out the components and communicate to the other components via REST calls. 
-
-
-% \subsection{WOTM API}
-
-% WOTM API represents the application programming interface that manages the main data in the application such as the food dishes, restaurants, users etc. It has a separate database called wotm\_dev where all this data is stored. Admins/developers are able to use this component through a REST API to access information, and manipulate information about users and dishes from and to the database. It determines what goes into the database and what goes out. Since it manages all essential data from the system, dishes, and users go through this API. For example, when new dishes are available, then through this API, we are able to store the new dish and send it to the database. Updating dishes, and deleting dishes is taken care of in this API. This is the same case for users. New users are handled through this layer, and are sent to the database. Updating user information, and deleting users is also handled in this class.
-
-% \subsection{WOTM Web}
-
-% WOTM Web is a component that is responsible for the client-side of the application. It manages the user interface objects that will be rendered to users in their browser. It gets this data from the WOTM API database, which stores all the main objects such as food dishes, restaurants, and so forth. WOTM Web is also responsible for managing user accounts and authentication. Users are able to sign up to the application by creating a new account or via Facebook, Twitter, and Google+. In order to handle user data and authentication, WOTM Web stores data within a database called WOTM\_web\_dev. Users have dynamic data stored on their accounts such as their previous likes/dislikes, their preferences and their favourite restaurants. This component plans on sending the information to a new component for recommendations, which should use this data to send recommendations back to the user (See Section 3.2.1). 
-
-% \subsection{WOTM Recommendations Component}
-
-% \textcolor{red}{TODO: SHOULD THIS BE IN DESIGN DECISIONS? PUT IMAGE IN}
-
-% WOTM Recommendations is made as an extension to the existing system. WOTM Recommendations is a REST API that is used to handle all the data needed to make recommendations to the users. It connects to the main WOTM API database (wotm\_dev) and stores previous user events such as the users likes/dislikes and their preferences. It uses this data to recommend food to the users and sends it back to WOTM Web API. 
-
-% The reason why we did not want to merge these events in the WOTM API is because it will then be tightly coupled to that system. By extracting it out, it means that WOTM API and WOTM Recommendations are not dependent on each other, and have their own sole purposes. WOTM API manages user and dish data, whilst WOTM recommendations manages everything to do with the recommendations. In that way, if we decide to remove recommendations, then we do not have to change code from the WOTM API, since it is loosely coupled to it. 
-
-% \textcolor{red}{TODO: CHECK IF THIS IS RIGHT}
-% Also by creating a new component it does not restrict us from using a different programming language if we desire. Since we are using REST, we are able to pass data from one component to another using a flexible language such as JSON or XML, however, we decided to use Ruby as the programming language as it meant that no extra overhead would be needed to convert data from one language to another. 
-
-% The advantage of using the programming language Ruby is that it is open source, and that the community for Ruby is large. Because of this, there will be libraries and ruby programs that are typically called 'gems' that other people have already created. 

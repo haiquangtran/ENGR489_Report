@@ -12,25 +12,10 @@ This section identifies the open source projects that were considered for this p
 Open source projects can be utilised to fit the projects specific needs, as opposed to the alternative of starting from scratch. This saves time, allowing the focus to be on the CF techniques themselves. The open source community has a range of available projects. In particular, a range of machine learning libraries are available that incorporate various types of CF techniques. Spotify have an open-source project called Annoy \cite{annoy} that uses a CF neighbourhood approach. Recommendable \cite{recommendable} also uses a CF neighbourhood approach and is written in Ruby, making it easy to setup with the existing WOTM components \cite{recommendable}. There were many other open-source projects such as EasyRec \cite{easyrec}, Apache Mahout \cite{mahoutaction}, Lenskit \cite{lenskit}, and so forth, containing a range of CF techniques. 
 
 Eventually, this led to the discovery of PredictionIO, the main open-source project used in this project. The following section explains the reasons why PredictionIO was chosen. 
-% \subsubsection{Apache Mahout}
-
-% Apache Mahout is an open source library written in Java \cite{mahout, mahoutaction}. Apache Mahout is made to run with Apache Hadoop to do parallel processing for scalability. Apache Mahout's main goal is to "build an environment for quickly creating scalable performant machine learning applications" \cite{mahout}. It contains many machine learning algorithms and forms of CF. In particular, it contains user-based CF, item-based CF, matrix factorization models using alternating least squares, and a weighted matrix factorization approach using singular value decomposition. It also contains built in similarity measures such as Pearson's correlation, Euclidean distance, Cosine similarity, Spearman's Correlation and more. These similarity measures can easily be switched out with different CF algorithms and so on. 
-% Although Apache Mahout looks appealing, we did not choose to use it because it would require extensive overhead. Since it is a Java library it requires a Java Virtual Machine (JVM) to be executed. Since our database is in PostgreSQL we would need tools such as Java Database Connectivity (JDBC) to communicate with the database to feed the data to the algorithms. Another option would be using JRuby which is a implementation of Ruby that runs on a Java Virtual Machine allowing the use of Ruby and Java code for easy integration with Java libraries.
-% There is JRuby Mahout Library that could be used but is not maintained or updated frequently. Although a REST interface could be used with Java, it would require us to incorporate additional frameworks, in addition to using a server such as Tomcat to run on. Because of these reasons, we decided not to use this library for now.
-
-% \subsubsection{Recommendable}
-
-% Recommendable is an open source project written in Ruby that uses a user-based CF approach. It allows you to add a recommendation engine for Likes and Dislikes into a Ruby application. Since our components are written in Ruby, it means that we can easily incorporate this gem into our recommendations component to provide recommendations. It uses a modified version of Jaccard's Index as the similarity measure to find similar users. Recommendable uses a key-value store called Redis which is used typically used as a cache system for other systems but in this case, it is used to deliver recommendations. The reason why Redis is suitable for CF is because CF logic "is based almost entirely on set math, and Redis is blazing fast for this" \cite{recommendable}. Recommendable only supports Binary events such as Like/Dislike, however it contains other events such as bookmarks which allows users to store their favourite items. 
-
-% We decided to implement and use this open source software first because it provides basic functionality for CF that we can easily modify. In particular, we found it to the be easiest to integrate with our existing components to get recommendations working quickly because it is written in Ruby, and there is clear documentation. Because of this, we decided that we should get a basic form of CF working first, rather than start off with anything complex. From this we will extend this system to suit our needs, being able to easily swap out the similarity measures for different ones. 
 
 \subsubsection{PredictionIO}
 
 PredictionIO is an open-source machine learning server used to "build and deploy predictive applications in a fraction of the time" \cite{predictionio, predictionio2}.
-
-% These engines are fed in application specific data, and contain algorithms that are used to produce recommendations. Engines are deployed as web services, allowing applications to query information from the web service. This means we can easily swap and evaluate various CF algorithms on different engines. 
-
-% We can deploy these engines as a web service, and WOTM can query the engine to receive recommendations. Different algorithms can also be built on various engines which results can then be aggregated together to provide a way to implement hybrid CF techniques. 
 
 \begin{figure}
 \centering
@@ -76,8 +61,6 @@ Using Likert scaled ratings mean that we learn more about the user preferences b
 
 A trade-off to consider is whether or not accurate recommendations are more important than the user experience. Since WOTM aims at being a mobile application, the limitations are the small form factor that mobile phone screens have. With a Likert scale rating system, the user has to be shown these possible options in order to rate a dish. This can take up additional space that is not needed on small screens. Because of this, having a 1-5 star rating system may degrade the user experience as opposed to a simple like/dislike rating system. 
 
-% This may lead to less data being collected and in the long term affect the recommendations that are provided to the users. But on the other hand, since it uses scaled ratings, it means we are able to learn more information from each rating. This means that the recommender system is more likely to predict accurate recommendations with less ratings. 
-
 For a mobile application, prediction-accuracy of the recommender system may not matter a great deal. For instance, a recommender system could predict two dishes the user may like based on previous rating patterns. The first dish is predicted with a 90\% prediction accuracy, and the second dish is predicted with a 70\% prediction accuracy that the user will like these dishes. But is the difference in prediction accuracy important if the user likes both dishes? As long as the recommender system has provided the user with dishes they like, the accuracy between those predicted dishes do not drastically matter. In addition, dishes with higher predicted accuracy may seem like obvious choices that the user may have already tried, whereas dishes with a lower predicted accuracy may lead to less obvious dishes that they may like, but have not tried yet. A recommender system using boolean or ternary values would eventually reach prediction accuracy similar to using likert scale ratings. Although this will happen in the long term, new ratings will most likely lead to less accurate predictions that join the system in the short term until more ratings are collected. 
 
 Foursquare is an application that asks users to rate items according to a series of questions. These questions consist of "What do you like about this place?", "What is this place known for?" and so on. From these questions they are able infer a particular rating for the item, as well as collect data from users to give more accurate recommendations. This rating system may risk users not rating the items because of the long list of questions it asks. \cite{martin2009recsys} explains that part of the challenge is to design interfaces "that give users control over the recommendation process without overwhelming the user or rendering the tool too complicated for novice users." 
@@ -98,17 +81,8 @@ For these reasons, we do not use any implicit events in our recommendation syste
 
 \section{Implementation}
 
-This section explains what has been implemented according to the design decisions in the previous section. 
+This section explains what has been implemented according to the design decisions in the previous section.
 
-% \subsection{Neighbourhood CF}
-
-% Using Recommendable, we have an implementation of the basic nearest neighbour CF technique. It is able to provide recommendations based on like/dislike events of the users. In addition, we are able to implement bookmark events so users can save their favourite dishes. Recommendable also provides a method to see the most popular dishes, which can be shown to users if they have not rated any dishes yet. This approach uses online learning, and does real time computation. The recommender system uses user based CF with a modified Jaccard's similarity measure described below.
-
-% \subsubsection{Modified Jaccard Index}
-
-% Jaccardian similarity coefficient is an intuitive way of comparing people when the rating system is binary \cite{recommendable}. Recommendable uses a modified version. The modified version of Jaccard's Index is as shown:
-% \textcolor{red}{TODO: EXPLAIN HERE}
-% \[ u^n - u^n = z^n \]
 
 \subsection{Latent Factor Models}
 

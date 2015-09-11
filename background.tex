@@ -11,9 +11,9 @@ Collaborative filtering (CF) is a popular technique that has been successfully u
 \label{fig:matrix}
 \end{figure}
 
-Users express their preferences for a variety of items through "ratings" which can be in different forms such as 1-5 star ratings, or binary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) triplet. These ratings can be represented in the form of a matrix, where the rows of the matrix are users, the columns of the matrix are items, and the ratings are represented inside the matrix (See Figure \ref{fig:matrix}). Since the matrix contains sets of rating triplets, the (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix is usually sparse.
+Users express their preferences for a variety of items through ``ratings" which can be in different forms such as 1-5 star ratings, or binary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) triplet. These ratings can be represented in the form of a matrix, where the rows of the matrix are users, the columns of the matrix are items, and the ratings are represented inside the matrix (See Figure \ref{fig:matrix}). Since the matrix contains sets of rating triplets, the (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix is usually sparse.
 
-Since the matrix can be sparse, collaborative filtering can struggle to address new items and users because there are not enough ratings to provide accurate recommendations to these users. Sparse ratings can also lead to another issue called the 'Cold Start' problem, where ratings for these new items or new users have not yet been collected. 
+Since the matrix can be sparse, collaborative filtering can struggle to address new items and users because there are not enough ratings to provide accurate recommendations to these users. Sparse ratings can also lead to another issue called the ``Cold Start' problem, where ratings for these new items or new users have not yet been collected. 
 
 % THIS CAN BE A SECTION IN DESIGN DECISIONS?
 \todo{Add Content based filtering description}
@@ -103,7 +103,9 @@ Matrix factorization is seen as one of the successful techniques of latent facto
 
 \subsection{Singular Value Decomposition}
 
-The main goal of Singular Value Decomposition (SVD) is to train a model to learn what properties of a dish that a user likes. This can be used to predict how a user may feel about another dish by looking at the properties that are inferred from that dish.
+In the context of this project, the main goal of Singular Value Decomposition (SVD) is to train a model to learn what properties of a dish that a user likes. This can be used to predict how a user may feel about another dish by looking at the properties that are inferred from that dish.
+\todo{Clarification about the context of SVD - From Simon Funk and not mathematical one.}
+
 
 SVD decomposes the ratings matrix, where both users and items are mapped to a joint latent factor space of dimensionality \begin{math} f \end{math} - the space containing the inferred properties of the food dishes, and how the users feel about those properties. The latent space tries to explain the ratings given from the ratings matrix by considering these inferred latent factors. These latent factors are represented in the form of an item vector \begin{math} q_{i} \in \mathbb{R}^f  \end{math} and a user vector \begin{math} p_{u} \in \mathbb{R}^f  \end{math} where \begin{math} i \end{math} is a given item and \begin{math} u \end{math} is a given user. The vectors contain a specified number of factors for each item and user, which are used to predict how the user may feel about other items that they have not yet rated \cite{koren2009matrix}. Factors in the item vectors could be dimensions regarding the properties of the items. An example for food dishes are item vectors that discover factors measuring obvious dimensions in the food dish such as the ingredients, spice levels, cuisine type, or meat type; less defined dimensions such as carbohydrates, or uninterpreted dimensions in the food dish \cite{koren2009matrix}. User vectors contain factors that measure the extent that the user likes those factors which are the properties that are inferred from the food dishes \cite{koren2009matrix}. These factors in \begin{math} q_{i} \end{math} and \begin{math} p_{u} \end{math} can be positive or negative, representing how much the properties contained within each dish, and how much the user likes those properties. 
 
@@ -183,3 +185,8 @@ A focus on the recommender system will be on how to make the user experience as 
 % \section{Application Program Interface (API)}
 
 % API stands for Application Program Interface. An API describes the methods and ways in which others can interact and use these tools to build software applications. It specifies how software components should interact and how the software methods, or services behave. 
+
+\section{Recent Matrix Completion Approaches (From Feedback)}
+``The literature review does not mention recent matrix completion approaches that minimize a convex relaxation of the matrix rank. There are a variety of alternatives to knn that are also not mentioned, but these are minor points."
+
+\section{Contextual Recommendations or Modern Techniques}

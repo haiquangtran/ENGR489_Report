@@ -175,6 +175,10 @@ For this reason, this project focuses on the goal of providing a recommender sys
 
 A focus on the recommender system will be on how to make the user experience as easy as possible for users. The user experience affects the collection of ratings from users and the frequency in which users will rate food dishes, thus affecting the quality of recommendations. Another focus will be on the performance of providing recommendations to the users. \todo{Keep? In this case, prediction accuracy may be less important than the speed/performance of recommendations being produced.} If the recommendation process is slow, users are less likely to continue using the application. On the other hand, if prediction accuracy is not accurate, then users will be recommended items that may not be of interest. A fair trade-off must be considered. 
 
+\todo{Feedback from examiner}
+\todo{
+Regarding section 4.1. about performance vs prediction accuracy, there were some essays discussing the results of the Netflix challenge; I believe (please check) the conclusion was that very simple methods such as SVD work well when there is enough data. Performance and accuracy are not contrary goals in this case - high performance is needed to deal with large amounts of data; the O(N\^3) scaling of a standard SVD would not work. I believe the methods that won the challenge were similar to SVD, but with a performance that was cubic in the rank rather than the number of data points. 
+}
 
 % In terms of scalability, the "What's On The Menu" application is not particularly expected to contain anywhere near the number of users or items as existing recommender systems used by Netflix, Facebook, and Google. For this reason, neighbourhood methods may be a good choice, as they provide for the ability to explain the reasoning behind the recommendations, as well as give good prediction-accuracy results. Scalability should not be a top concern with this application. Therefore, real time computation may be a factor to consider.
 

@@ -199,3 +199,45 @@ Regarding section 4.1. about performance vs prediction accuracy, there were some
 ``The literature review does not mention recent matrix completion approaches that minimize a convex relaxation of the matrix rank. There are a variety of alternatives to knn that are also not mentioned, but these are minor points."
 
 \section{Contextual Recommendations or Modern Techniques}
+
+\todo{groupLens paper}
+\todo{
+This truncation simultaneously achieves two goals. First, it decreases the dimensionality of the vector space, decreasing the storage
+and computational requirements for the model. Items and users can each be represented by k-dimensional vectors. Second, by dropping
+the smaller singular values, small perturbances as a result of noise in the data are eliminated, leaving only the strongest effects or trends in the model. In collaborative filtering, this noise can come as a result of other factors besides sheer preference playing a role in a user’s rating;
+decreasing the impact of noise improves our ability to provide highquality
+recommendations.
+
+Singular value decomposition is only well-defined when the matrix
+is complete. Therefore, to factor the ratings matrix, the missing values
+must be filled with some reasonable default (a method called imputation).
+Sarwar et al. [131] found the item’s average rating to be a
+useful default value (they tried user average as well, but item average
+performed better). Alternatively, the SVD can be computed over the
+normalized ratings matrix Rˆ (see Section 2.1) and the missing values
+considered to be 0.
+Several methods have been proposed that compute an estimate
+of the SVD only on the known ratings, dropping the requirement to
+impute or otherwise account for missing ratings. Kurucz et al. [81]
+propose a least-squares method that learns a regression for each user.
+
+Once the SVD is computed, it is necessary to update it to reflect
+new users, items, and ratings. A commonly used method for updating
+the SVD is folding-in; it works well in practice and allows users who
+were not considered when the ratings matrix was factored to receive
+recommendations and predictions [16, 129]. Folding-in operates by computing
+a new user-preference or topic-relevance vector for the new user
+or item but not recomputing the decomposition itself. 
+
+Setting the unknown ratings to 0 caues folding-in to ignore them, and a new user preference vector is now available. As user and item vectors are updated with the folding-in process, the
+accuracy of the SVD will diminish over time. It is therefore necessary
+to periodically re-compute the complete factorization. In a deployed
+system, this can be done off-line during low-load times [129].
+Brand [21] proposed an alternative method for building and maintaining
+the SVD based on rank-1 updates. His method produces fast,
+real-time updates of the SVD, bootstrapping the SVD with a dense
+portion of the data set. This dense portion can be extracted by sorting
+users and items to make a dense corner in the ratings matrix.
+}
+
+\todo{Talk about hybrid recommenders?}

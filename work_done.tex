@@ -120,4 +120,20 @@ If dishes are no longer available, then we are able to send a query to the recom
 
 This model recommends dishes to users as soon as they have liked a dish. These recommendations are also based on the ratings of other users rating patterns, which means that the ratings matrix should be dense. If the model cannot learn what the user likes, or the user has not rated anything yet, then it defaults to recommending the most popular dishes to the users. The advantage of this is that users get to see the trending dishes that other users prefer, however the disadvantage is that it may create bias results in the system because popular dishes will only be seen by new users. This means that new users will only rate the popular dishes, causing problems in the recommender engine. To extend this engine, we need to only recommend dishes to users after they have rated a certain number of dishes. Random dishes should be shown until they have rated a certain number of dishes. 
 
-\todo{do yo uuse Cui?}
+\todo{do yo use Cui?}
+
+\section{Event Variations with SVD}
+
+The use of different events can influence the recommendations that are provided by the system. For exmaple, using multiple explicit ratings such as Likes and Dislikes could affect the SVD algorithm. To understand how different events affect the recommender system, we implement variations of rating information is used with the SVD algorithm.
+
+\subsection{SVD with Like events}
+
+\subsection{SVD with Like and Dislike Events}
+
+\subsection{Merging results from SVD with Like and Dislike events} 
+
+Since SVD works by capturing latent factors of users and items using feature vectors, having the Like events and Dislike events in the same model, may correlate with each other but thus, be affected by the proportion of events since they are positive (likes) and negative (dislike) events. For example, if there is a larger amount of users that have disliked a specific item compared to the number of likes, the feature vector captured by that item may all correlate to negative values in the feature space. This may lead to inaccurate recommendations, where having another event such as ``Dislikes" actually deviates away from the main goal and can cause noisy information in the algorithm. For this reason, a more pratical approach in theory, would be to separate the different events in an independent SVD algorithm, and then combine the results from both algorithms at the end of the computation phase. We achieve this by defining a ``Like" and ``Dislike" with a value of 1.0. By defining positive values for ``Like" and ``Dislike" events, the idea is that the corresponding SVD algorithm will be able to recommend items that strongly correlate to the specfic event at the top. In this case, the algorithm corresponding to like events will display the top liked items for the active user, and the algorithm corresponding to the dislike events will display the top disliked items for the active users. We can then discount all the disliked recommendations from the list of liked recommendations, to provide higher accuracy with the users. 
+
+\todo{explain implementation details?}
+
+

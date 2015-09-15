@@ -49,9 +49,77 @@ In this paper, we aim to compare a latent factor approach to collaborative filte
 
 \subsubsection{Binary List}
 
-\subsubsection{Precision \& Recall}
-
 \subsubsection{Classification Accuracy}
+\todo{
+	
+
+	Classification Accuracy Metrics. Classification metrics measure the
+frequency with which a recommender system makes correct or incorrect decisions
+about whether an item is good. Classification metrics are thus appropriate
+for tasks such as Find Good Items when users have true binary preferences.
+When applied to nonsynthesized data in offline experiments, classification
+accuracy metrics may be challenged by data sparsity. The problem occurs when
+the collaborative filtering system being evaluated is generating a list of top
+recommended items. When the quality of the list is evaluated, recommendations
+may be encountered that have not been rated. How those items are treated in
+the evaluation can lead to certain biases.
+One approach to evaluation using sparse data sets is to ignore recommendations
+for items for which there are no ratings. The recommendation list is first
+processed to remove all unrated items. The recommendation task has been altered
+to “predict the top recommended items that have been rated.” In tasks
+where the user only observes the top few recommendations, this could lead to
+inaccurate evaluations of recommendation systems with respect to the user’s task. The problem is that the quality of the items that the user would actually
+see may never be measured.
+
+In essence, we are measuring how well the system
+can identify items that the user was already aware of. This evaluation approach
+may result in collaborative filtering algorithms that are biased towards obvious,
+nonnovel recommendations or perhaps algorithms that are over fitted—fitting
+the known data perfectly, but new data poorly.
+
+Classification accuracy metrics do not attempt to directly measure the ability
+of an algorithm to accurately predict ratings. Deviations from actual ratings
+are tolerated, as long as they do not lead to classification errors. The particular
+metrics that we discuss are Precision and Recall and related metrics and ROC.
+
+}
+
+\subsubsection{Precision \& Recall}
+\todo {
+
+Recall, in its purest sense, is almost always impractical to measure in a
+recommender system. In the pure sense, measuring recall requires knowing
+whether each item is relevant; for a movie recommender, this would involve
+asking many users to view all 5000 movies to measure how successfully we recommend
+each one to each user
+
+Perhaps a more appropriate way to approximate precision and recall would
+be to predict the top N items for which we have ratings. That is, we take a
+user’s ratings, split them into a training set and a test set, train the algorithm
+on the training set, then predict the top N items from that user’s test set. If we
+assume that the distribution of relevant items and nonrelevant items within
+the user’s test set is the same as the true distribution for the user across all
+items, then the precision and recall will be much closer approximations of the
+true precision and recall. This approach is taken in Basu et al. [1998].
+In information retrieval, precision and recall can be linked to probabilities
+that directly affect the user. If an algorithm has a measured precision of 70%,
+then the user can expect that, on average, 7 out of every 10 documents returned
+to the user will be relevant. Users can more intuitively comprehend the meaning
+of a 10\% difference in precision than they can a 0.5-point difference in mean
+absolute error
+
+One of the primary challenges to using precision and recall to compare different
+algorithms is that precision and recall must be considered together to
+evaluate completely the performance of an algorithm.
+
+Precision alone at a single search length or a single recall level can be appropriate
+if the user does not need a complete list of all potentially relevant
+items, such as in the Find Good Items task. If the task is to find all relevant
+items in an area, then recall becomes important as well. However, the search
+length at which precision is measured should be appropriate for the user task
+and content domain.
+}
+
 
 \subsubsection{ROC Curves}
 

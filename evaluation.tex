@@ -1,6 +1,6 @@
 \chapter{Evaluation}\label{C:evaluation}
 
-\section{Experimental Objectives}
+\section{Objectives}
 In this paper, we aim to compare a latent factor approach to collaborative filtering with a item-based collaborative filtering approach and a hybrid collaborative filtering approach. The main objectives are to answer the following questions:
 \begin{itemize}
 	\item{Do dislike events add value to the results to a latent factor model CF approach}
@@ -12,17 +12,47 @@ In this paper, we aim to compare a latent factor approach to collaborative filte
 	\item{Does filtering based on preferences of the user, more accurate for latent factor models}
 \end{itemize}
 
-\subsection{Experimental Validity}
+\subsection{Threats to Validity}
+\begin{itemize}
+	\item{The survey questions - need to ask the right questions and about how you ask the question.}
+	\item{Offline experiment may not be enough, users may feel different}
+	\item{Contradictions in the data and participation}
+	\item{Proportion of items and user}
+	\item{The labelling of data, removing the location, price etc}
+	\item{The amount of users, and the amount of ratings, and the amount of items. Variety of food choices for vegans etc. }
+	\item{The participants recruited - need to be more generalised (Mainly from students)}
+	\item{Tuning the parameters? or unbiased datasets}
+	\item{Online evaluation - novelty, serependity, etc, how can users give opinions about items they've never tried before}
+	\item{Density and sparsity of the matrix}
+\end{itemize}
 
-\subsection{Measurement Platform}
+\section{Design}
 
-\section{Experimental Design}
+\todo{talk about an overview here?}
+The goal of the experiment is to provide personalised food dish recommendations to users in regard to the ``find good items" use case. A survey was given to participants capturing their food preferences and how they felt about specific food dishes. This data was used for an offline experiment to compare algorithms. For the use case ``find good items" we use several evaluation metrics: accuracy, precision, recall, and Top-N precision. These metrics are used in an offline experiment, however, an online experiment with the existing system should be conducted in future to validate the results. 
+The following sections details the design of the experiment, the reasoning behind the metrics used, and the results. 
 
+\todo{is it quantitative or qualitative data?}
+\subsection{Setup/Tools}
+\todo{Is this section even needed?}
+The following equipment was used to run the experiment:
+\begin{itemize}
+	\item{Intel Core X}
+\end{itemize}
 
-\section{Methods?}
+\subsection{Participants}
 
-\subsection{User Dataset}
+A total of 91 participants were involved in our experiment. Most participants were students from the school of Engineering and Computer Science from Victoria University. \todo{60} students from a first year Computer Science lecture and tutorial at Victoria University were involved in the experiment by filling out surveys capturing their food preferences and their opinions about food dishes. \todo{10} honours and masters students from Victoria University were asked to fill out our surveys. \todo{20} participants were from a Summer of Tech event that was held at Victoria University. The remaining participants were students from around the Computer Science labs at Victoria University.
 
+The ages and gender were not captured of the participants due to drawbacks in the ethics process. It is estimated that most participants are students in the age range of 17-24 since most were recruited from the School of Engineering and Computer Science at Victoria University. There may be a minority of students that are over that age range. In addition, it is likely there are more male participants than female participants due to this field as well. 
+
+\subsection{Dataset}
+
+\subsection{Method}
+\subsubsection{Parameter Tuning}
+\subsubsection{}
+\subsection{Results}
+\subsection{Limitations}
 % \cite{martin2009recsys}
 % Examples of this problem
 % include the lack of standard treatment of items for which
@@ -35,9 +65,8 @@ In this paper, we aim to compare a latent factor approach to collaborative filte
 % Deploying innovative recommenders is still too hard, and there is a substantial need for research platforms where innovations can be tested without first building up a community of thousands of users. 
 \todo{Show proportions of data}
 
-\section{Experimental Setup}
 
-\section{Issues}
+\section{Participants}
 
 \section{Offline Evaluation}
 
@@ -79,7 +108,6 @@ Classification accuracy metrics do not attempt to directly measure the ability
 of an algorithm to accurately predict ratings. Deviations from actual ratings
 are tolerated, as long as they do not lead to classification errors. The particular
 metrics that we discuss are Precision and Recall and related metrics and ROC.
-
 
 \subsubsection{Precision \& Recall}
 \todo {precision and recall}
@@ -133,16 +161,3 @@ and content domain.
 
 
 
-\todo{Suggested Structure}
-
-\section{Evaluation}
-
-\subsection{Objectives}
-\subsection{Threats to Validity}
-\subsection{Design}
-\subsubsection{Setup/Tools}
-\subsubsection{Participants}
-\subsubsection{Dataset}
-\subsubsection{Method}
-\subsection{Results}
-\subsection{Limitations}

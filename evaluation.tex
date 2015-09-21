@@ -1,6 +1,7 @@
 \chapter{Evaluation}\label{C:evaluation}
 
 \section{Objectives}
+
 In this paper, we aim to compare a latent factor approach to collaborative filtering with a item-based collaborative filtering approach and a hybrid collaborative filtering approach. The main objectives are to answer the following questions:
 \begin{itemize}
 	\item{Do dislike events add value to the results to a latent factor model CF approach}
@@ -50,18 +51,35 @@ The ages and gender were not captured of the participants due to drawbacks in th
 
 \subsection{Survey}
 
-Qualitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Participants were asked to answer the Likert scaled ratings by circling the rating that best reflected their opinion of the dish (See Figure \todo{figure number}). The survey contained 100 food dishes and \todo{10} food preferences for \todo{intolerances} participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. The ordering of the categories were randomised to help mitigate biases such as participants rating only the first few food dishes that they see and so forth. All food dishes were captured from food vendors in the facility of Kelburn campus from Victoria University. Only the title of the food dish were shown to participants, other infomration was excluded. This was to prevent biases around price, food vendor of where the food is given, and so on, which can influence the way participants rate the dishes. For example, a participant could like a food dish such as a chicken burger from one place, but hate a burger from another place. Other factors such as price affect the participants the way they rate the dish. Therefore, excluding this information allows us to capture the participants preferences of food in general, rather than specific dishes. \todo{Redo} (Doing this would be difficult as well and participants would get bored of the survey etc)
+Qualitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Participants were asked to answer the Likert scaled ratings by circling the rating that best reflected their opinion of the food dish (See Figure \todo{figure number}). The survey contained 100 food dishes, \todo{10} food preferences, and \todo{intolerances} for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. The ordering of the categories were randomised to help mitigate biases such as participants rating only the first few food dishes that they see and so forth. All food dishes were captured from food vendors in the facility of Kelburn campus from Victoria University. Only the title of the food dishes were shown to participants, other infomration was excluded. This was to prevent biases around price, food vendor of where the food is given, and so on, which can influence the way participants rate the dishes. For example, a participant could like a food dish such as a chicken burger from one place, but hate a burger from another place. Other factors such as price affect the participants the way they rate the dish. Therefore, excluding this information allows us to capture the participants preferences of food in general, rather than specific dishes. \todo{Redo} (Doing this would be difficult as well and participants would get bored of the survey etc)
 
 \todo{Show image}
 No images were used to bias the results of the study. 
 \todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
+\todo{portion of vegetarians etc}
+
+Since we are using Binary data only in the recommender system, we consider a like/love rating as a like event, and a dislike/hate rating as a dislike event in the algorithms. The reason why the granularity of like/love, and dislike/love were included in our survey in case we changed our minds on the types of events to use in the system.
 
 \subsection{Dataset}
+The original data collected from the survey consists of the following:
+\begin{itemize}
+	\item{100 food dishes}
+	\item{91 users}
+	\item{8800 total ratings}
+	\item{18223 Like/Love ratings}
+	\item{1000 Dislike/Hate ratings}
+	\item{7000 Neutral ratings}
+	\item{1112 food preferences}
+\end{itemize}
 
+\subsection{Data Cleansing}
 
 
 \subsection{Method}
 \subsubsection{Parameter Tuning}
+Before computing metrics on the variations of the algorithms, we first need to tune the parameters in for each model. 
+Each algorithm has several parameters which influences the way it performs on the test set. 
+
 \subsection{Results}
 \subsection{Limitations}
 % \cite{martin2009recsys}

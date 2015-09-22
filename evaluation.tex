@@ -51,34 +51,55 @@ The ages and gender were not captured of the participants due to drawbacks in th
 
 \subsection{Survey}
 
-Qualitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Participants were asked to answer the Likert scaled ratings by circling the rating that best reflected their opinion of the food dish (See Figure \todo{figure number}). The survey contained 100 food dishes, \todo{10} food preferences, and \todo{intolerances} for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. The ordering of the categories were randomised to help mitigate biases such as participants rating only the first few food dishes that they see and so forth. All food dishes were captured from food vendors in the facility of Kelburn campus from Victoria University. Only the title of the food dishes were shown to participants, other infomration was excluded. This was to prevent biases around price, food vendor of where the food is given, and so on, which can influence the way participants rate the dishes. For example, a participant could like a food dish such as a chicken burger from one place, but hate a burger from another place. Other factors such as price affect the participants the way they rate the dish. Therefore, excluding this information allows us to capture the participants preferences of food in general, rather than specific dishes. \todo{Redo} (Doing this would be difficult as well and participants would get bored of the survey etc)
+Qualitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Participants were asked to answer the Likert scaled ratings by circling the rating that best reflected their opinion of the food dish (See Figure \todo{figure number}). The survey contained 100 food dishes, \todo{10} food preferences, and \todo{intolerances} for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so forth. All food dishes were captured from food vendors in the facility of Kelburn campus from Victoria University. Only the title of the food dishes were shown to participants, other information was excluded. This was to prevent biases around price, food vendor of where the food is given, and so on, which can influence the way participants rate the dishes. For example, a participant could like a food dish such as a chicken burger from one place, but hate a burger from another place. Other factors such as price affect the participants the way they rate the dish. Therefore, excluding this information allows us to capture the participants preferences of food in general, rather than specific dishes. \todo{Redo} (Doing this would be difficult as well and participants would get bored of the survey etc)
 
 \todo{Show image}
 No images were used to bias the results of the study. 
 \todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
 \todo{portion of vegetarians etc}
+A range of food was shown to participants ranging from gluten free, vegetarian, and vegan dishes. \todo{Fix this}
 
 Since we are using Binary data only in the recommender system, we consider a like/love rating as a like event, and a dislike/hate rating as a dislike event in the algorithms. The reason why the granularity of like/love, and dislike/love were included in our survey in case we changed our minds on the types of events to use in the system.
 
 \subsection{Dataset}
 The original data collected from the survey consists of the following:
+\todo{put into table}
 \begin{itemize}
 	\item{100 food dishes}
 	\item{91 users}
-	\item{8800 total ratings}
-	\item{18223 Like/Love ratings}
-	\item{1000 Dislike/Hate ratings}
-	\item{7000 Neutral ratings}
-	\item{1112 food preferences}
+	\item{9100 total ratings}
+	\item{\todo{18223 Like/Love ratings}} 
+	\item{\todo{1000 Dislike/Hate ratings}}
+	\item{\todo{7000 Neutral ratings}}
+	\item{673 food preferences}
 \end{itemize}
+
+\todo{talk about SPARSITY}
 
 \subsection{Data Cleansing}
 
+The rating data of Like and Dislike events need to be fed through the algorithms to give personalised recommendations to users. The legitimacy of rating data provided will affect the way the collaborative filtering algorithms perform since it makes recommendations based on similar users. In order to mitigate this, we cleanse the data by removing participants that gave contradictory answers before we import the data in the recommender algorithms.
+
+%  There were participants that had indicated they were vegetarians, but then had also indicated they had a preference for meat, rating meat dishes highly. This affects the recommendations that are shown by the algorithms.  
+
+By examining the data collected from the surveys, it was evident that not all participants answered the questions legitimately. The most obvious were participants claiming to be vegetarian but had indicated they liked food dishes containing meat. Legitimate vegetarian users were easy to distinguish as they rated ``Hate" for every meat dish. There were other cases that were difficult to classify as legitimate. For example, a few participants specified they had intolerances to gluten, but indicated they liked eating food dishes with bread. This could mean several things such as participants having differing levels of tolerance to gluten, or perhaps the participants meant they liked eating the food dish with gluten free bread. Ambiguity in these cases meant we did not remove any participants we were unsure about. In addition, there were also cases where participants did not finish rating all items, and also participants that skipped pages in the survey. We included these users in the ratings for completeness as it enables us to see how the recommendation handles sparsity of ratings from these users. 
+
+Overall, we removed users having contradictory answers refining the user data to the following dataset:
+\todo{put into table}
+\begin{itemize}
+	\item{80 users}
+	\item{8000 total ratings}
+	\item{3937 Like/Love ratings}
+	\item{1440 Dislike/Hate ratings}
+    \item{2620 Neutral ratings}
+	\item{613 food preferences}
+\end{itemize}
 
 \subsection{Method}
+\subsubsection{Overview}
+
 \subsubsection{Parameter Tuning}
-Before computing metrics on the variations of the algorithms, we first need to tune the parameters in for each model. 
-Each algorithm has several parameters which influences the way it performs on the test set. 
+Before computing metrics on the variations of the algorithms, we first need to tune the parameters for each model. Each algorithm has several parameters which influences the way it performs on the test set. 
 
 \subsection{Results}
 \subsection{Limitations}
@@ -107,69 +128,69 @@ Each algorithm has several parameters which influences the way it performs on th
 
 \subsubsection{Classification Accuracy}
 \todo{do this}
-Classification Accuracy Metrics. Classification metrics measure the
-frequency with which a recommender system makes correct or incorrect decisions
-about whether an item is good. Classification metrics are thus appropriate
-for tasks such as Find Good Items when users have true binary preferences.
-When applied to nonsynthesized data in offline experiments, classification
-accuracy metrics may be challenged by data sparsity. The problem occurs when
-the collaborative filtering system being evaluated is generating a list of top
-recommended items. When the quality of the list is evaluated, recommendations
-may be encountered that have not been rated. How those items are treated in
-the evaluation can lead to certain biases.
-One approach to evaluation using sparse data sets is to ignore recommendations
-for items for which there are no ratings. The recommendation list is first
-processed to remove all unrated items. The recommendation task has been altered
-to “predict the top recommended items that have been rated.” In tasks
-where the user only observes the top few recommendations, this could lead to
-inaccurate evaluations of recommendation systems with respect to the user’s task. The problem is that the quality of the items that the user would actually
-see may never be measured.
+% Classification Accuracy Metrics. Classification metrics measure the
+% frequency with which a recommender system makes correct or incorrect decisions
+% about whether an item is good. Classification metrics are thus appropriate
+% for tasks such as Find Good Items when users have true binary preferences.
+% When applied to nonsynthesized data in offline experiments, classification
+% accuracy metrics may be challenged by data sparsity. The problem occurs when
+% the collaborative filtering system being evaluated is generating a list of top
+% recommended items. When the quality of the list is evaluated, recommendations
+% may be encountered that have not been rated. How those items are treated in
+% the evaluation can lead to certain biases.
+% One approach to evaluation using sparse data sets is to ignore recommendations
+% for items for which there are no ratings. The recommendation list is first
+% processed to remove all unrated items. The recommendation task has been altered
+% to “predict the top recommended items that have been rated.” In tasks
+% where the user only observes the top few recommendations, this could lead to
+% inaccurate evaluations of recommendation systems with respect to the user’s task. The problem is that the quality of the items that the user would actually
+% see may never be measured.
 
-In essence, we are measuring how well the system
-can identify items that the user was already aware of. This evaluation approach
-may result in collaborative filtering algorithms that are biased towards obvious,
-nonnovel recommendations or perhaps algorithms that are over fitted—fitting
-the known data perfectly, but new data poorly.
+% In essence, we are measuring how well the system
+% can identify items that the user was already aware of. This evaluation approach
+% may result in collaborative filtering algorithms that are biased towards obvious,
+% nonnovel recommendations or perhaps algorithms that are over fitted—fitting
+% the known data perfectly, but new data poorly.
 
-Classification accuracy metrics do not attempt to directly measure the ability
-of an algorithm to accurately predict ratings. Deviations from actual ratings
-are tolerated, as long as they do not lead to classification errors. The particular
-metrics that we discuss are Precision and Recall and related metrics and ROC.
+% Classification accuracy metrics do not attempt to directly measure the ability
+% of an algorithm to accurately predict ratings. Deviations from actual ratings
+% are tolerated, as long as they do not lead to classification errors. The particular
+% metrics that we discuss are Precision and Recall and related metrics and ROC.
 
 \subsubsection{Precision \& Recall}
 \todo {precision and recall}
 
-Recall, in its purest sense, is almost always impractical to measure in a
-recommender system. In the pure sense, measuring recall requires knowing
-whether each item is relevant; for a movie recommender, this would involve
-asking many users to view all 5000 movies to measure how successfully we recommend
-each one to each user
+% Recall, in its purest sense, is almost always impractical to measure in a
+% recommender system. In the pure sense, measuring recall requires knowing
+% whether each item is relevant; for a movie recommender, this would involve
+% asking many users to view all 5000 movies to measure how successfully we recommend
+% each one to each user
 
-Perhaps a more appropriate way to approximate precision and recall would
-be to predict the top N items for which we have ratings. That is, we take a
-user’s ratings, split them into a training set and a test set, train the algorithm
-on the training set, then predict the top N items from that user’s test set. If we
-assume that the distribution of relevant items and nonrelevant items within
-the user’s test set is the same as the true distribution for the user across all
-items, then the precision and recall will be much closer approximations of the
-true precision and recall. This approach is taken in Basu et al. [1998].
-In information retrieval, precision and recall can be linked to probabilities
-that directly affect the user. If an algorithm has a measured precision of 70%,
-then the user can expect that, on average, 7 out of every 10 documents returned
-to the user will be relevant. Users can more intuitively comprehend the meaning
-of a 10\% difference in precision than they can a 0.5-point difference in mean
-absolute error
+% Perhaps a more appropriate way to approximate precision and recall would
+% be to predict the top N items for which we have ratings. That is, we take a
+% user’s ratings, split them into a training set and a test set, train the algorithm
+% on the training set, then predict the top N items from that user’s test set. If we
+% assume that the distribution of relevant items and nonrelevant items within
+% the user’s test set is the same as the true distribution for the user across all
+% items, then the precision and recall will be much closer approximations of the
+% true precision and recall. This approach is taken in Basu et al. [1998].
+% In information retrieval, precision and recall can be linked to probabilities
+% that directly affect the user. If an algorithm has a measured precision of 70%,
+% then the user can expect that, on average, 7 out of every 10 documents returned
+% to the user will be relevant. Users can more intuitively comprehend the meaning
+% of a 10\% difference in precision than they can a 0.5-point difference in mean
+% absolute error
 
-One of the primary challenges to using precision and recall to compare different
-algorithms is that precision and recall must be considered together to
-evaluate completely the performance of an algorithm.
+% One of the primary challenges to using precision and recall to compare different
+% algorithms is that precision and recall must be considered together to
+% evaluate completely the performance of an algorithm.
 
-Precision alone at a single search length or a single recall level can be appropriate
-if the user does not need a complete list of all potentially relevant
-items, such as in the Find Good Items task. If the task is to find all relevant
-items in an area, then recall becomes important as well. However, the search
-length at which precision is measured should be appropriate for the user task
-and content domain.
+% Precision alone at a single search length or a single recall level can be appropriate
+% if the user does not need a complete list of all potentially relevant
+% items, such as in the Find Good Items task. If the task is to find all relevant
+% items in an area, then recall becomes important as well. However, the search
+% length at which precision is measured should be appropriate for the user task
+% and content domain.
 
 
 \subsubsection{ROC Curves}

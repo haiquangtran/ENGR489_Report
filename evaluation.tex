@@ -2,7 +2,8 @@
 
 \section{Objectives}
 
-In this paper, we aim to compare a latent factor approach to collaborative filtering with a item-based collaborative filtering approach and a hybrid collaborative filtering approach. The main objectives are to answer the following questions:
+In this experiment, we aim to compare a latent factor approach to collaborative filtering with a item-based collaborative filtering approach and a hybrid collaborative filtering approach. The main objectives are to answer the following questions:
+\todo{All these questions need to change}
 \begin{itemize}
 	\item{Do dislike events add value to the results to a latent factor model CF approach}
 	\item{What are the best variations of using like and dislike events for a latent factor CF approach}
@@ -75,6 +76,7 @@ The original data collected from the survey consists of the following:
 \end{itemize}
 
 \todo{talk about SPARSITY}
+\todo{In this section, we refer to ratings as either a ``Like" event or a ``Dislike" event. }
 
 \subsection{Data Cleansing}
 
@@ -96,10 +98,14 @@ Overall, we removed users having contradictory answers refining the user data to
 \end{itemize}
 
 \subsection{Method}
-\subsubsection{Overview}
+To compare each algorithm to see which performs the best for our overall goal which is ``Find good items", we run an offline experiment. The method used in this experiment consists of partitioning the dataset, tuning the parameters, then validating the model using performance metrics. The following sections explain the details of each step.
+
+\subsubsection{Data Partitioning}
+
 
 \subsubsection{Parameter Tuning}
-Before computing metrics on the variations of the algorithms, we first need to tune the parameters for each model. Each algorithm has several parameters which influences the way it performs on the test set. 
+
+Before computing metrics on the variations of the algorithms, parameter tuning should be performed for each model influencing the overall performance. Each algorithm has several parameters which influences the way it performs on the test set. 
 
 \subsection{Results}
 \subsection{Limitations}

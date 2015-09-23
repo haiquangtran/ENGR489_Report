@@ -98,9 +98,12 @@ Overall, we removed users having contradictory answers refining the user data to
 \end{itemize}
 
 \subsection{Method}
-To compare each algorithm to see which performs the best for our overall goal which is ``Find good items", we run an offline experiment. The method used in this experiment consists of partitioning the dataset, tuning the parameters, then validating the model using performance metrics. The following sections explain the details of each step.
+To compare each algorithm to see which performs the best for our overall goal which is ``Find good items", we run an offline experiment. The method used in this experiment consists of partitioning the dataset, tuning the parameters, and validating the model using performance accuracy metrics. The following sections explain the details of each step.
 
 \subsubsection{Data Partitioning}
+In order to evalute the algorithms we need to partition the ratings dataset into a training set and a test set. The training set is used to learn the model, and the test set is used to test the learned model to see if it performs well to unseen data. We split the training and test dataset by a ratio of 90:10. We then use all the rating data from the training set in each algorithm and learn a model based on these ratings. The test set is saved till after parameter tuning has been done to optimise each algorithm and check the generalisation of the learned model. (prevent overfitting)
+
+In our case, the algorithms learn what food dishes users like from the training set data, and recommend food dishes to which we then check against the test data. 
 
 
 \subsubsection{Parameter Tuning}

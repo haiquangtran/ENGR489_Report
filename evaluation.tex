@@ -199,24 +199,60 @@ Precision at N looks at the top recommendations list, and sees how many true lik
 
 The method focuses on two cases. The first focus is finding the optimal parameters for each algorithm to finalise the algorithm that performs best. This will be used for future prediction in an online-study or real scenario to see how real users will respond to each algorithm. The next focus is to compare which algorithm performs the best in an offline evaluation, and in the context of this project.
 
-For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. From this, we retrain the model with the optimal 
+For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. Since cross-validation uses each subset as validation data, we retrain the model on the whole training set data with the optimal parameters obtained from the k-fold validation. Using this model, we run it 30 times on the test set computing the recommendation accuracy, the precision, the recall, and the precision at N (10). The results are then averaged over the 30 runs. \todo{Check this} Each different run uses the skip-every-10th protocol with an offset, so every test point is used exactly once. This method should give us the optimal tuned parameters for future prediction used to finalize the system, however, contains biases in the test data. For these reasons, we do the second method to compare the algorithms, since the test set will not be contaminated with data from the tuning phase.
 
+The second method is essentially the same as the first, except we tune the parameters each run to get optimise the best results. In this way, the test data is uncontaminated and we can use this to compare the different algorithms when they perform at their best. However, this method means that the parameters are not finalized, hence why we do the first method. 
 
-1) tune the parameters using the whole data set and then do the normal leave-n out training and testing. (this is what Bing suggested) The parameters are tuned and they are finalized. But the testing has bias because some testing cases might be used in tunning. This method is good to finalize a system so it can be used for future prediction.
+% 1) tune the parameters using the whole data set and then do the normal leave-n out training and testing. (this is what Bing suggested) The parameters are tuned and they are finalized. But the testing has bias because some testing cases might be used in tunning. This method is good to finalize a system so it can be used for future prediction.
 
-2) k-fold, for each round, you do training, tuning and testing, so you split the data into three parts. Using this method, the parameters are tuned for each round(you do the tuning for k times), so they are not finalized, so it is not good for predicting, but the testing has no bias.
+% 2) k-fold, for each round, you do training, tuning and testing, so you split the data into three parts. Using this method, the parameters are tuned for each round(you do the tuning for k times), so they are not finalized, so it is not good for predicting, but the testing has no bias.
 
 
 \section{Results}
 
 This section shows the results using the optimal parameters. 
 
-dual SVD algorithms with likes and dislikes:
-averages = 
+\todo{add in table or in graph}
 
-single SVD algorithm with likes and dislikes:
+dual SVD algorithms with likes and dislikes (percentages):
+
+--------------RESULTS ------------------------------ \newline
+        Ran 30 times, averages are below: \newline
+---------------------------------------------------- \newline
 
 
+        classification accuracy: 86.10285006195787 \newline
+        correct instances: 463.23333333333335 \newline
+        incorrect instances: 74.76666666666667 \newline
+        area under curve: 90.44032144829546 \newline
+        precision: 95.72799654317909 \newline
+        recall: 86.61883954220951 \newline
+        top N precision: 27.149938042131353 \newline
+        N value: 10 \newline
+        true positive: 146.06666666666666 \newline
+        false positive: 391.93333333333334 \newline
+        
+----------------------------------------------------- \newline
+
+single SVD algorithm with likes and dislikes (percentages):
+
+--------------RESULTS --------------------------------- \newline
+        Ran 30 times, averages are below: \newline
+-------------------------------------------------------    
+
+recommendation accuracy: 81.56753407682776 \newline
+        correct instances: 438.8333333333333 \newline
+        incorrect instances: 99.16666666666667 \newline
+        area under curve: 85.39599277912728 \newline
+        precision: 87.38016244805067 \newline
+        recall: 87.55416740842925 \newline
+        top N precision: 26.412639405204466 \newline
+        N value: 10 \newline
+        true positive: 142.1 \newline
+        false positive: 395.9 \newline
+        
+        
+-------------------------------------------------------- \newline
 
 \section{Limitations}
 % \cite{martin2009recsys}

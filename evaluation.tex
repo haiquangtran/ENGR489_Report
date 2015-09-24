@@ -28,6 +28,20 @@ In this experiment, we aim to compare a latent factor approach to collaborative 
 	\item{Density and sparsity of the matrix}
 \end{itemize}
 
+
+% \todo{From design decisions}
+% Not enough representation of vegans or vegetarians
+% Not enough vegetarian or vegan dishes. 
+% This may cause recommendations to be minimal etc.
+% Also meat lovers may overpower the items?
+% Noticed that Vegetarians all rated items with meat as “HATE” this could affect the overall predictions for SVD?
+% May not be linearly separable?
+% People may not fill in survey correctly.
+% Some people may have filled out dishes that they haven't tried before. This could affect the results because often what people do is different to what they think. 
+% There were cases where people filled out the form inaccurately, such that they chose random dishes. We know this because there are cases where someone states that they are “vegetarians” but then say they like “meat” etc.
+% Cleanse these cases to give better predictions
+
+
 \section{Design}
 
 \todo{talk about an overview here?}
@@ -148,7 +162,7 @@ However, there are caveats to using recommendation accuracy. Recommendation accu
 
 For these reasons, we use recommendation accuracy with supporting metrics of precision, recall, and precision at N. 
 
-\subsubsection{Precision \& Recall}
+\subsubsection{Precision, Recall, and Precision at N}
 \todo {Should I use all of these? Precision of the whole test data? Recall of the whole dataset? or just precision @ N?}
 
 Binary recommendations can fall into one of four categories. \todo{TP, FP, TN, FN - Show table. Expand on this}
@@ -197,16 +211,19 @@ Precision at N looks at the top recommendations list, and sees how many true lik
 
 \subsection{Method}
 
+\todo{Rewrite all of this. Just check if content is correct.}
+
 The method focuses on two cases. The first focus is finding the optimal parameters for each algorithm to finalise the algorithm that performs best. This will be used for future prediction in an online-study or real scenario to see how real users will respond to each algorithm. The next focus is to compare which algorithm performs the best in an offline evaluation, and in the context of this project.
 
-For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. Since cross-validation uses each subset as validation data, we retrain the model on the whole training set data with the optimal parameters obtained from the k-fold validation. Using this model, we run it 30 times on the test set computing the recommendation accuracy, the precision, the recall, and the precision at N (10). The results are then averaged over the 30 runs. \todo{Check this} Each different run uses the skip-every-10th protocol with an offset, so every test point is used exactly once. This method should give us the optimal tuned parameters for future prediction used to finalize the system, however, contains biases in the test data. For these reasons, we do the second method to compare the algorithms, since the test set will not be contaminated with data from the tuning phase.
+For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. Since cross-validation uses each subset as validation data, we retrain the model on the whole training set data with the optimal parameters obtained from the k-fold validation. Using this model, we run it 30 times on the test set computing the recommendation accuracy, the precision, the recall, and the precision at N (10). The results are then averaged over the 30 runs. 
+
+\todo{Check this} Each different run uses the skip-every-10th protocol with an offset, so every test point is used exactly once. This method should give us the optimal tuned parameters for future prediction used to finalize the system, however, contains biases in the test data. For these reasons, we do the second method to compare the algorithms, since the test set will not be contaminated with data from the tuning phase.
 
 The second method is essentially the same as the first, except we tune the parameters each run to get optimise the best results. In this way, the test data is uncontaminated and we can use this to compare the different algorithms when they perform at their best. However, this method means that the parameters are not finalized, hence why we do the first method. 
 
 % 1) tune the parameters using the whole data set and then do the normal leave-n out training and testing. (this is what Bing suggested) The parameters are tuned and they are finalized. But the testing has bias because some testing cases might be used in tunning. This method is good to finalize a system so it can be used for future prediction.
 
 % 2) k-fold, for each round, you do training, tuning and testing, so you split the data into three parts. Using this method, the parameters are tuned for each round(you do the tuning for k times), so they are not finalized, so it is not good for predicting, but the testing has no bias.
-
 
 \section{Results}
 
@@ -254,6 +271,29 @@ recommendation accuracy: 81.56753407682776 \newline
         
 -------------------------------------------------------- \newline
 
+\section{Analysis}
+\todo{TAKE THIS OUT?}
+\subsection{Parameter Tuning}
+\todo{Not sure if this should be included? Usually in reports they do something like this?}
+
+\subsection{\todo{Latent size}}
+\todo{directly from design decisions}
+\todo{Should I include stuff like this in the report?}
+This affects the amount of features that will be used in SVD.
+
+With the current amount of data, it seems that using a smaller latent size affects the accuracy. This is because having a smaller latent size will capture all the ``Strong" patterns from the ratings, as opposed to having a larger number of latent sizes, where the rating patterns are spread across more characteristics, meaning that the feature values for these characteristics will be smaller. More feature vectors -> the smaller the strength of the characteristics that it captures from the previous rating patterns. This may capture quirky characteristics from the users rating patterns...however, Less feature vectors -> the stronger the strength of the characteristics that it captures from the previous rating patterns. 
+
+% \subsection{\todo{Implicit events}}
+% \todo{directly from design decisions}
+% Seems like it can’t recognize negative values
+% Using the implicit training is not able to classify negative values. 
+% If you look at the values where the actual values were either hate or dislike, then all the predicted values are positive. This may be caused by the ratings of others on the dish.
+% If we look at the data, It is skewed. There are far more likes/loves than dislikes/hates. This may cause the values in the item feature vectors and user feature vectors to all be positive, since all the positive ratings are overpowering the negative values. For instance, a user’s predicted score is reliant on the value of the item feature vector and the user’s feature vector of tastes. The cross product determines the user’s preference for the item. If many other users have rated the item being liked than disliked, then this will positively impact the feature values of the item feature vector such that the negative values are not even considered. 
+% This may also affect the classification accuracy because all the predicted rating dishes are going to be based on positive ratings, meaning that the evaluation may be inaccurate. For instance, since all the item vectors are overpowered by positive ratings, then all the instances in the test set where the user has indicated that they “like/love” the dish will also be positive. This leads to biased results since every dish is positive within a threshold. 
+% To resolve this, we may have to compute two engines, for likes and dislikes. 
+% Also the cause of this may be because we are not training with explicit ratings.
+
+
 \section{Limitations}
 % \cite{martin2009recsys}
 % Examples of this problem
@@ -268,6 +308,19 @@ recommendation accuracy: 81.56753407682776 \newline
 
 
 \section{Discussion}
+
+
+% \section{\todo{Offline evaluation}}
+% OFFLINE EVALUATION
+% \todo{directly from design decisions}
+% Offline evaluation does not determine whether users will like novel items or not. We cannot possibly measure this, since there are a vast amount of missing ratings from the users. 
+% With an offline evaluation, we can only test against what the users have rated. Therefore, we cannot really test the novelty factor, as we can’t know if the user will like the top n list of recommendations since many will be missing. For this, we can use precision and recall but it means that the result will be dependent on the amount of rated positive items the user has done, and how many appear in the list. For this reason, there will be many FALSE POSITIVES, because users have not rated this item. 
+% Therefore, an ONLINE evaluation would be the best to get a gauge on how the users really feel about the recommendations. There are a couple factors that are needed for this:
+% A real system
+% Users will have needed to rate a number of items
+% There must be a vast amount of already rated items in the system
+% Some users may not tried dishes so may not be able to label it accurately?
+
 
 
 

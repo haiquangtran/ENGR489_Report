@@ -60,9 +60,11 @@ No images were used to bias the results of the study.
 \todo{portion of vegetarians etc}
 A range of food was shown to participants ranging from gluten free, vegetarian, and vegan dishes. \todo{Fix this}
 
-Since we are using Binary data only in the recommender system, we consider a like/love rating as a like event, and a dislike/hate rating as a dislike event in the algorithms. The reason why the granularity of like/love, and dislike/love were included in our survey in case we changed our minds on the types of events to use in the system.
-
 \subsection{Dataset}
+In this section, we refer to a rating as a set of (u, i, r) triplets, where a user u has rated r on an item i. 
+\todo{Should this go in dataset or survey section?}
+The ratings collected from the survey consist of the following rating values: Hate (-1.0), Dislike (-0.5), Neutral (0.0), Like (0.5), Love (1.0). Since we are using Binary data only in the recommender system, we consider a like/love rating as a like event, and a dislike/hate rating as a dislike event in the algorithms. The reason why the granularity of like/love, and dislike/love were included in our survey in case we changed our minds on the types of events to use in the system.
+
 The original data collected from the survey consists of the following:
 \todo{put into table}
 \begin{itemize}
@@ -75,8 +77,27 @@ The original data collected from the survey consists of the following:
 	\item{673 food preferences}
 \end{itemize}
 
-\todo{talk about SPARSITY}
-\todo{In this section, we refer to ratings as either a ``Like" event or a ``Dislike" event.}
+\todo{talk about SPARSITY \cite{zhang}}
+% 
+% The sparsity of a rating dataset is defined as the density of the vacancies in
+% the user-item rating matrix, as in equation 2.1.
+% sparsity = 1 −
+% # ratings
+% # users × # items
+% (2.1)
+% Because most users would have only rated a very small portion of the
+% items, most recommendation datasets have very high sparsity, with sparsity
+% as high as 0.95 considered normal [129].3 For this reason, in the field of
+% recommender systems, the term “sparse” only refers to the extreme cases
+% where the sparsity of the dataset is higher than 0.99. Such extreme sparsity normally occurs when new recommender systems are first established, or
+% in datasets where the number of users is small relative to the volume of
+% information in the system due to either a large number of items or regular
+% updates of the item pool or both.
+
+\todo{Add average Like and dislike ratings per user.}
+\todo{Add min and max ratings of likes and dislikes from user?}
+\todo{Add min,max,and average number of ratings for each item}
+\todo{Talk about density in regards to user and item orientation of ratings}
 
 \subsection{Data Cleansing}
 
@@ -103,27 +124,21 @@ To compare each algorithm to see which performs the best for our overall goal wh
 
 \subsubsection{Data Partitioning}
 
-To evaluate the algorithms in an offline study, we partition the ratings dataset into a training set and a test set. The training set is used to learn the model, and the test set is used to test the learned model to see how it performs on unseen data. This is used to test the generalisability of the algorithms, since the model has not seen the instances from the test data. 
+To evaluate the recommender system algorithms in a standard offline evaluation, we partition the ratings dataset into a training set and a test set. The training set is used by the recommender algorithm to learn the model, and the test set is used to test the learned model to see how it performs on unseen data. In this case, the algorithms learn a model of user food dish preferences from the training set data, and use this to predict food dishes the users will like to which we then check against the test data. This is used to validate the generalisability of the model and gives an indication of how well it may perform in a real scenario, since the model has not seen the instances from the test data.
 
-The Skip-Every-Nth protocol is used to partition the dataset into a training set and a test set. The Skip-Every-Nth protocol involves randomising the ordering of each user's ratings, then randomising the ordering of the users and aggregating these into a list. The result is a list with the ratings of the corresponding users continguous to the user \todo{this right?}. The protocol iterates through this list of user ratings assigning every Nth rating to a test set, the remaining ratings are assigned to the training set. The Skip-Every-Nth protocol increases the likelihood that every user's ratings are in the test set, and that their is a wide spread of ratings. Although, users that have few ratings may be skipped (outliers).
+The skip-every-nth protocol \cite{zhang} is used to partition the dataset into a training set and a test set. The skip-every-nth protocol consists of randomising the ordering of users, and randomising the ratings within each user in a sequence that is contiguous, aggregating the result in a list sequence \cite{zhang}. The protocol iterates through this list of user ratings assigning every nth rating to the test set, the remaining ratings assigned to the training set. The skip-every-nth protocol ensures that ``the sparsity of the training dataset is minimally disturbed, and guarantees a (n - 1):1 size ratio between training and test data for all users up to decimal rounding" \cite{zhang}. However, since the nth value affects the user ratings that are involved in the test set, this means users with few ratings may not be in the test set since their ratings may be skipped during the process. 
+\todo{Ask Sharon about this} In these cases, we evaluate the recommender algorithm n times with the same ordering, but offsetting the partitioning each run by 1. This ensures that every user rating is used exactly once in the test data \cite{zhang}. 
 
-The Skip-Every-Nth protocol is able to capture ratings from each user, unless the user has few ratings, which in that case, may be skipped. In those scenarios, we can set the N value lower \todo{fix}. 
-
-
-
-We split the training and test dataset by a ratio of 90:10. We then use all the rating data from the training set in each algorithm and learn a model based on these ratings. The test set is saved till after parameter tuning has been done to optimise each algorithm and check the generalisation of the learned model. (prevent overfitting)
-
-In our case, the algorithms learn what food dishes users like from the training set data, and recommend food dishes to which we then check against the test data. 
-
+\todo{Should this be here?}
+In our experiments, we use the skip-every-10th protocol as our partitioning technique for the final evaluation of the algorithm performance. We run the evaluation metrics multiple times with the optimal parameters and average the results. 
 
 \subsubsection{Parameter Tuning}
 
-Before computing metrics on the variations of the algorithms, parameter tuning should be performed for each model influencing the overall performance. Each algorithm has several parameters which influences the way it performs on the test set. 
+Before computing metrics on the variations of the algorithms, parameter tuning should be performed for each model influencing the overall performance. Each algorithm has several parameters which influences the way it performs on final evaluation which is done on the test set. 
 
 
 \section{Results}
 
-\subsection{Generalisation}
 
 \subsection{Limitations}
 % \cite{martin2009recsys}

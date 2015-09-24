@@ -98,10 +98,20 @@ Overall, we removed users having contradictory answers refining the user data to
 \end{itemize}
 
 \subsection{Method}
+
 To compare each algorithm to see which performs the best for our overall goal which is ``Find good items", we run an offline experiment. The method used in this experiment consists of partitioning the dataset, tuning the parameters, and validating the model using performance accuracy metrics. The following sections explain the details of each step.
 
 \subsubsection{Data Partitioning}
-In order to evalute the algorithms we need to partition the ratings dataset into a training set and a test set. The training set is used to learn the model, and the test set is used to test the learned model to see if it performs well to unseen data. We split the training and test dataset by a ratio of 90:10. We then use all the rating data from the training set in each algorithm and learn a model based on these ratings. The test set is saved till after parameter tuning has been done to optimise each algorithm and check the generalisation of the learned model. (prevent overfitting)
+
+To evaluate the algorithms in an offline study, we partition the ratings dataset into a training set and a test set. The training set is used to learn the model, and the test set is used to test the learned model to see how it performs on unseen data. This is used to test the generalisability of the algorithms, since the model has not seen the instances from the test data. 
+
+The Skip-Every-Nth protocol is used to partition the dataset into a training set and a test set. The Skip-Every-Nth protocol involves randomising the ordering of each user's ratings, then randomising the ordering of the users and aggregating these into a list. The result is a list with the ratings of the corresponding users continguous to the user \todo{this right?}. The protocol iterates through this list of user ratings assigning every Nth rating to a test set, the remaining ratings are assigned to the training set. The Skip-Every-Nth protocol increases the likelihood that every user's ratings are in the test set, and that their is a wide spread of ratings. Although, users that have few ratings may be skipped (outliers).
+
+The Skip-Every-Nth protocol is able to capture ratings from each user, unless the user has few ratings, which in that case, may be skipped. In those scenarios, we can set the N value lower \todo{fix}. 
+
+
+
+We split the training and test dataset by a ratio of 90:10. We then use all the rating data from the training set in each algorithm and learn a model based on these ratings. The test set is saved till after parameter tuning has been done to optimise each algorithm and check the generalisation of the learned model. (prevent overfitting)
 
 In our case, the algorithms learn what food dishes users like from the training set data, and recommend food dishes to which we then check against the test data. 
 

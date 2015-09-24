@@ -118,9 +118,9 @@ Overall, we removed users having contradictory answers refining the user data to
 	\item{613 food preferences}
 \end{itemize}
 
-\subsection{Method}
+\subsection{Overview}
 
-To compare each algorithm to see which performs the best for our overall goal which is ``Find good items", we run an offline experiment. The method used in this experiment consists of partitioning the dataset, tuning the parameters, and validating the model using performance accuracy metrics. The following sections explain the details of each step.
+To compare each algorithm to see which performs the best for our overall goal which is ``Find good items", we run an offline experiment. The method used in this experiment consists of partitioning the dataset, tuning the parameters, and validating the model using performance accuracy metrics. The following sections explain the details needed to understand the method in our experiment. We then state the method we used for comparing the different algorithms. 
 
 \subsubsection{Data Partitioning}
 
@@ -134,8 +134,13 @@ In our experiments, we use the skip-every-10th protocol as our partitioning tech
 
 \subsubsection{Parameter Tuning}
 
-Before computing metrics on the variations of the algorithms, parameter tuning should be performed for each model influencing the overall performance. Each algorithm has several parameters which influences the way it performs on final evaluation which is done on the test set. 
+Each algorithm has several parameters which influences the way it performs on final evaluation, hence the need to find the optimal parameters. To find the optimal parameters, we tune the parameters on the training set created by the skip-every-10th protocol and use k-fold cross validation. In this way, the test dataset remains uncontaminated since the optimised parameters have not been trained on the test data. \todo{Redo this}
+In this context, the goal of k-fold cross validation is used to determine a model with optimised parameters during the training phase which will limit problems of over-fitting. 
 
+\todo{Reexplain this. difficult to understand}
+The technique used to find the optimal parameters is k-fold cross validation. K-fold cross validation consists of partitioning the dataset, in our case, the training set into k equal sized subsets. We randomise the training set before partitioning the set into k subsets. A subset from the k subsets is then selected as the validation data, and the remaining subsets (k-1) are used as the training data. Evaluation metrics are then calculated. This is repeated k times where each subset is used as the validation subset exactly once, and the results from the metrics are averaged to determine how good the parameters are for that run. This process is then repeated multiple times with different parameters, the optimal parameters being chosen for the final evaluation. K-fold cross validation was chosen as it considers the variance in the data by averaging the results, and uses each data point exactly once, mitigating results the likelihood of lucky one-off results.
+
+\subsection{Method}
 
 \section{Results}
 

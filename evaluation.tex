@@ -144,12 +144,18 @@ The technique used to find the optimal parameters is k-fold cross validation. K-
 
 In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision end users make in a real world scenario where decisions are based on binary recommendations such as acceptance or rejection \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation}. Therefore, we use recommendation accuracy as a metric since our goal is to ``Find Good Items".\todo{figure out where to put this} For recommendation algorithms that output rating predictions, a threshold-cutoff is used to determine is used to determine the good items from the bad items \cite{zhang}.
 
-However, there are caveats to using recommendation accuracy. Recommendation accuracy does not measure the quality of the items recommended as it does not measure the ability of an algorithm to accurately predict ratings, thus, does not focus on the correct ordering of the recommendations list based on the users preference of items. \todo{clarify this, may need to explain more such as deviations etc}. This also means that it does not guarantee the user will see all the liked items in the top-N recommendations list. In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
+However, there are caveats to using recommendation accuracy. Recommendation accuracy does not measure the quality of the items recommended as it does not measure the ability of an algorithm to accurately predict ratings, thus, does not focus on the correct ordering of the recommendations list based on the users preference of items. \todo{clarify this, may need to explain more such as deviations etc. Also top-N is not our use case... users could get bored after awhile. we don't care about ranking as long as users like the recs.}. This also means that it does not guarantee the user will see all the liked items in the top-N recommendations list. In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
 
-For these reasons, we use recommendation accuracy with supporting metrics of precision, recall, and precision at top-N. 
+For these reasons, we use recommendation accuracy with supporting metrics of precision, recall, and precision at N. 
 
 \subsubsection{Precision \& Recall}
-\todo {precision and recall}
+\todo {Should I use all of these? Precision of the whole test data? Recall of the whole dataset? or just precision @ N?}
+
+Binary recommendations can fall into one of four categories. \todo{TP, FP, TN, FN - Show table. Expand on this}
+
+For binary ratings, precision and recall are often used as metrics. Precision measures the relevant recommendations (fidelity) to the user \todo{add equation for precision}, whereas Recall measures the relevant recommendations from the total preferred items (completeness) \todo{add equation for recall}. 
+
+Precision at N looks at the top recommendations list, and sees how many true liked items are in that list, and how many false liked items are not in the list. This can be used to measure the portion of relevant items that are in the top-N recommendation list.
 
 % Recall, in its purest sense, is almost always impractical to measure in a
 % recommender system. In the pure sense, measuring recall requires knowing
@@ -183,12 +189,17 @@ For these reasons, we use recommendation accuracy with supporting metrics of pre
 % length at which precision is measured should be appropriate for the user task
 % and content domain.
 
-
 \subsubsection{ROC Curves}
 \todo{Prob not worth explaining ROC curves?}
 
+\section{Online Evaluation or User Study}
+\todo{Should this be here? Explain why online evaluation is needed, and why we could not do it (since it requires a preset of ratings).}
+
 \subsection{Method}
 
+The method focuses on two cases. The first focus is finding the optimal parameters for each algorithm to finalise the algorithm that performs best. This will be used for future prediction in an online-study or real scenario to see how real users will respond to each algorithm. The next focus is to compare which algorithm performs the best in an offline evaluation, and in the context of this project.
+
+For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. From this, we retrain the model with the optimal 
 
 
 1) tune the parameters using the whole data set and then do the normal leave-n out training and testing. (this is what Bing suggested) The parameters are tuned and they are finalized. But the testing has bias because some testing cases might be used in tunning. This method is good to finalize a system so it can be used for future prediction.
@@ -197,6 +208,14 @@ For these reasons, we use recommendation accuracy with supporting metrics of pre
 
 
 \section{Results}
+
+This section shows the results using the optimal parameters. 
+
+dual SVD algorithms with likes and dislikes:
+averages = 
+
+single SVD algorithm with likes and dislikes:
+
 
 
 \section{Limitations}
@@ -214,5 +233,5 @@ For these reasons, we use recommendation accuracy with supporting metrics of pre
 
 \section{Discussion}
 
-\section{Online Evaluation or User Study}
+
 

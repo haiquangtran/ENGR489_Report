@@ -134,71 +134,19 @@ In our experiments, we use the skip-every-10th protocol as our partitioning tech
 
 \subsubsection{Parameter Tuning}
 
-Each algorithm has several parameters which influences the way it performs on final evaluation, hence the need to find the optimal parameters. To find the optimal parameters, we tune the parameters on the training set created by the skip-every-10th protocol and use k-fold cross validation. In this way, the test dataset remains uncontaminated since the optimised parameters have not been trained on the test data. \todo{Redo this}
-In this context, the goal of k-fold cross validation is used to determine a model with optimised parameters during the training phase which will limit problems of over-fitting. 
+Each algorithm has several parameters which influences the way it performs on final evaluation, hence the need to find the optimal parameters. To find the optimal parameters, we tune the parameters on the training set created by the skip-every-10th protocol and use k-fold cross validation. In this way, the test dataset remains uncontaminated since the optimised parameters have not been trained on the test data. 
+We use standard 10-fold cross validation to determine the optimal parameters. In the context of this project, the goal of k-fold cross validation is used to determine a model with optimised parameters during the training phase which will limit problems of over-fitting. 
 
-\todo{Reexplain this. difficult to understand}
-The technique used to find the optimal parameters is k-fold cross validation. K-fold cross validation consists of partitioning the dataset, in our case, the training set into k equal sized subsets. We randomise the training set before partitioning the set into k subsets. A subset from the k subsets is then selected as the validation data, and the remaining subsets (k-1) are used as the training data. Evaluation metrics are then calculated. This is repeated k times where each subset is used as the validation subset exactly once, and the results from the metrics are averaged to determine how good the parameters are for that run. This process is then repeated multiple times with different parameters, the optimal parameters being chosen for the final evaluation. K-fold cross validation was chosen as it considers the variance in the data by averaging the results, and uses each data point exactly once, mitigating results the likelihood of lucky one-off results.
+\todo{May need to reexplain this. difficult to understand?}
+The technique used to find the optimal parameters is k-fold cross validation. K-fold cross validation consists of partitioning the dataset, in our case, the training set into k equal sized subsets. We randomise the training set before partitioning the set into k subsets. A subset from the k subsets is then selected as the validation data, and the remaining subsets (k-1) are used as the training data. Evaluation metrics are then calculated. This is repeated k times where each subset is used as the validation subset exactly once, and the results from the metrics are averaged to determine how good the parameters are for that run. This process is then repeated multiple times with different parameters, the optimal parameters being chosen for the final evaluation. K-fold cross validation was chosen as it considers the variance in the data by averaging the results, and uses each data point exactly once, mitigating results the likelihood of lucky one-off results. In addition, it reduces the likelihood of overfitting. 
 
-\subsection{Method}
+\subsubsection{Recommendation Accuracy}
 
-\section{Results}
+In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision end users make in a real world scenario where decisions are based on binary recommendations such as acceptance or rejection \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation}. Therefore, we use recommendation accuracy as a metric since our goal is to ``Find Good Items".\todo{figure out where to put this} For recommendation algorithms that output rating predictions, a threshold-cutoff is used to determine is used to determine the good items from the bad items \cite{zhang}.
 
+However, there are caveats to using recommendation accuracy. Recommendation accuracy does not measure the quality of the items recommended as it does not measure the ability of an algorithm to accurately predict ratings, thus, does not focus on the correct ordering of the recommendations list based on the users preference of items. \todo{clarify this, may need to explain more such as deviations etc}. This also means that it does not guarantee the user will see all the liked items in the top-N recommendations list. In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
 
-\subsection{Limitations}
-% \cite{martin2009recsys}
-% Examples of this problem
-% include the lack of standard treatment of items for which
-% the recommender is unable to make a prediction. The broader
-% goal of user-centered holistic evaluation, including A/B testing
-% of the short- and long-term effects of recommendation differences,
-% is still met by only a few research groups and companies
-% that have the live systems and resources for such evaluation.
-
-% Deploying innovative recommenders is still too hard, and there is a substantial need for research platforms where innovations can be tested without first building up a community of thousands of users. 
-\todo{Show proportions of data}
-
-
-\section{Offline Evaluation}
-
-\subsection{Data Partitioning}
-
-\subsection{Parameter Tuning}
-
-\subsection{Offline Metrics}
-
-\subsubsection{Binary List}
-
-\subsubsection{Classification Accuracy}
-\todo{do this}
-% Classification Accuracy Metrics. Classification metrics measure the
-% frequency with which a recommender system makes correct or incorrect decisions
-% about whether an item is good. Classification metrics are thus appropriate
-% for tasks such as Find Good Items when users have true binary preferences.
-% When applied to nonsynthesized data in offline experiments, classification
-% accuracy metrics may be challenged by data sparsity. The problem occurs when
-% the collaborative filtering system being evaluated is generating a list of top
-% recommended items. When the quality of the list is evaluated, recommendations
-% may be encountered that have not been rated. How those items are treated in
-% the evaluation can lead to certain biases.
-% One approach to evaluation using sparse data sets is to ignore recommendations
-% for items for which there are no ratings. The recommendation list is first
-% processed to remove all unrated items. The recommendation task has been altered
-% to “predict the top recommended items that have been rated.” In tasks
-% where the user only observes the top few recommendations, this could lead to
-% inaccurate evaluations of recommendation systems with respect to the user’s task. The problem is that the quality of the items that the user would actually
-% see may never be measured.
-
-% In essence, we are measuring how well the system
-% can identify items that the user was already aware of. This evaluation approach
-% may result in collaborative filtering algorithms that are biased towards obvious,
-% nonnovel recommendations or perhaps algorithms that are over fitted—fitting
-% the known data perfectly, but new data poorly.
-
-% Classification accuracy metrics do not attempt to directly measure the ability
-% of an algorithm to accurately predict ratings. Deviations from actual ratings
-% are tolerated, as long as they do not lead to classification errors. The particular
-% metrics that we discuss are Precision and Recall and related metrics and ROC.
+For these reasons, we use recommendation accuracy with supporting metrics of precision, recall, and precision at top-N. 
 
 \subsubsection{Precision \& Recall}
 \todo {precision and recall}
@@ -237,14 +185,34 @@ The technique used to find the optimal parameters is k-fold cross validation. K-
 
 
 \subsubsection{ROC Curves}
+\todo{Prob not worth explaining ROC curves?}
 
-\subsubsection{Thresholding}
+\subsection{Method}
 
-\section{Online Evaluation or User Study}
+
+
+1) tune the parameters using the whole data set and then do the normal leave-n out training and testing. (this is what Bing suggested) The parameters are tuned and they are finalized. But the testing has bias because some testing cases might be used in tunning. This method is good to finalize a system so it can be used for future prediction.
+
+2) k-fold, for each round, you do training, tuning and testing, so you split the data into three parts. Using this method, the parameters are tuned for each round(you do the tuning for k times), so they are not finalized, so it is not good for predicting, but the testing has no bias.
+
 
 \section{Results}
 
+
 \section{Limitations}
+% \cite{martin2009recsys}
+% Examples of this problem
+% include the lack of standard treatment of items for which
+% the recommender is unable to make a prediction. The broader
+% goal of user-centered holistic evaluation, including A/B testing
+% of the short- and long-term effects of recommendation differences,
+% is still met by only a few research groups and companies
+% that have the live systems and resources for such evaluation.
+
+% Deploying innovative recommenders is still too hard, and there is a substantial need for research platforms where innovations can be tested without first building up a community of thousands of users. 
+
 
 \section{Discussion}
+
+\section{Online Evaluation or User Study}
 

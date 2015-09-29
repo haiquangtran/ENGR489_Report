@@ -1,8 +1,19 @@
 \chapter{Background \& Related Work}\label{C:background}
 
+\todo{Redo this? or leave out?}
+This section explains the background and literature of recommender system approaches. It firstly explores content-based filtering, and then explores collaborative filtering. 
+
+\section{Content-based Filtering}
+\todo{redo this}
+Content-based filtering has been widely used in recommender systems. Content-based filtering focuses on recommending items to a user based on the attributes and content of items corresponding to the attributes a user has explicitly or implicitly liked. Content-based filtering techniques may involve extracting information from the user to create a profile of attributes the user implicitly likes. Pandora, a music streaming station automatically plays recommended songs that the user may enjoy as soon as the user has indicated a song they have liked \todo{reference this shit}. The recommendations are based on \todo{400} attributes of a song, and are extracted from the user as soon as they have liked a song. However, content-based filtering is prone to recommending only a small subset of items, since it recommends items based on attributes of the items, leading to overspecialisation and thus, restricting variety \cite{toward}. Another problem of content-based filtering is that it may be difficult to extract features the items and users, and manually labelling these features may not be practical \cite{toward}.
+
+Traditional collaborative filtering (which are explained in the following sections) are able to address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. However, in the 'cold start' problem, content-based filtering is superior than collaborative filtering because it does not rely on the opinion of other users \cite{koren2009matrix}.
+
+For these reasons, we do not address content-based filtering in detail, but explain the basic idea of content-based filtering since hybrid collaborative filtering approaches use it. The following sections explain the details of collaborative filtering.  
+
 \section{Collaborative Filtering}
 
-Collaborative filtering (CF) is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative, survey}. The main idea behind collaborative filtering is that rating behaviours of others can be used to predict items that the active user will be interested in. Intuitively, this algorithm stems from the assumption that users having similar opinions for items that they have both rated tend to have similar tastes to each other, having similar opinions about other items  \cite{schafer2007collaborative}. For example, most of us have friends with similar opinions and tastes to us. Perhaps you and a friend both like eating chicken sandwiches. Since you and your friend have similar tastes, your friend may then be able to suggest to you another food dish that you might enjoy such as duck with rice. Collaborative filtering uses the same concept, but usually on a larger scale. 
+Collaborative filtering (CF) is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative, survey}. The main idea behind collaborative filtering is that rating behaviours of others can be used to predict items that the active user will be interested in. Intuitively, this algorithm stems from the assumption that users having similar opinions for items they both rated tend to have similar tastes to each other, having similar opinions about other items  \cite{schafer2007collaborative}. For example, consider a friend that you share common interests and opinions with. Perhaps you both like eating chicken sandwiches. Since you and your friend have similar tastes, your friend may then be able to suggest to you another food dish that you might enjoy such as duck with rice. Collaborative filtering uses the same concept, but usually on a larger scale. 
 
 \begin{figure}
 \centering
@@ -13,30 +24,9 @@ Collaborative filtering (CF) is a popular technique that has been successfully u
 
 Users express their preferences for a variety of items through ``ratings" which can be in different forms such as 1-5 star ratings, or binary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) triplet. These ratings can be represented in the form of a matrix, where the rows of the matrix are users, the columns of the matrix are items, and the ratings are represented inside the matrix (See Figure \ref{fig:matrix}). Since the matrix contains sets of rating triplets, the (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix is usually sparse.
 
-Since the matrix can be sparse, collaborative filtering can struggle when there are not enough ratings to provide accurate recommendations to users. Sparse ratings can also lead to another issue called the ``Cold Start' problem, where ratings for new items or new users have not yet been collected. 
+Since the matrix can be sparse, collaborative filtering can struggle when there are not enough ratings to provide accurate recommendations to users. Sparse ratings can also lead to another issue called the ``Cold Start' problem, where ratings for new items or new users have not yet been collected. In this context, content-based filtering is superior \cite{koren2009matrix}. However, the advantage of collaborative filtering is that it does not require domain knowledge of items or users to provide recommendations. It focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering once the active user has rated enough items \cite{koren2009matrix, schafer2007collaborative}. 
 
-% THIS CAN BE A SECTION IN DESIGN DECISIONS?
-\todo{Add Content based filtering description}
-% \textcolor{red}{TODO: Take this out or leave in?}
-
-% In this context, content-based filtering is superior \cite{koren2009matrix}.
-
-% The advantage of collaborative filtering is that it does not require domain knowledge of items or users to provide recommendations. It purely focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering \cite{koren2009matrix, schafer2007collaborative}. 
-
-% Collaborative filtering is preferred over content based filtering, a technique where items are recommended based on learning users preferences from previous rating patterns of the user, and recommending similar items based on the attributes of those items. Additionally, content based filtering is prone to recommending only a small subset of items, since it recommends items based on attributes of the items, leading to overspecialization thus restricting variety \cite{toward}. Another problem of content-based filtering is that it is difficult to extract features from the items and users, and manually labelling these features may not be practical \cite{toward}. Traditional collaborative filtering are able to address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. For these reasons, we chose to not address content-based filtering, but explain it because hybrid collaborative filtering approaches use it. 
-
-Using the matrix, a list of top N recommendations is usually given to the user representing the items they will like, computed through collaborative filtering techniques. For example, the active user may be recommended 10 food dishes that might be of interest to them whenever they log into WOTM.  
-
-% \textcolor{red}{TODO: Take this out or leave in?}
-
-% Collaborative filtering is preferred over content based filtering, a technique where items are recommended based on learning users preferences from previous rating patterns, recommending items based on the attributes and the preferences learnt from the user profile. Additionally, content based filtering is prone to recommending only a small subset of items, since it recommends items based on attributes of the items, leading to overspecialization thus restricting variety \cite{toward}. Another problem of content-based filtering is that it is difficult to extract features from items and users, and manually labelling these features may not be practical \cite{toward}. 
-
-
-% The advantage of collaborative filtering is that it does not require domain knowledge of items or users to provide recommendations. It purely focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering \cite{koren2009matrix, schafer2007collaborative}. 
-
-% Traditional collaborative filtering are able to address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. However, in the 'cold start' problem, content-based filtering is superior than collaborative filtering because it does not rely on the opinion of other users \cite{koren2009matrix}.
-
-% For these reasons, we chose to not address content-based filtering, but explain it because hybrid collaborative filtering approaches use it. 
+Using the matrix, a list of top N recommendations is usually given to the user representing the items they will like, computed through collaborative filtering techniques. For example, the active user may be recommended 10 food dishes that might be of interest to them whenever they log onto WOTM.  
 
 There are three main areas of CF, these areas are memory-based CF techniques, model-based CF techniques, and hybrid-based CF techniques. In this project, we will be examining in particular, the neighbourhood methods which are a form of memory-based CF techniques, and latent factor models which are a form of model-based CF techniques \cite{survey, koren2009matrix}. Neighbourhood methods, and Latent factor models will be explained in the following sections. 
 

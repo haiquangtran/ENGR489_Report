@@ -138,3 +138,13 @@ Since SVD works by capturing latent factors of users and items using feature vec
 \todo{explain implementation details?}
 
 
+\section{Hybrid Collaborative Filtering}
+\todo{Hybrid Collaborative filtering}
+
+\todo{Add an image of the engine}
+
+In this section, we extend the following algorithm of merginging the results from SVD ALS using Like and Dislike events by adding a content-boosted algorithms to the algorithm. Food dishes contain metadata that is abundant, especially at the granularity of the food dishes that WOTM will provide. A food dish, for example, may contain ingredients, a food type, a meat type, and a cuisine type. On a higher level, food dishes may be associated with a restaurant, a type of category, or a type of location where it is purchased. Because WOTM is currently in beta, only broad granularity of the food dishes have bee specified: food type, meat type, and cuisine type. This meta data is sent to the recommendation engine along with the food dishes so content-based filtering can be applied. In the context of the first iteration for the WOTM application, users will be able to explicitly specify their preferences (Meat type, Food type, Cuisine) before they start getting recommendations. As mentioned in the background section \todo{do this section}, collaborative filtering suffers from the cold start problem when the ratings matrix is sparse \todo{(Although SVD takes advantage of sparsity)}. In these cases, content-based filtering should be applied. \todo{Since users explicitly label their preferences, these can be used to add a rating score based upon how many of the items each dish contains of the users preferences. In this case, we used a score of 0.1 but should ideally be changed accordingly}. When the SVD ALS algorithm lacks rating information (user feature vector), then content-based filtering will take over, alleviating the cold start problem. When the user has rated enough food dishes for SVD ALS to provide recommendations, then these content-based scores act as content-boosters which add more personalised recommendations based on the users preferences. In this way, recommendations are given to users.
+
+\todo{Negative preferences, explain positive preferences etc etc }
+\todo{explain heaps of other shit as well}
+

@@ -130,6 +130,14 @@ To prevent this, the idea is to use a regularized model that is used to generali
 
 The main purpose of Alternating Least Squares (ALS) is to find the minimum error from equation \ref{eq:2}, which is used to learn the factors in each of the vectors based on the rating matrix. ALS works to find the item and user vectors by initializing the vectors with random values depending on how many factors are specified. From this, it fixes values of one of the vectors first such as the item vector, then computes and reassigns values of the user vector according to the minimization equation, shown as equation \ref{eq:2} above. After this, it alternates - the user vector values are now fixed, and the re-computation of the item feature values occur, trying achieve the result of the smallest value for the minimization equation. This technique keeps alternating between fixing the vector values, until there is a convergence where the values in the two vectors no longer change the minimization equation, or there is small changes, hence the name Alternating Least Squares. This is used to find the minimum error from the equation mentioned above and to learn the factors in each of the vectors. 
 
+\subsection{Hybrid-based Collaborative Filtering}
+\todo{Consider redoing this}
+For traditional collaborative filtering techniques, they mainly suffer from the cold start problem from the sparsity of ratings in the user ratings matrix \todo{reference}. Matrix factorization techniques also may suffer from problems such as the curse of dimensionality \todo{Curse of dimensionality?}. Content-basd filtering techniques generally provide good recommendations, and are superior in this context, however, suffer from providing recommendations that are predictable and are restricted to content that is similar, thus, making factors such as novelty or serendipity non-existent. For these reasons, hybrid collaborative filtering approaches have been used. There are many approaches to hybrid-collaborative filtering appraoches, but typically range from using collaborative filtering and content-based filtering in order to alleviate the disadvantages, and complement instead. The following are techniques which can be found in \todo{cite the link yo}
+\subsubsection{Mix and Match}
+\subsubsection{Content-boosted filtering}
+\subsubsection{Switch}
+\todo{yadadadada}
+
 \section{Related Work}
 
 The term ``collaborative filtering' was first introduced in \citeyear{goldberg1992using} by \citeauthor{goldberg1992using} to describe the technique used in Tapestry, one of the earliest known recommender systems \cite{koren2009matrix,  goldberg1992using, itembased, survey}.

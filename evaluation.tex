@@ -232,49 +232,24 @@ In this section we present the results of the experiments described in Section \
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{images/single_vs_dual.png}
-\caption{Recommendation Accuracy from variation of ALS algorithm ran over 30 times.}
+\caption{Recommendation Accuracy from variation of ALS algorithm ran 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
-dual SVD algorithms with likes and dislikes (percentages):
 
---------------RESULTS ------------------------------ \newline
-        Ran 30 times, averages are below: \newline
----------------------------------------------------- \newline
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{images/results_tuning.png}
+\caption{Averaged results ran 30 times with the same optimal parameters (contaminated).}
+\label{fig:results}
+\end{figure}
 
-
-        classification accuracy: 86.10285006195787 \newline
-        correct instances: 463.23333333333335 \newline
-        incorrect instances: 74.76666666666667 \newline
-        area under curve: 90.44032144829546 \newline
-        precision: 95.72799654317909 \newline
-        recall: 86.61883954220951 \newline
-        top N precision: 27.149938042131353 \newline
-        N value: 10 \newline
-        true positive: 146.06666666666666 \newline
-        false positive: 391.93333333333334 \newline
-        
------------------------------------------------------ \newline
-
-single SVD algorithm with likes and dislikes (percentages):
-
---------------RESULTS --------------------------------- \newline
-        Ran 30 times, averages are below: \newline
--------------------------------------------------------    
-
-recommendation accuracy: 81.56753407682776 \newline
-        correct instances: 438.8333333333333 \newline
-        incorrect instances: 99.16666666666667 \newline
-        area under curve: 85.39599277912728 \newline
-        precision: 87.38016244805067 \newline
-        recall: 87.55416740842925 \newline
-        top N precision: 26.412639405204466 \newline
-        N value: 10 \newline
-        true positive: 142.1 \newline
-        false positive: 395.9 \newline
-        
-        
--------------------------------------------------------- \newline
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{images/single_als_30_runs.png}
+\caption{Averaged results ran 30 times.}
+\label{fig:single_algorithm}
+\end{figure}
 
 \todo{Check this - massive Brain dump to get content down (probably wrong as well)}
 From running these algorithms multiple times, it is clear that the results give similar results. 

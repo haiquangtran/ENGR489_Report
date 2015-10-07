@@ -31,7 +31,7 @@ The main advantage of using PredictionIO is that engines can be easily swapped o
 
 Additionally, these engines implement a DASE architecture. DASE stands for Data, Algorithms, Serving, and Evaluator. These components are considered to be independent in the engine which allows for separation of concerns. Implementation of various algorithms can be applied at the Algorithms stage, and enables results from the various algorithms to be combined at the Serving stage to produce hybrid CF approaches for recommendations.
 
-PredictionIO already contains a range of customizable engines, including engines that use SVD techniques for CF. The PredictionIO community is active and new engines are frequently being produced. There is concise documentation in addition to support available. For these reasons, we found PredictionIO to be our best candidate and decided to use it. 
+PredictionIO already contains a range of customizable engines, including engines that use ALS techniques for CF. The PredictionIO community is active and new engines are frequently being produced. There is concise documentation in addition to support available. For these reasons, we found PredictionIO to be our best candidate and decided to use it. 
 
 % \subsection{Online Learning vs Offline Learning}
 
@@ -86,11 +86,11 @@ This section explains what has been implemented according to the design decision
 
 \subsection{Latent Factor Models}
 
-PredictionIO \cite{predictionio} provides many template engines, some of which use CF algorithms to make recommendations to users. In particular, there is a template engine that uses Singular Value Decomposition, learning user preferences based on previous rating patterns. This engine is called the ``E-Commerce Recommendation Engine", and will be built upon to suit our user case. The following section explains the E-Commerce Recommendation Engine and the changes that have been made to it for this project. 
+PredictionIO \cite{predictionio} provides many template engines, some of which use CF algorithms to make recommendations to users. In particular, there is a template engine that uses Alternating Least Squares, learning user preferences based on previous rating patterns. This engine is called the ``E-Commerce Recommendation Engine", and will be built upon to suit our user case. The following section explains the E-Commerce Recommendation Engine and the changes that have been made to it for this project. 
 
 \subsubsection{E-Commerce Recommendation Engine}
 
-The E-Commerce Recommendation Engine is written in the programming language Scala and is made to provide personalised recommendations for e-commerce applications. This engine uses Singular Value Decomposition which is a model-based CF technique. This means that the model trains on the users rating patterns to learn about recommendations that the users may be interested in. Training occurs offline. The engine also comes with the following out of the box functionality \cite{predictionio}.
+The E-Commerce Recommendation Engine is written in the programming language Scala and is made to provide personalised recommendations for e-commerce applications. This engine uses Alternating Least Squares which is a model-based CF technique. This means that the model trains on the users rating patterns to learn about recommendations that the users may be interested in. Training occurs offline. The engine also comes with the following out of the box functionality \cite{predictionio}.
 \begin{enumerate}
  \item Exclude out-of-stock items
  \item Provide recommendation to new users who sign up after the model is trained
@@ -98,14 +98,15 @@ The E-Commerce Recommendation Engine is written in the programming language Scal
  \item Recommend popular items if no information about the user is available
 \end{enumerate}
 
-% TODO: REDO THIS
 \todo{Redo this}
 Default events in the engine are view events and purchase events.
 Since ``view" and ``purchase" ratings are implicit events and not explicit events such as Likert scaled ratings from values 1-5, the implicit events have to be represented differently in the ratings matrix. An implicit event such as ``view" or ``purchase" event maps to a binary preference value of 1. Missing events map to a binary preference value of 0. 
 
 A binary preference value of 1 indicates that the user likes the item, and a binary preference of 0 indicates no preference for the user. Additionally, implicit events also have a confidence value associated with it. These confidence values represent the confidence levels of the binary preference values being true. In this case, preference values for the ``view" and ``purchase" events correlate to the value of 1. Multiple identical events such as a user viewing the same item multiple times correlate to higher confidence levels since the confidence level is an aggregation of preference values. This means that there is a higher confidence level that the binary preference value is true, in this case, that the user will like the item because the user viewed or purchased the same item multiple times, recommendations taking this into account \todo{how? how can this be calculated?}. 
 
-Singular Value Decomposition is then used with the same steps in equation \ref{eq:2}, except with a different minimization equation that considers the implicit events. This minimization equation is for implicit events which is the following \cite{implicit}.
+\todo{Move this to the Hybrid Section}
+
+Alternating Least Squares is then used with the same steps in equation \ref{eq:2}, except with a different minimization equation that considers the implicit events. This minimization equation is for implicit events which is the following \cite{implicit}.
 
 \begin{equation}\label{eq:3}\tag{3}
 \displaystyle min_{q*,p*} \sum_{ (u,i) \in K} c_{ui}(b_{ui} - q_{i}^T p_{u})^2 + \lambda (\| q_{i} \|^2 + \| p_{u} \|^2 )
@@ -123,28 +124,34 @@ This model recommends dishes to users as soon as they have liked a dish. These r
 
 \todo{do yo use Cui?}
 
-\section{Event Variations with SVD}
+\section{Event Variations with ALS}
 
-The use of different events can influence the recommendations that are provided by the system. For example, using multiple explicit ratings such as Likes and Dislikes could affect the SVD algorithm. To understand how different events affect the recommender system, we implement variations of rating information is used with the SVD algorithm.
+The use of different events can influence the recommendations that are provided by the system. For example, using multiple explicit ratings such as Likes and Dislikes could affect the ALS algorithm. To understand how different events affect the recommender system, we implement variations of rating information is used with the ALS algorithm.
 
-\subsection{\todo{SVD with Like events}}
+\todo{Are these names good enough?}
+\todo{Should I State this in a pilot study, and then in the actual experiment compare only DUAL ALS vs Hybrid?}
+\subsection{\todo{Single ALS approach}}
 
-\subsection{\todo{SVD with Like and Dislike Events}}
+\todo{Add image}
 
-\subsection{Merging results from SVD with Like and Dislike events} 
+The Single ALS algorithm uses the model described in the modifications from the previous section. It contains a single ALS algorithm which is used to learn the latent feature vectors from the ``Like" and ``Dislike" events. In this model, a ``Like" event is represented in the recommender system by a value of 1.0, where as the ``Dislike" event is represented by a value of -1.0. \todo{Check whether it corresponds to 0 or not}. Since ALS works by capturing latent factors of users and items using feature vectors, having the Like events and Dislike events in the same model may correlate with each other, however, may be affected by the proportion of events since they are positive (likes) and negative (dislike) events. For example, if there is a larger amount of users that have disliked a specific item compared to the number of likes, the feature vector captured by that item may all correlate to negative values in the feature space. This may lead to inaccurate recommendations, where having another event such as ``Dislikes" actually deviates away from the main goal and can cause noisy information in the algorithm. For this reason, a more pratical approach in theory, would be to separate the different events in an independent ALS algorithm, and then combine the results from both algorithms at the end of the computation phase. In the next system (Dual ALS), we explore this theory to see if it is able to correlate the ``Like" and ``Dislike" events of users, testing whether this provides more accurate personalised recommendations to the user. 
 
-Since SVD works by capturing latent factors of users and items using feature vectors, having the Like events and Dislike events in the same model, may correlate with each other but thus, be affected by the proportion of events since they are positive (likes) and negative (dislike) events. For example, if there is a larger amount of users that have disliked a specific item compared to the number of likes, the feature vector captured by that item may all correlate to negative values in the feature space. This may lead to inaccurate recommendations, where having another event such as ``Dislikes" actually deviates away from the main goal and can cause noisy information in the algorithm. For this reason, a more pratical approach in theory, would be to separate the different events in an independent SVD algorithm, and then combine the results from both algorithms at the end of the computation phase. We achieve this by defining a ``Like" and ``Dislike" with a value of 1.0. By defining positive values for ``Like" and ``Dislike" events, the idea is that the corresponding SVD algorithm will be able to recommend items that strongly correlate to the specfic event at the top. In this case, the algorithm corresponding to like events will display the top liked items for the active user, and the algorithm corresponding to the dislike events will display the top disliked items for the active users. We can then discount all the disliked recommendations from the list of liked recommendations, to provide higher accuracy with the users. 
+\subsection{Dual ALS approach} 
+\todo{Explain the implicit event equation}
+
+This model differs from the Single ALS approach as it separates the ``Like" events from the ``Dislike" events in separate models, then merges the results to try and find a correlation between these events from the user, resulting the final recommendation list. We achieve this by defining a ``Like" and ``Dislike" corresponding to positive values of 1.0. Since recommendations are based on the learnt latent factors from the ratings given (Likes & Dislike), each model with provide the highest predicted scores of items based on the single rating event (Like or Dislike). By separating the events into two separate models, one model is able to predict the most ``Liked" dishes, while the other model is able to predict the most ``Disliked" dishes. By defining positive values for ``Like" and ``Dislike" events, the models predicted ``Disliked" dishes and ``Liked" dishes will provide positive scores for each item. Therefore, we merge these scores at the Serving phase (See Figure \todo{Display image}) where the ``Disliked" item scores are subtracted from the ``Liked" item scores. The idea is that the Dual ALS algorithm will be able to recommend items that strongly correlate with both events from the users since the final recommendation list will contains food dishes where the predicted ``Disliked" food items have been negated from the recommendations list. In theory, this should provide more accurate recommendations.
 
 \todo{explain implementation details?}
 
 
-\section{Hybrid Collaborative Filtering}
-\todo{Hybrid Collaborative filtering}
+\section{Hybrid ALS approach}
 
 \todo{Add an image of the engine}
 
-In this section, we extend the following algorithm of merginging the results from SVD ALS using Like and Dislike events by adding a content-boosted algorithms to the algorithm. Food dishes contain metadata that is abundant, especially at the granularity of the food dishes that WOTM will provide. A food dish, for example, may contain ingredients, a food type, a meat type, and a cuisine type. On a higher level, food dishes may be associated with a restaurant, a type of category, or a type of location where it is purchased. Because WOTM is currently in beta, only broad granularity of the food dishes have bee specified: food type, meat type, and cuisine type. This meta data is sent to the recommendation engine along with the food dishes so content-based filtering can be applied. In the context of the first iteration for the WOTM application, users will be able to explicitly specify their preferences (Meat type, Food type, Cuisine) before they start getting recommendations. As mentioned in the background section \todo{do this section}, collaborative filtering suffers from the cold start problem when the ratings matrix is sparse \todo{(Although SVD takes advantage of sparsity)}. In these cases, content-based filtering should be applied. \todo{Since users explicitly label their preferences, these can be used to add a rating score based upon how many of the items each dish contains of the users preferences. In this case, we used a score of 0.1 but should ideally be changed accordingly}. When the SVD ALS algorithm lacks rating information (user feature vector), then content-based filtering will take over, alleviating the cold start problem. When the user has rated enough food dishes for SVD ALS to provide recommendations, then these content-based scores act as content-boosters which add more personalised recommendations based on the users preferences. In this way, recommendations are given to users.
+\todo{REDO - this is horrible}
+
+In this section, we extend the Dual ALS algorithm by taking into account the user preferences of attributes in a food dish, creating a content-boosted hybrid CF system. Food dishes contain metadata that is abundant, especially at the granularity of the food dishes that WOTM will provide. A food dish, for example, may contain ingredients, a food type, a meat type, and a cuisine type. On a higher level, food dishes may be associated with a restaurant, a type of category, or a type of location where it is purchased. Because WOTM is currently in beta, only broad granularity of the food dishes have been specified: food type, meat type, and cuisine type. This meta data is sent to the recommendation engine along with the food dishes so content-based filtering can be applied. In the context of the first iteration for the WOTM application, users will be able to explicitly specify their preferences (Meat type, Food type, Cuisine) before they start getting recommendations. As mentioned in the background section \todo{do this section}, collaborative filtering suffers from the ``Cold Start" problem when the ratings matrix is sparse \todo{(Although ALS takes advantage of sparsity)}. In these cases, content-based filtering can alleviate the ``Cold Start" problem. \todo{Since users explicitly label their preferences, these can be used to add a rating score based upon how many of the items each dish contains of the users preferences. In this case, we used a score of 0.1 but should ideally be changed accordingly}. When the ALS ALS algorithm lacks rating information (user feature vector), then content-based filtering will take over, alleviating the cold start problem. When the user has rated enough food dishes for ALS ALS to provide recommendations, then these content-based scores act as content-boosters which add more personalised recommendations based on the users preferences. In this way, more personalised recommendaitons are given to users on the addition of the food dish attributes.
 
 \todo{Negative preferences, explain positive preferences etc etc }
-\todo{explain heaps of other shit as well}
+\todo{explain heaps of other stuff as well}
 

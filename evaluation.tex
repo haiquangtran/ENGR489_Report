@@ -232,12 +232,17 @@ From running these algorithms multiple times, it is clear that the results give 
 \subsection{Recommendation Accuracy}
 Recommendation accuracy is the most suitable for the use case of ``Find Good Items". From the results, the hybrid collaborative filtering seems to provide the highest accuracy in this case. The preferences from each user describing the attributes the user likes and dislikes, provides extra information to the recommender system, thus resulting in the higher accuracy. However, this information may not be available. \todo{Hybrid achieved x accuracy}. The dual algorithm was able to provide more accurate predictions than the single algorithm. This validates objective \todo{do this} where the dual algorithm was able to correlate the events of likes and dislikes better than use of the single algorithm.
 
-\subsection{Precision}
+\subsection{Overall Precision}
+\todo{Need to rewrite}
+The precision is computed by iterating over the test set containing the rated items from the users, checking the whether the recommender system can accurately predict whether the test point is liked by the user, or disliked by the user. In terms of the goal of ``Find Good Items", precision looks at all of the recommended items from the recommender system, for completeness. From the results, Dual ALS was able to achieve a higher precision over the Single ALS approach over multiple runs (30). Dual ALS was able to achieve an average precision of 95.73\%, while Single ALS achieved an average precision of 87.38\%. This means the Dual ALS approach was able to more accurately recommend items the user preferred rather than the Single ALS. Since the average precision of the Single ALS is lower, it means that the recommender system recommended more items that users indicated they disliked (false positives).
 
 \subsection{Recall}
+\todo{Need to rewrite}
+In the context of this project, Recall measures the fraction in which liked food dishes for each specific user is successfully recommended to the user. Essentially, it determines the sensitivity as it measures how many of the liked food dishes are recommended out of the total amount of actual liked food dishes by users. \todo{Fix this. Recall is closely related to Precision and their is usually a tradeoff between the two, since recall measures the amount of good items recommended, and precision measures the amount of disliked items that are recommended.} \todo{Need to add more}
 
 \subsection{Precision at top N (10)}
-
+\todo{Need to rewrite}
+In addition to the overall precision, we decide to measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. The reason why we decided to see this, is because it is suited towards providing insight about how users may perceive the recommendation algorithm in a commercial environment. For example, in an offline evaluaiton, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
 
 \section{Analysis}
 \todo{TAKE THIS OUT?}
@@ -301,7 +306,7 @@ Cleanse these cases to give better predictions
 
 \section{Discussion}
 
-
+Overall, Dual ALS is performs better than single ALS in the context of using binary events.
 % \section{\todo{Offline evaluation}}
 % OFFLINE EVALUATION
 % \todo{directly from design decisions}

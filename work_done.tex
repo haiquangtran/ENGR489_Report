@@ -128,13 +128,17 @@ This model recommends dishes to users as soon as they have liked a dish. These r
 
 The use of different events can influence the recommendations that are provided by the system. For example, using multiple explicit ratings such as Likes and Dislikes could affect the ALS algorithm. To understand how different events affect the recommender system, we implement variations of rating information is used with the ALS algorithm.
 
+
 \todo{Are these names good enough?}
 \todo{Should I State this in a pilot study, and then in the actual experiment compare only DUAL ALS vs Hybrid?}
+
 \subsection{\todo{Single ALS approach}}
 
 \todo{Add image}
 
 The Single ALS algorithm uses the model described in the modifications from the previous section. It contains a single ALS algorithm which is used to learn the latent feature vectors from the ``Like" and ``Dislike" events. In this model, a ``Like" event is represented in the recommender system by a value of 1.0, where as the ``Dislike" event is represented by a value of -1.0. \todo{Check whether it corresponds to 0 or not}. Since ALS works by capturing latent factors of users and items using feature vectors, having the Like events and Dislike events in the same model may correlate with each other, however, may be affected by the proportion of events since they are positive (likes) and negative (dislike) events. For example, if there is a larger amount of users that have disliked a specific item compared to the number of likes, the feature vector captured by that item may all correlate to negative values in the feature space. This may lead to inaccurate recommendations, where having another event such as ``Dislikes" actually deviates away from the main goal and can cause noisy information in the algorithm. For this reason, a more pratical approach in theory, would be to separate the different events in an independent ALS algorithm, and then combine the results from both algorithms at the end of the computation phase. In the next system (Dual ALS), we explore this theory to see if it is able to correlate the ``Like" and ``Dislike" events of users, testing whether this provides more accurate personalised recommendations to the user. 
+
+\subsubsection{\todo{Item based approach? (Undecided)}}
 
 \subsection{Dual ALS approach} 
 \todo{Explain the implicit event equation}

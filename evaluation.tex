@@ -2,58 +2,31 @@
 
 \section{Objectives}
 
-In this experiment, we aim to compare a latent factor approach to collaborative filtering with a item-based collaborative filtering approach and a hybrid collaborative filtering approach. The main objectives are to answer the following questions:
-\todo{All these questions need to change}
+In this experiment, we aim to compare a latent factor approach to collaborative filtering with a hybrid collaborative filtering approach for the goal of ``Finding Good Items". The main objectives are to answer the following questions:
+\todo{CHANGE: All these questions need to change}
 \begin{itemize}
-	\item{Do dislike events add value to the results to a latent factor model CF approach}
+	\item{Can collaborative filtering provide personalised recommendaitons to users for the use case of ``Find Good Items"?}
 	\item{What are the best variations of using like and dislike events for a latent factor CF approach}
 	\item{Do using user preferences add value to collaborative filtering}
 	\item{Is item similarity CF more accurate than user based for latent factor models}
 	\item{Is hybrid CF more accurate than user based for latent factor models}
-	\item{Does filtering recommendations by a black list more accurate for latent factor models}
-	\item{Does filtering based on preferences of the user, more accurate for latent factor models}
+	\item{Is filtering recommendations by a black list more accurate for latent factor models}
+	\item{Is filtering based on preferences of the user, more accurate for latent factor models}
 \end{itemize}
-
-\subsection{Threats to Validity}
-\begin{itemize}
-	\item{The survey questions - need to ask the right questions and about how you ask the question.}
-	\item{Offline experiment may not be enough, users may feel different}
-	\item{Contradictions in the data and participation}
-	\item{Proportion of items and user}
-	\item{The labelling of data, removing the location, price etc}
-	\item{The amount of users, and the amount of ratings, and the amount of items. Variety of food choices for vegans etc. }
-	\item{The participants recruited - need to be more generalised (Mainly from students)}
-	\item{Tuning the parameters? or unbiased datasets}
-	\item{Online evaluation - novelty, serependity, etc, how can users give opinions about items they've never tried before}
-	\item{Density and sparsity of the matrix}
-\end{itemize}
-
-
-% \todo{From design decisions}
-% Not enough representation of vegans or vegetarians
-% Not enough vegetarian or vegan dishes. 
-% This may cause recommendations to be minimal etc.
-% Also meat lovers may overpower the items?
-% Noticed that Vegetarians all rated items with meat as “HATE” this could affect the overall predictions for SVD?
-% May not be linearly separable?
-% People may not fill in survey correctly.
-% Some people may have filled out dishes that they haven't tried before. This could affect the results because often what people do is different to what they think. 
-% There were cases where people filled out the form inaccurately, such that they chose random dishes. We know this because there are cases where someone states that they are “vegetarians” but then say they like “meat” etc.
-% Cleanse these cases to give better predictions
-
 
 \section{Design}
 
 \todo{talk about an overview here?}
-The goal of the experiment is to provide personalised food dish recommendations to users in regard to the ``find good items" use case. A survey was given to participants capturing their food preferences and how they felt about specific food dishes. This data was used for an offline experiment to compare algorithms. For the use case ``find good items" we use several evaluation metrics: accuracy, precision, recall, and Top-N precision. These metrics are used in an offline experiment, however, an online experiment with the existing system should be conducted in future to validate the results. 
+The goal of the experiment is to provide personalised food dish recommendations to users in regard to the ``Find Good Items" use case. A survey was given to participants capturing their food preferences and how they felt about specific food dishes. This data was used for an offline experiment to compare algorithms. We use use quantitative results from the survey to evaluate the performance of the algorithms in regards to the goal of ``Find Good Items". The quantitative results consist of the following evaluation metrics: accuracy, precision, recall, and precision at top N (10). These metrics are used in an offline experiment, however, an online experiment with the existing system should be conducted in future to validate the results. 
 The following sections details the design of the experiment, the reasoning behind the metrics used, and the results. 
 
-\todo{is it quantitative or qualitative data?}
 \subsection{Setup/Tools}
-\todo{Is this section even needed?}
 The following equipment was used to run the experiment:
 \begin{itemize}
-	\item{Intel Core X}
+	\item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
+	\item{NVIDIA Corporation GM107GL 1gb graphics card}
+	\item{\todo{DDR3 8gb RAM}}
+	\item{Arch x86_64 GNU/Linux Operating System}
 \end{itemize}
 
 \subsection{Participants}
@@ -204,10 +177,12 @@ Precision at N looks at the top recommendations list, and sees how many true lik
 % and content domain.
 
 \subsubsection{ROC Curves}
-\todo{Prob not worth explaining ROC curves?}
+\todo{redo}
+In the context of this project, Receiver Operating Characteristic (ROC) curves are used to visualise all the possible thresholds on a graph displaying how well a model is able to distinguish recommendations that the user will like or dislike. The True Positive (TP) rate which is the y-axis, shows the sensitivity of the model. This means that it shows the fraction in which liked items by specific users are correctly recommended to the users. The False Positive (FP) rate which is the x-axis, shows the fraction in which disliked items by specific users are incorrectly recommended as items they would like. 
 
-\section{Online Evaluation or User Study}
-\todo{Should this be here? Explain why online evaluation is needed, and why we could not do it (since it requires a preset of ratings).}
+\subsubsection{Area Under The Curve}
+\todo{Explain this}
+
 
 \subsection{Method}
 
@@ -255,13 +230,13 @@ In this section we present the results of the experiments described in Section \
 From running these algorithms multiple times, it is clear that the results give similar results. 
 
 \subsection{Recommendation Accuracy}
-Recommendation accuracy is the most suitable for the use case of ``Find Good Items". From the results, the hybrid collaborative filtering seems to provide the highest accuracy in this case. The preferences from each user describing the attributes the user likes and dislikes, provides extra information to the recommender system, thus resulting in the higher accuracy. However, this information may not be available. \todo{Hybrid achieved x accuracy}. The dual algorithm was able to provide more accurate predictions than the single algorithm. This validates the hypothesi where the dual algorithm was able to correlate the events of likes and dislikes better than use of the single algorithm.
+Recommendation accuracy is the most suitable for the use case of ``Find Good Items". From the results, the hybrid collaborative filtering seems to provide the highest accuracy in this case. The preferences from each user describing the attributes the user likes and dislikes, provides extra information to the recommender system, thus resulting in the higher accuracy. However, this information may not be available. \todo{Hybrid achieved x accuracy}. The dual algorithm was able to provide more accurate predictions than the single algorithm. This validates objective \todo{do this} where the dual algorithm was able to correlate the events of likes and dislikes better than use of the single algorithm.
 
-\subsection{Precision over all items}
+\subsection{Precision}
 
 \subsection{Recall}
 
-\subsection{Precision at top N}
+\subsection{Precision at top N (10)}
 
 
 \section{Analysis}
@@ -298,7 +273,31 @@ With the current amount of data, it seems that using a smaller latent size affec
 % that have the live systems and resources for such evaluation.
 
 % Deploying innovative recommenders is still too hard, and there is a substantial need for research platforms where innovations can be tested without first building up a community of thousands of users. 
-
+\todo{Write this whole section}
+\todo{Rewrite all of these points into sentences}
+\begin{itemize}
+	\item{Offline experiment may not be enough, users may feel different}
+	\item{Contradictions in the data and participation}
+	\item{Proportion of items and user}
+	\item{The labelling of data, removing the location, price etc}
+	\item{The amount of users, and the amount of ratings, and the amount of items. Variety of food choices for vegans etc. }
+	\item{The participants recruited - need to be more generalised (Mainly from students)}
+	\item{Tuning the parameters? or unbiased datasets}
+	\item{Online evaluation - novelty, serependity, etc, how can users give opinions about items they've never tried before}
+	\item{Density and sparsity of the matrix}
+	\item{The survey questions - need to ask the right questions and about how you ask the question.}
+\end{itemize}
+\todo{From design decisions}
+Not enough representation of vegans or vegetarians
+Not enough vegetarian or vegan dishes. 
+This may cause recommendations to be minimal etc.
+Also meat lovers may overpower the items?
+Noticed that Vegetarians all rated items with meat as “HATE” this could affect the overall predictions for SVD?
+May not be linearly separable?
+People may not fill in survey correctly.
+Some people may have filled out dishes that they haven't tried before. This could affect the results because often what people do is different to what they think. 
+There were cases where people filled out the form inaccurately, such that they chose random dishes. We know this because there are cases where someone states that they are “vegetarians” but then say they like “meat” etc.
+Cleanse these cases to give better predictions
 
 \section{Discussion}
 

@@ -125,12 +125,18 @@ Each algorithm has several parameters which influences the way it performs on fi
 We use standard 10-fold cross validation to determine the optimal parameters. In the context of this project, the goal of k-fold cross validation is used to determine a model with optimised parameters during the training phase which will limit problems of over-fitting. 
 
 \todo{May need to reexplain this. difficult to understand?}
-The technique used to find the optimal parameters is k-fold cross validation. K-fold cross validation consists of partitioning the dataset, in our case, the training set into k equal sized subsets. We randomise the training set before partitioning the set into k subsets. A subset from the k subsets is then selected as the validation data, and the remaining subsets (k-1) are used as the training data. Evaluation metrics are then calculated. This is repeated k times where each subset is used as the validation subset exactly once, and the results from the metrics are averaged to determine how good the parameters are for that run. This process is then repeated multiple times with different parameters, the optimal parameters being chosen for the final evaluation. K-fold cross validation was chosen as it considers the variance in the data by averaging the results, and uses each data point exactly once, mitigating results the likelihood of lucky one-off results. In addition, it reduces the likelihood of overfitting. 
+K-fold cross validation consists of partitioning the dataset, in our case, the training set into k equal sized subsets. We randomise the training set before partitioning the set into k subsets. A subset from the k subsets is then selected as the validation data, and the remaining subsets (k-1) are used as the training data. Evaluation metrics are then calculated. This is repeated k times where each subset is used as the validation subset exactly once, and the results from the metrics are averaged to determine how good the parameters are for that run. This process is then repeated in multiple runs with different parameters, then the optimal parameters are chosen for the final evaluation. 
+\todo{Sorry OK?}
+\todo{
+K-fold cross validation was chosen as it considers the variance in the data by averaging the results, and uses each data point exactly once, mitigating results the likelihood of lucky one-off results. In addition, it reduces the likelihood of overfitting. 
+}
+\todo{Add the main goal of K-fold which is to evaluate an overall system}
 
-\subsubsection{Recommendation Accuracy}
+\subsubsection{\todo{Recommendation} Accuracy}
 
-In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision end users make in a real world scenario where decisions are based on binary recommendations such as acceptance or rejection \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation}. Therefore, we use recommendation accuracy as a metric since our goal is to ``Find Good Items".\todo{figure out where to put this} For recommendation algorithms that output rating predictions, a threshold-cutoff is used to determine is used to determine the good items from the bad items \cite{zhang}.
+In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision end users make in a real world scenario where decisions are based on binary recommendations such as acceptance or rejection \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation}. Therefore, we use recommendation accuracy as a metric since our goal is to ``Find Good Items".\todo{figure out where to put this} For recommendation algorithms that output rating predictions, a threshold-cutoff is used to determine the good items from the bad items \cite{zhang}.
 
+\todo{This part is confusing}
 However, there are caveats to using recommendation accuracy. Recommendation accuracy does not measure the quality of the items recommended as it does not measure the ability of an algorithm to accurately predict ratings, thus, does not focus on the correct ordering of the recommendations list based on the users preference of items. \todo{clarify this, may need to explain more such as deviations etc. Also top-N is not our use case... users could get bored after awhile. we don't care about ranking as long as users like the recs.}. This also means that it does not guarantee the user will see all the liked items in the top-N recommendations list. In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
 
 For these reasons, we use recommendation accuracy with supporting metrics of precision, recall, and precision at N. 
@@ -178,36 +184,37 @@ Precision at N looks at the top recommendations list, and sees how many true lik
 
 \subsubsection{ROC Curves}
 \todo{redo}
-In the context of this project, Receiver Operating Characteristic (ROC) curves are used to visualise all the possible thresholds on a graph displaying how well a model is able to distinguish recommendations that the user will like or dislike. The True Positive (TP) rate which is the y-axis, shows the sensitivity of the model. This means that it shows the fraction in which liked items by specific users are correctly recommended to the users. The False Positive (FP) rate which is the x-axis, shows the fraction in which disliked items by specific users are incorrectly recommended as items they would like. 
+In the context of this project, Receiver Operating Characteristic (ROC) curves \todo{CITE THIS} are used to visualise all the possible thresholds on a graph displaying how well a model is able to distinguish recommendations that the user will like or dislike. The True Positive (TP) rate which is the y-axis, shows the sensitivity of the model. This means that it shows the fraction in which liked items by specific users are correctly recommended to the users. The False Positive (FP) rate which is the x-axis, shows the fraction in which disliked items by specific users are incorrectly recommended as items they would like. 
 
 \subsubsection{Area Under The Curve}
 \todo{Explain this}
 
 
-\subsection{Method}
+\subsection{Method} \label{Method}
 
 \todo{Rewrite all of this. Just check if content is correct.}
 
-The method focuses on two cases. The first focus is finding the optimal parameters for each algorithm to finalise the algorithm that performs best. This will be used for future prediction in an online-study or real scenario to see how real users will respond to each algorithm. The next focus is to compare which algorithm performs the best in an offline evaluation, and in the context of this project.
+The method focuses on two cases. The first focus is finding the optimal parameters for each algorithm to finalise the algorithm that performs best. This will be used for future prediction in an online-study or real scenario to see how real users will respond to each algorithm. The next focus is to compare which algorithm performs the best in an offline evaluation.
 
-For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. Since cross-validation uses each subset as validation data, we retrain the model on the whole training set data with the optimal parameters obtained from the k-fold validation. Using this model, we run it 30 times on the test set computing the recommendation accuracy, the precision, the recall, and the precision at N (10). The results are then averaged over the 30 runs. 
+For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. Since cross-validation uses each subset as validation data, we retrain the model on the whole training set data with the optimal parameters obtained from the k-fold validation. Using this model, evaluation is done on the test set computing the recommendation accuracy, the precision, the recall, and the precision at N (10). The results are then averaged over 30 runs. 
 
 \todo{Check this} Each different run uses the skip-every-10th protocol with an offset, so every test point is used exactly once. This method should give an optimal tuned parameters for future prediction used to finalize the system, however, contains biases in the test data. For these reasons, we do the second method to compare the algorithms, since the test set will not be contaminated with data from the tuning phase.
 
 The second method is essentially the same as the first, except we tune the parameters each run to get the best results. In this way, the test data is uncontaminated and we can use this to compare the different algorithms when they perform at their best. However, this method means that the parameters are not finalized, hence why we do the first method. 
 
+\todo{Which one is used in 4.3?}
 % 1) tune the parameters using the whole data set and then do the normal leave-n out training and testing. (this is what Bing suggested) The parameters are tuned and they are finalized. But the testing has bias because some testing cases might be used in tunning. This method is good to finalize a system so it can be used for future prediction.
 
 % 2) k-fold, for each round, you do training, tuning and testing, so you split the data into three parts. Using this method, the parameters are tuned for each round(you do the tuning for k times), so they are not finalized, so it is not good for predicting, but the testing has no bias.
 
 \section{Experimental Results}
 
-In this section we present the results of the experiments described in Section \ref{Method}. In Section 5.1, we will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commerical/real world environment.  
+In this section we present the results of the experiments described in Section \ref{Method}. We will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commerical/real world environment.  
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{images/single_vs_dual.png}
-\caption{Recommendation Accuracy from variation of ALS algorithm ran 30 times.}
+\caption{Recommendation Accuracy from two variations of the ALS algorithm ran 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
@@ -250,18 +257,6 @@ In the context of this project, Recall measures the fraction in which liked food
 \subsection{Precision at top N (10)}
 \todo{Need to rewrite}
 In addition to the overall precision, we decide to measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. The reason why we decided to see this, is because it is suited towards providing insight about how users may perceive the recommendation algorithm in a commercial environment. For example, in an offline evaluaiton, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
-
-\section{Analysis}
-\todo{TAKE THIS OUT?}
-\subsection{Parameter Tuning}
-\todo{Not sure if this should be included? Usually in reports they do something like this?}
-
-\subsection{\todo{Latent size}}
-\todo{directly from design decisions}
-\todo{Should I include stuff like this in the report?}
-This affects the amount of features that will be used in SVD.
-
-With the current amount of data, it seems that using a smaller latent size affects the accuracy. This is because having a smaller latent size will capture all the ``Strong" patterns from the ratings, as opposed to having a larger number of latent sizes, where the rating patterns are spread across more characteristics, meaning that the feature values for these characteristics will be smaller. More feature vectors -> the smaller the strength of the characteristics that it captures from the previous rating patterns. This may capture quirky characteristics from the users rating patterns...however, Less feature vectors -> the stronger the strength of the characteristics that it captures from the previous rating patterns. 
 
 % \subsection{\todo{Implicit events}}
 % \todo{directly from design decisions}
@@ -312,6 +307,13 @@ There were cases where people filled out the form inaccurately, such that they c
 Cleanse these cases to give better predictions
 
 \section{Discussion}
+
+\subsection{\todo{Latent size}}
+\todo{directly from design decisions}
+\todo{Should I include stuff like this in the report?}
+This affects the amount of features that will be used in SVD.
+
+With the current amount of data, it seems that using a smaller latent size affects the accuracy. This is because having a smaller latent size will capture all the ``Strong" patterns from the ratings, as opposed to having a larger number of latent sizes, where the rating patterns are spread across more characteristics, meaning that the feature values for these characteristics will be smaller. More feature vectors -> the smaller the strength of the characteristics that it captures from the previous rating patterns. This may capture quirky characteristics from the users rating patterns...however, Less feature vectors -> the stronger the strength of the characteristics that it captures from the previous rating patterns. 
 
 Overall, Dual ALS is performs better than single ALS in the context of using binary events.
 % \section{\todo{Offline evaluation}}

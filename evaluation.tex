@@ -24,9 +24,12 @@ The objectives of this report focuses on a base recommendation system that is ab
 
 \section{Design}
 
-\todo{talk about an overview here?}
-The goal of the experiment is to provide personalised food dish recommendations to users in regard to the ``Find Good Items" use case. A survey was given to participants capturing their food preferences and how they felt about specific food dishes. This data was used for an offline experiment to compare algorithms. We use use quantitative results from the survey to evaluate the performance of the algorithms in regards to the goal of ``Find Good Items". The quantitative results consist of the following evaluation metrics: accuracy, precision, recall, and precision at top N (10). These metrics are used in an offline experiment, however, an online experiment with the existing system should be conducted in future to validate the results. 
-The following sections details the design of the experiment, the reasoning behind the metrics used, and the results. 
+\todo{The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case.} CF heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences such as cuisine type, meat type etc. Additionally, the survey asked participants how they felt about food dishes. This data was used for an offline experiment to evaluate the latent factor CF and hybrid CF recommendation systems. \todo{Does this sentence make sense?} Quantitative results based on the survey data were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items". The quantitative results consist of the following evaluation metrics: accuracy, precision, recall, area under the curve the receiving operator curve, and precision at top N (10). 
+
+
+Due to time constraints and the amount of data required to evaluate CF approaches, an online/user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable model for further online or user evaluation. 
+
+\todo{The following sections further detail the design of the experiment, the reasoning behind the metrics used, and the results.}
 
 \subsection{Setup/Tools}
 The following equipment was used to run the experiment:
@@ -39,15 +42,23 @@ The following equipment was used to run the experiment:
 
 \subsection{Participants}
 
-A total of 91 participants were involved in our experiment. Most participants were students from the school of Engineering and Computer Science from Victoria University. \todo{60} students from a first year Computer Science lecture and tutorial at Victoria University were involved in the experiment by filling out surveys capturing their food preferences and their opinions about food dishes. \todo{10} honours and masters students from Victoria University were asked to fill out our surveys. \todo{20} participants were from a Summer of Tech event that was held at Victoria University. The remaining participants were students from around the Computer Science labs at Victoria University.
+A total of 91 participants were involved in the experiment. The majority of participants were students studying at the school of Engineering and Computer Science from Victoria University. An estimated number of 55 students were from a first year Computer Science lecture and tutorial. An estimated number of 10 participants were in their honours or masters year at Victoria University, and an estimated number of 20 participants were from a Summer of Tech event that was held at Victoria University. The remaining participants were students from around the Computer Science labs at Victoria University.
 
-The ages and gender were not captured of the participants due to drawbacks in the ethics process. It is estimated that most participants are students in the age range of 17-24 since most were recruited from the School of Engineering and Computer Science at Victoria University. There may be a minority of students that are over that age range. In addition, it is likely there are more male participants than female participants due to the location of recruitment. Participants were asked to fill out a survey.
+The ages and gender of participants were not captured due to drawbacks in the ethics process. It is estimated the majority of participants are students in the age range of 17-24 since the majority were recruited from the School of Engineering and Computer Science at Victoria University. There may be a minority of participants that are under or over the age range of 17-24, and may not be students. In addition, it is likely there are more male participants than female participants due to the location of recruitment.
 
-\todo{vegetarian users, intolerant users, gluten free users, vegan users etc}
+Participants were asked to fill out surveys capturing their food preferences, food intolerances, and their opinions about food dishes. The following details the data around the participants strict food preferences and collected from the survey:
+\begin{itemize}
+	\item{7\% of participants were vegetarian}
+	\item{5\% of participants were vegan}
+	\item{8\% of participants were intolerant to gluten}
+	\item{5\% of participants were intolerant to diary}
+	\item{no participants were intolerant to diary}
+	\item{no participants were intolerant to egg}
+\end{itemize}
 
 \subsection{Survey}
 
-Qualitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Participants were asked to answer the Likert scaled ratings by circling the rating that best reflected their opinion of the food dish (See Figure \todo{figure number}). The survey contained 100 food dishes, \todo{10} food preferences, and \todo{intolerances} for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so forth. All food dishes were captured from food vendors in the facility of Kelburn campus from Victoria University. Only the title of the food dishes were shown to participants, other information was excluded. This was to prevent biases around price, food vendor of where the food is given, and so on, which can influence the way participants rate the dishes. For example, a participant could like a food dish such as a chicken burger from one place, but hate a burger from another place. Other factors such as price affect the participants the way they rate the dish. Therefore, excluding this information allows us to capture the participants preferences of food in general, rather than specific dishes. \todo{Redo} (Doing this would be difficult as well and participants would get bored of the survey etc)
+Quantitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following Likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Participants were asked to answer the Likert scaled ratings by circling the rating that best reflected their opinion of the food dish (See Figure \todo{figure number}). The survey contained 100 food dishes, \todo{10} food preferences, and \todo{intolerances} for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so forth. All food dishes were captured from food vendors in the facility of Kelburn campus from Victoria University. Only the title of the food dishes were shown to participants, other information was excluded. This was to prevent biases around price, food vendor of where the food is given, and so on, which can influence the way participants rate the dishes. For example, a participant could like a food dish such as a chicken burger from one place, but hate a burger from another place. Other factors such as price affect the participants the way they rate the dish. Therefore, excluding this information allows us to capture the participants preferences of food in general, rather than specific dishes. \todo{Redo} (Doing this would be difficult as well and participants would get bored of the survey etc)
 
 \todo{Show image}
 No images were used to bias the results of the study. 
@@ -93,6 +104,7 @@ The original data collected from the survey consists of the following:
 \todo{Add min and max ratings of likes and dislikes from user?}
 \todo{Add min,max,and average number of ratings for each item}
 \todo{Talk about density in regards to user and item orientation of ratings}
+\todo{Removed the location and price information to remove biases around that (since students etc).}
 
 \subsection{Data Cleansing}
 

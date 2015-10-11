@@ -54,19 +54,27 @@ Participants were asked to fill out surveys capturing their food preferences, fo
 	\item{5\% of participants were intolerant to diary}
 	\item{no participants were intolerant to diary}
 	\item{no participants were intolerant to egg}
+	\item{no participants specified other intolerances}
 \end{itemize}
 
 \subsection{Survey}
 
-Quantitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following Likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Participants were asked to answer the Likert scaled ratings by circling the rating that best reflected their opinion of the food dish (See Figure \todo{figure number}). The survey contained 100 food dishes, \todo{10} food preferences, and \todo{intolerances} for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so forth. All food dishes were captured from food vendors in the facility of Kelburn campus from Victoria University. Only the title of the food dishes were shown to participants, other information was excluded. This was to prevent biases around price, food vendor of where the food is given, and so on, which can influence the way participants rate the dishes. For example, a participant could like a food dish such as a chicken burger from one place, but hate a burger from another place. Other factors such as price affect the participants the way they rate the dish. Therefore, excluding this information allows us to capture the participants preferences of food in general, rather than specific dishes. \todo{Redo} (Doing this would be difficult as well and participants would get bored of the survey etc)
+Quantitative data was collected from participants in the form of a survey. Participants were asked to rate their food preferences, their food intolerances, and their opinion about food dishes from the following Likert scaled rating system: Hate, Dislike, Neutral, Like, and Love. Food preferences refer to preferences such as meat, pastry, soup, noodles etc. Food intolerances refer to intolerance to gluten, dairy, nuts etc. Food dishes refer to dishes such as Thai Green Chicken Curry, Fried Chicken, Butter Bean Salad and so fourth.Participants were asked to circle the rating that best reflected their opinion based on the Likert scaled ratings as seen in Figure \ref{fig:survey}. 
 
-\todo{Show image}
-No images were used to bias the results of the study. 
-\todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
-\todo{portion of vegetarians etc}
-A range of food was shown to participants ranging from gluten free, vegetarian, and vegan dishes. \todo{Fix this}
+The survey contained 100 food dishes, 17 food preferences, and 5 food intolerances for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish at the current time of rating or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so fourth. All food dishes were captured from food vendors in the facility of Kelburn campus at Victoria University of Wellington. Only the title of the food dishes were shown to participants, other information such as images were explicitly excluded. This was to prevent biases around the imagery, the price of the dish, the food vendor of where the food can be purchased etc since these factors can influence the way participants rate the dishes (especially if the majority of participants are students). For example, a participant could like a food dish such as a Butter Chicken Pie from a specific food vendor, but hate it from another food vendor. The image of a food dish may also influence the way participants rate a dish, therefore, excluding this information enables the representation of the participants general food preferences to be captured. A variety of food dishes have also been included in the survey to ensure there are options for all users such as users with intolerances, and users that are vegans or vegetarians. 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{images/survey_preferences.png}
+\caption{Users were asked to rate their food preferences and their opinions about food dishes based on the Likert scaled rating system that best reflected how they felt about the item shown.}
+\label{fig:survey}
+\end{figure}
+
+The following section details the data collected from the survey. 
 
 \subsection{Dataset}
+\todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
+
 In this section, we refer to a rating as a set of (u, i, r) triplets, where a user u has rated r on an item i. 
 \todo{Should this go in dataset or survey section?}
 The ratings collected from the survey consist of the following rating values: Hate (-1.0), Dislike (-0.5), Neutral (0.0), Like (0.5), Love (1.0). Since we are using Binary data only in the recommender system, we consider a like/love rating as a like event, and a dislike/hate rating as a dislike event in the algorithms. The reason why the granularity of like/love, and dislike/love were included in our survey in case we changed our minds on the types of events to use in the system.

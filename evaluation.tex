@@ -209,11 +209,11 @@ The second method is essentially the same as the first, except we tune the param
 
 \section{Experimental Results}
 
-In this section we present the results of the experiments described in Section \ref{Method}. We will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commerical/real world environment.  
+In this section we present the results of the experiments described in Section \ref{Method}. We will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commercial/real world environment.  
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{images/contaminated.png}
+\includegraphics[scale=0.7]{images/contaminated_accuracy.png}
 \caption{Recommendation Accuracy from two variations of the ALS algorithm ran 30 times.}
 \label{fig:algorithms}
 \end{figure}
@@ -243,7 +243,7 @@ In this section we present the results of the experiments described in Section \
 \begin{figure}
 \centering
 \includegraphics[scale=0.3]{images/hybrid_als_30_runs.png}
-\caption{Individual 30 runs of the Hybrid ALS algorithm which takes into account the content of the food dishes based on the users preferences. (contaminated)}
+\caption{Individual 30 runs of the Hybrid ALS algorithm which takes into account the content preferences of the user and considers these preferences when making recommendations. (contaminated)}
 \label{fig:dual_algorithm}
 \end{figure}
 

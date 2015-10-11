@@ -1,17 +1,25 @@
 \chapter{Evaluation}\label{C:evaluation}
 
+\todo{Baseline Predictor?}
 \section{Objectives}
 
-In this experiment, we aim to compare a latent factor approach to collaborative filtering with a hybrid collaborative filtering approach for the goal of ``Finding Good Items". The main objectives are to answer the following questions:
-\todo{CHANGE: All these questions need to change}
+The objectives of this report focuses on a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in section \ref{C:intro} \todo{Check this section is right}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in section \ref{algorithms} \todo{in regards to the overall goal of ``Find Good Items"}. The main objectives of the experiment are to answer the following questions:
+
+\todo{CHECK THESE WITH SHARON, HOW DO WE KNOW IT IS A GOOD ITEM? NEED TO DEFINE IN INTRO. FILTER THESE OUT, SOME ARE VERY SIMILAR.}
 \begin{itemize}
 	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
-	\item{What are the best variations of using like and dislike events for a latent factor CF approach}
-	\item{Do using user preferences add value to collaborative filtering}
-	\item{Is item similarity CF more accurate than user based for latent factor models}
-	\item{Is hybrid CF more accurate than user based for latent factor models}
-	\item{Is filtering recommendations by a black list more accurate for latent factor models}
-	\item{Is filtering based on preferences of the user, more accurate for latent factor models}
+	\item{Are personalised recommendations superior than recommendations based on item popularity for the use case of ``Find Good Items"?}
+	% \item{What are suitable variations for binary events (Like/Dislike) for a ALS latent factor CF approach?}
+	\item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
+	\item{Do user preferences add value to collaborative filtering?}
+	\item{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}
+	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
+	\item{What are suitable parameters for a latent factor approach deployable in a commercial environment?}
+	\item{Is the ALS appraoch appriopriate for a real world commerical environment?}
+	\item{Do ALS latent factor CF approaches ``Find Good Items"?}
+	\todo{If have more time maybe try answer these}
+	\item{\todo{Is item similarity CF more accurate than user based for latent factor models}}
+	\item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
 \end{itemize}
 
 \section{Design}
@@ -24,9 +32,9 @@ The following sections details the design of the experiment, the reasoning behin
 The following equipment was used to run the experiment:
 \begin{itemize}
 	\item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
-	\item{NVIDIA Corporation GM107GL 1gb graphics card}
-	\item{\todo{DDR3 8gb RAM}}
-	\item{Arch x86\_64 GNU/Linux Operating System}
+	\item{NVIDIA Quadro K620 GPU 2GB DDR3}
+	\item{8gb DD3 RAM}
+	\item{Arch 64bit GNU/Linux Operating System}
 \end{itemize}
 
 \subsection{Participants}
@@ -131,6 +139,9 @@ K-fold cross validation consists of partitioning the dataset, in our case, the t
 K-fold cross validation was chosen as it considers the variance in the data by averaging the results, and uses each data point exactly once, mitigating results the likelihood of lucky one-off results. In addition, it reduces the likelihood of overfitting. 
 }
 \todo{Add the main goal of K-fold which is to evaluate an overall system}
+
+\subsubsection{\todo{Should I reiterate on the Recommendation Algorithms here?}}
+\subsubsection{\todo{Baseline Predictor}}
 
 \subsubsection{\todo{Recommendation} Accuracy}
 

@@ -69,13 +69,13 @@ Quantitative data was collected from participants in the form of a survey. Parti
 The survey contained 100 food dishes, 17 food preferences, and 5 food intolerances for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish at the current time of rating or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so fourth. All food dishes were captured from food vendors in the facility of Kelburn campus at Victoria University of Wellington. Only the title of the food dishes were shown to participants, other information such as images were explicitly excluded. This was to prevent biases around the imagery, the price of the dish, the food vendor of where the food can be purchased etc since these factors can influence the way participants rate the dishes (especially if the majority of participants are students). For example, a participant could like a food dish such as a Butter Chicken Pie from a specific food vendor, but hate it from another food vendor. The image of a food dish may also influence the way participants rate a dish, therefore, excluding this information enables the representation of the participants general food preferences to be captured. A variety of food dishes have also been included in the survey to ensure there are options for all users such as users with intolerances, and users that are vegans or vegetarians. The following section details the data collected from the survey. 
 
 \subsection{Dataset}
-\todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
 
-In this section, we refer to a rating as a set of (u, i, r) triplets, where a user u has rated r on an item i. 
-\todo{Should this go in dataset or survey section?}
-The ratings collected from the survey consist of the following rating values: Hate (-1.0), Dislike (-0.5), Neutral (0.0), Like (0.5), Love (1.0). Since we are using Binary data only in the recommender system, we consider a like/love rating as a like event, and a dislike/hate rating as a dislike event in the algorithms. The reason why the granularity of like/love, and dislike/love were included in our survey in case we changed our minds on the types of events to use in the system.
+In the context of this project, a rating is referred to as a set of $(u, i, r)$ triplets, where a user $u$ has given a rating $r$ on an item $i$. 
+The ratings collected from the survey consist of the following rating values: Hate (-1.0), Dislike (-0.5), Neutral (0.0), Like (0.5), and Love (1.0). Since Binary rating data is only used in the recommender system, Like and Love ratings are considered to be both positive ratings and can be considered as one event, in this case, a Like rating (Referring to any positive rating). Dislike and Hate ratings are also considered as one event and are combined to represent a Dislike event (Referring to any negative rating). Although this project focuses on Binary rating data only, the rationale of collecting multiple rating events was for backup purposes or future evaluation, if binary rating events are found to provide insufficient information to the recommender system. 
 
 The original data collected from the survey consists of the following:
+The dataset can be seen in the following table \ref{table:original_dataset}:
+
 \todo{put into table}
 \begin{itemize}
 	\item{100 food dishes}
@@ -86,6 +86,43 @@ The original data collected from the survey consists of the following:
 	\item{\todo{7000 Neutral ratings}}
 	\item{673 food preferences}
 \end{itemize}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|} 
+ \hline
+ \multicolumn{2}{|c|}{Original Dataset} \\
+     \hline\hline
+     Name & Number\\ [0.5ex] 
+     \hline
+     Users & 91 \\
+     \hline
+     Food Dishes & 100 \\
+     \hline
+     Available Food Preferences & \todo{17} \\ 
+     \hline
+     Available Food Intolerances & \todo{5} \\ 
+     \hline
+     Ratings & 9100 \\
+     \hline
+     Like Ratings (Positive) & \todo{545} \\
+     \hline
+     Dislike Ratings (Negative) & \todo{88} \\ [1ex] 
+     \hline
+     Love Ratings (Negative) & \todo{88} \\ [1ex] 
+     \hline
+     Hate Ratings (Negative) & \todo{88} \\ [1ex] 
+     \hline
+     Food Preference Ratings (Negative) & \todo{88} \\ [1ex] 
+     \hline
+     Food Intolerances (Negative) & \todo{88} \\ [1ex] 
+     \hline
+\end{tabular}
+\caption{Table to test captions and labels}
+\label{table:original_dataset}
+\end{table}
+
+\todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
 
 \todo{talk about SPARSITY \cite{zhang}}
 % 

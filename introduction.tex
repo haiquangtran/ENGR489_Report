@@ -1,19 +1,15 @@
 \chapter{Introduction}\label{C:intro}
 
-\todo{Pondy's Writing lecture}
+\todo{Feedback to do from Ian}
 \begin{enumerate}
- \item dont use whilst (Pondy recommended use ``when" instead, but depends on context)
- \item introduce the problem in the first sentence (find good items)
- \item get ideas down first, edit later
- \item do not edit sentences as you try and get down the ideas as they may not be used
- \item write abstract last, and intro second to last
- \item high level, then more detailed 
- \item can have a glossary
- \item have the ideas been presented in a logical order? context, problem, solution etc.
+ \item \todo{People get bored + want new foods to try that they might like}
+ \item \todo{WOTM idea -> Contraints is binary decisions}
+ \item \todo{Can we use off the shelf recommender system?}
 \end{enumerate}
 
-With the vast food options around us, it is often difficult to decide what to eat. On some days we may feel like eating our favourite foods, but on other days we could feel more explorative, wanting to try something new. There are many factors that determine our decisions on what we want to eat such as our preferences, our current mood, and what food providers are nearby. Other factors that may contribute is the price of the food dish, the cuisine type, the meat type, and so forth. Additionally, a subset of users have food intolerances which restrict their food options, further making the food decision process difficult.
+With the numerous food options around us, it is often difficult to decide what to eat. On some days we may feel like eating our favourite foods, but on other days we could feel more explorative, wanting to try something new. There are many factors that determine our decisions on what we want to eat such as our preferences, our current mood, and what food providers are nearby. Other factors that may contribute is the price of the food dish, the cuisine type, the meat type, and so forth. Additionally, a subset of users have food intolerances which restrict their food options, further making the food decision process difficult.
 
+\todo{There is a jump here, where di recommender system come from?}
 \todo{Talk about the Long Tail problem?}
 % The Long Tail problem in the context of recommender
 % systems has been addressed previously in [3] and [4]. In
@@ -38,17 +34,7 @@ With the vast food options around us, it is often difficult to decide what to ea
 
 
 \todo{Check this again (Massive massive brain dump)}
-Often at times, it can be difficult to find good food dishes to eat. There are several factors that can influence our decisions. These factors must be taken into account a recommender system that is able to provide personalised recommendations to each user. Taste is subjective, people are different. The main goal of this project is to present a base recommender system that is able to ``Find Good Items" for each user, providing personalised recommendations that can be integrated for the application What's On The Menu (WOTM). The difficulty in this project, lays within the factors that determine a ``Good Item" for a user, and providing a recommender system that meets the needs of the users. The first is to find an algorithm that will be able to achieve this goal. There are a vast range of techniques that are used for recommendations, however, each algorithm fits a specific context, and relies on conditions that are needed. There are always trade-offs that need to be considered. Factors that should be considered are the scalability, the accuracy, the cold start problem, the sparsity, and the computation complexity all while considering the user experience (keeping in mind that users must be able to achieve their goal of finding good items.) So what defines a good item? Is it the novelty? the contents of the food dishes? how others feel about the dish? the price and so on? In addition to this, a main problem is not having enough data from users. How can we provide recommendations to the users when they do not indicate enough information to provide personalised recommendations? Another issue is being able to recommender system that can integrate with the existing WOTM application. In addition, there lacks research in the recommender field of systems that look at only using Binary data collected from users. Most research looks at a more fine grained rating system such as from 1-10 stars. Using only binary data for ratings is a problem in itself. Despite this, the recommender system evaluation process is a problem in itself. How do we know that the recommender system meets our needs?
- 
-\todo{good reasons \cite{memorybased} \citeauthor{memorybased}} 
- Every year several new techniques are proposed and yet it is not clear which of the techniques work best and under what conditions. 
-The prediction accuracy of the different algorithms depends on the number of users,
-the number of items, and density, where the nature and degree of dependence differs
-from algorithm to algorithm.
-3. There exists a complex relationship between prediction accuracy, its variance, computation
-time, and memory consumption that is crucial for choosing the most appropriate
-recommendation system algorithm.
-
+It can be difficult to find good food dishes to eat. There are several factors that can influence our decisions. These factors must be taken into account a \todo{recommender system (introduced too early)} that is able to provide personalised recommendations to each user. Taste is subjective, people are different. \todo{ introduce earlier} The main goal of this project is to present a base recommender system that is able to ``Find Good Items" for each user, providing personalised recommendations that can be integrated for the application What's On The Menu (WOTM). The challenge in this project, lays within the factors that determine a ``Good Item" for a user, and providing a recommender system that meets the needs of the users. The first is to find an algorithm that will be able to achieve this goal. There are a vast range of techniques that are used for recommendations, however, each algorithm fits a specific context, and relies on conditions that are needed. There are always trade-offs that need to be considered. Factors that should be considered are the scalability, the accuracy, the cold start problem, the sparsity, and the computation complexity all while considering the user experience (keeping in mind that users must be able to achieve their goal of finding good items.) So what defines a good item? Is it the novelty? the contents of the food dishes? how others feel about the dish? the price and so on? In addition to this, a main problem is not having enough data from users. How can we provide recommendations to the users when they do not indicate enough information to provide personalised recommendations? Another issue is being able to recommender system that can integrate with the existing WOTM application. \todo{In addition, there lacks research in the recommender field of systems that look at only using Binary data driven by usability, in this case, like and dislikes. Most research looks at a more fine grained rating system such as from 1-10 stars. Using only binary data for ratings is a problem in itself. Despite this, the recommender system evaluation process is a problem in itself. How do we know that the recommender system meets our needs? Binary driven by usability -> Like and Dislike}
 
 
 \section{Address this: (From feedback)}
@@ -75,8 +61,23 @@ There are several problems in the recommendation domain.
 \subsection{\todo{Cold Start}}
 \subsection{\todo{Computation Complexity}}
 
+\todo{Is this the reason question or overall project goal?}
+\todo{good reasons \cite{memorybased} \citeauthor{memorybased}} 
+ Every year several new techniques are proposed and yet it is not clear which of the techniques work best and under what conditions. 
+The prediction accuracy of the different algorithms depends on the number of users,
+the number of items, and density, where the nature and degree of dependence differs
+from algorithm to algorithm.
+3. There exists a complex relationship between prediction accuracy, its variance, computation
+time, and memory consumption that is crucial for choosing the most appropriate
+recommendation system algorithm.
+
 
 What’s On The Menu (WOTM) is a web-centric mobile application that is focused on recommending food dishes to users based on their personal preferences \todo{(e.g. \_, \_, \_)}, previous actions such as likes/dislikes, and other factors such as location, price, and so forth. These personalised recommendations are important as it saves time for users and allows users to explore preferred food options they otherwise might not have discovered alone. 
+
+\section{\todo{What's On The Menu Overview}}
+
+What's On The Menu (WOTM) is a system that aims at providing personalised food recommendations to users. It is currently in development and was created by John Clegg \todo{from Summer of Tech}. WOTM consists of two components: WOTM Web and WOTM API. WOTM Web is the front-end of the application that deals with interactions in the client browser. WOTM API is the back-end of the application that deals with the application logic and management of data. \todo{ I will be extending the existing system by creating an additional component called WOTM Recommendations. This component will connect to the other components to provide recommendations to the users, and will manage anything related to the recommendation system. }
+
 
 \todo{Takes too long to introduce the problem}
 Existing applications such as Yelp and Foursquare have similar concepts but lack personalised recommendations for food dishes. These applications focus on a broader scope such as popular restaurants, coffee places, activities, and so forth. This can often lead to a cluttered interface, affecting the user experience, and may provoke confusion in users. Food spotting is an application that focuses on food dishes but does not provide personalised recommendations to users. Instead, they show popular food dishes and focus on crowd-sourcing, relying on users to upload food dishes. What's On The Menu (WOTM) differs as the goal is to recommend personalised food recommendations to the low level granularity of a food dish. Specifically, the personalised recommendations will be provided through a recommender system aimed towards the use case of finding ``Good Items" based on the user. This report, specifically focuses on a type of recommender algorithm called Collaborative filtering. 
@@ -97,8 +98,4 @@ For clarification, we explicitly state the goals of the project in the following
 \end{itemize}
 
 % The goal of this project is to find which types of collaborative filtering algorithms best suit the WOTM application. Suitability of these algorithms will be considered on factors that are important for WOTM. The recommender system will have to account for a range of factors from the user experience, the accuracy of the recommendation system, and the speed/performance that the system can provide recommendations to users. This project aims to explore this, by implementing different types of collaborative filtering techniques to recommend food to users based on their personal preferences and previous behaviours.
-
-\section{What's On The Menu Overview}
-
-What's On The Menu (WOTM) is a system that aims at providing personalised food recommendations to users. It is currently in development and was created by John Clegg \todo{from Summer of Tech}. WOTM consists of two components: WOTM Web and WOTM API. WOTM Web is the front-end of the application that deals with interactions in the client browser. WOTM API is the back-end of the application that deals with the application logic and management of data. I will be extending the existing system by creating an additional component called WOTM Recommendations. This component will connect to the other components to provide recommendations to the users, and will manage anything related to the recommendation system. 
 

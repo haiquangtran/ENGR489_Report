@@ -146,22 +146,38 @@ The dataset can be seen in the following table \ref{table:original_dataset}:
 
 \subsection{Data Cleansing}
 
-The rating data of Like and Dislike events need to be fed through the algorithms to give personalised recommendations to users. The legitimacy of rating data provided will affect the way the collaborative filtering algorithms perform since it makes recommendations based on similar users. In order to mitigate this, we cleanse the data by removing participants that gave contradictory answers before we import the data in the recommender algorithms.
+Collaborative filtering algorithms depend heavily on user data to give personalised recommendations. Therefore, the validity of user data can influence how collaborative filtering algorithms perform on the data. To mitigate this, data cleansing is conducted, removing any information from users that provided dubious answers found in the survey. Many answers from the survey contained conflicting ratings from participants. Examples were participants who indicated they were vegetarians, but had rated meat dishes positively. These users along with their rating information were removed and were apparant since authentic vegetarian participants rated ``Hate" for every food dish containing meat. A subset of users provided answers to the survey that were difficult to decipher. For example, participants indicated intolerances to gluten, but had then positively rated food dishes containing gluten. These answers were ambiguous since participants may have differeing levels of tolerance to gluten, or perhaps expressed they enjoy the gluten free version of the food dish.Therefore, any answers that were difficult to interpret were not removed. In addition, cases where participants did not finish rating all items were preserved. Table \ref{table:cleansed_dataset} demonstrates the data after it had been cleansed:
 
-%  There were participants that had indicated they were vegetarians, but then had also indicated they had a preference for meat, rating meat dishes highly. This affects the recommendations that are shown by the algorithms.  
-
-By examining the data collected from the surveys, it was evident that not all participants answered the questions legitimately. The most obvious were participants claiming to be vegetarian but had indicated they liked food dishes containing meat. Legitimate vegetarian users were easy to distinguish as they rated ``Hate" for every meat dish. There were other cases that were difficult to classify as legitimate. For example, a few participants specified they had intolerances to gluten, but indicated they liked eating food dishes with bread. This could mean several things such as participants having differing levels of tolerance to gluten, or perhaps the participants meant they liked eating the food dish with gluten free bread. Ambiguity in these cases meant we did not remove any participants we were unsure about. In addition, there were also cases where participants did not finish rating all items, and also participants that skipped pages in the survey. We included these users in the ratings for completeness as it enables us to see how the recommendation handles sparsity of ratings from these users. 
-
-Overall, we removed users having contradictory answers refining the user data to the following dataset:
-\todo{put into table}
-\begin{itemize}
-	\item{80 users}
-	\item{8000 total ratings}
-	\item{3937 Like/Love ratings}
-	\item{1440 Dislike/Hate ratings}
-    \item{2620 Neutral ratings}
-	\item{613 food preferences}
-\end{itemize}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|} 
+ \hline
+ \multicolumn{2}{|c|}{Cleansed Dataset} \\
+     \hline\hline
+     Name & Number\\ [0.5ex] 
+     \hline
+     Users & 80 \\
+     \hline
+     Food Dishes & 100 \\
+     \hline
+     Available Food Preferences & \todo{17} \\ 
+     \hline
+     Available Food Intolerances & \todo{5} \\ 
+     \hline
+     Total Ratings & 8000 \\
+     \hline
+     Like Ratings (Positive) & \todo{3937} \\
+     \hline
+     Dislike Ratings (Negative) & \todo{1440} \\ [1ex] 
+     \hline
+     Neutral Ratings (Default) & \todo{2620} \\ [1ex] 
+     \hline
+     Total Food Preference Ratings & \todo{613} \\ [1ex] 
+     \hline
+\end{tabular}
+\caption{Table to test captions and labels}
+\label{table:cleansed_dataset}
+\end{table}
 
 \subsection{Overview}
 

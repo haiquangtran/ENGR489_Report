@@ -47,13 +47,32 @@ A total of 91 participants were involved in the experiment. The majority of part
 The ages and gender of participants were not captured due to drawbacks in the ethics process. It is estimated the majority of participants are students in the age range of 17-24 since the majority were recruited from the School of Engineering and Computer Science at Victoria University. There may be a minority of participants that are under or over the age range of 17-24, and may not be students. In addition, it is likely there are more male participants than female participants due to the location of recruitment.
 
 Participants were asked to fill out surveys capturing their food preferences, food intolerances, and their opinions about food dishes. The following details the data around the participants strict food preferences and collected from the survey:
-\begin{itemize}
-	\item{7\% of participants were vegetarian}
-	\item{5\% of participants were vegan}
-	\item{8\% of participants were intolerant to gluten}
-	\item{5\% of participants were intolerant to diary}
-	\item{no participants were intolerant to diary, egg, or specified other intolerances}
-\end{itemize}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|} 
+ \hline
+ \multicolumn{2}{|c|}{Percentage of Participants with Strict Food Preferences} \\
+    \hline
+    \hline
+    Participants & Percentage \\
+     \hline\hline
+     Vegetarian & 7\%\\ [0.5ex] 
+     \hline
+     Vegan & 5\% \\
+     \hline
+     Gluten Intolerant & 8\% \\
+     \hline
+     Nuts Intolerant & 0\% \\
+     \hline
+     Egg Intolerant & 0\% \\
+     \hline
+     Other Intolerance & 5\% \\
+     \hline
+\end{tabular}
+\caption{Percentage of participants in the whole dataset that have strict food preferences.}
+\label{table:food_participants}
+\end{table}
 
 \subsection{Survey}
 
@@ -146,7 +165,7 @@ The dataset can be seen in the following table \ref{table:original_dataset}:
 
 \subsection{Data Cleansing}
 
-Collaborative filtering algorithms depend heavily on user data to give personalised recommendations. Therefore, the validity of user data can influence how collaborative filtering algorithms perform on the data. To mitigate this, data cleansing is conducted, removing any information from users that provided dubious answers found in the survey. Many answers from the survey contained conflicting ratings from participants, examples were participants who indicated they were vegetarians, but had rated meat dishes positively. These users along with their rating information were removed and were apparant since authentic vegetarian participants rated ``Hate" for every food dish containing meat. A subset of users provided answers to the survey that were difficult to decipher, for example, participants indicated intolerances to gluten but had then positively rated food dishes containing gluten. This could mean several participants may have differing levels of tolerance to gluten, or perhaps expressed they enjoy the gluten free version of the food dish and so fourth. Therefore, any user data that was ambiguous was not removed from the dataset to maintain validity. In addition, cases where participants did not finish rating all items were preserved. Table \ref{table:cleansed_dataset} demonstrates the data after it had been cleansed:
+Collaborative filtering algorithms depend heavily on user data to give personalised recommendations. Therefore, the validity of user data can influence how collaborative filtering algorithms perform on the data. To mitigate this, data cleansing is conducted, removing any information from users that provided dubious answers found in the survey. Many answers from the survey contained conflicting ratings from participants, examples were participants who indicated they were vegetarians, but had rated meat dishes positively. These users along with their rating information were removed and were apparent since authentic vegetarian participants rated ``Hate" for every food dish containing meat. A subset of users provided answers to the survey that were difficult to decipher, for example, participants indicated intolerances to gluten but had then positively rated food dishes containing gluten. This could mean several participants may have differing levels of tolerance to gluten, or perhaps expressed they enjoy the gluten free version of the food dish and so fourth. Therefore, any user data that was ambiguous was not removed from the dataset to maintain validity. In addition, cases where participants did not finish rating all items were preserved. Table \ref{table:cleansed_dataset} demonstrates the data after it had been cleansed:
 
 \begin{table}[h!]
 \centering
@@ -185,11 +204,11 @@ In this experiment, an offline evaluation is performed to evaluate the performan
 
 \subsubsection{Data Partitioning}
 
-Standard offline evaluations consist of partitioning a dataset into a training set and a test set, containing rating triplets described in section \ref{dataset}. The training set is used by the recommendation system to learn the food preferences of users, providing recommendations based on predictions made about what the user from learning their preferences. Since the training set and test set are separate datasets, all rating triplets in the test set are unseen to the recommendation system and have not been learnt by the recommendation system during the training process. Therefore the ratings inside the test set is used to evaluate the performance of the recommendation system by checking whether the user has liked or disliked items recommended by the system. In addition, this is used to evaluate the generalisability of the recommendation system, giving insight to how well it may perform in a real scenario since the model has not seen the instances from the test data. In cases where the recommendation system contains tunable parameters, the dataset is partitioned into three datasets: a training set, a testing set, and a validation set. In the context of recommender systems, the validation set is used to find the optimal parameter settings but can also be used to reduce overfitting of the data, providing insight to the generalisability of the model. The validation set is used similarily to a test set to find the optimal parameters, after the recommender system has trained on the training set. After the optimal parameters have been found on the validation set, the test set is then used to evaluate the final performance of the recommender system. For partitioning the datasets, the $skip-every-nth protocol$ is used which is specifically tailored towards recommender systems \ref{zhang}.
+Standard offline evaluations consist of partitioning a dataset into a training set and a test set, containing rating triplets described in section \ref{dataset}. The training set is used by the recommendation system to learn the food preferences of users, providing recommendations based on predictions made about what the user from learning their preferences. Since the training set and test set are separate datasets, all rating triplets in the test set are unseen to the recommendation system and have not been learnt by the recommendation system during the training process. Therefore the ratings inside the test set is used to evaluate the performance of the recommendation system by checking whether the user has liked or disliked items recommended by the system. In addition, this is used to evaluate the generalisability of the recommendation system, giving insight to how well it may perform in a real scenario since the model has not seen the instances from the test data. In cases where the recommendation system contains tunable parameters, the dataset is partitioned into three datasets: a training set, a testing set, and a validation set. In the context of recommender systems, the validation set is used to find the optimal parameter settings but can also be used to reduce overfitting of the data, providing insight to the generalisability of the model. The validation set is used similarly to a test set to find the optimal parameters, after the recommender system has trained on the training set. After the optimal parameters have been found on the validation set, the test set is then used to evaluate the final performance of the recommender system. For partitioning the datasets, the \textit{skip-every-nth protocol} is used which is specifically tailored towards recommender systems \ref{zhang}.
 
-The $skip-every-nth$ protocol \cite{zhang} is used to partition the dataset into a training set and a test set. The $skip-every-nth$ protocol consists of randomising the ordering of users, and randomising the ratings within each user in a sequence that is contiguous to the user, aggregating the result in a list sequence \cite{zhang}. The protocol iterates through this list of user ratings assigning every $nth$ rating to the test set, the remaining ratings are assigned to the training set. The $skip-every-nth$ protocol ensures that ``the sparsity of the training dataset is minimally disturbed, and guarantees a (n - 1):1 size ratio between training and test data for all users up to decimal rounding" \cite{zhang}. However, since the $nth$ value affects the user ratings that are involved in the test set, this means users with few ratings may not be in the test set since their ratings may be skipped during the partitioning process. In these cases, evaluation is done $n$ times with the same ordering, but offsetting the partitioning each run by 1. This ensures that every user rating is used exactly once in the test data \cite{zhang}. 
+The \textit{skip every nth protocol} \cite{zhang} is used to partition the dataset into a training set and a test set. The \textit{skip-every-nth protocol} consists of randomising the ordering of users, and randomising the ratings within each user in a sequence that is contiguous to the user, aggregating the result in a list sequence \cite{zhang}. The protocol iterates through this list of user ratings assigning every \textit{nth} rating to the test set, the remaining ratings are assigned to the training set. The \textit{skip-every-nth protocol} ensures that ``the sparsity of the training dataset is minimally disturbed, and guarantees a (n - 1):1 size ratio between training and test data for all users up to decimal rounding" \cite{zhang}. However, since the \textit{nth} value affects the user ratings that are involved in the test set, this means users with few ratings may not be in the test set since their ratings may be skipped during the partitioning process. In these cases, evaluation is done \textit{n} times with the same ordering, but offsetting the partitioning each run by 1. This ensures that every user rating is used exactly once in the test data \cite{zhang}. 
 
-The experiments in this report use the $skip-every-10th protocol$ as the partitioning of the training set and the test set for final evaluation of the recommender system. This is detailed further in the report, in section \ref{method}.
+The experiments in this report use the \textit{skip-every-10th protocol} as the partitioning of the training set and the test set for final evaluation of the recommender system. This is detailed further in the report, in section \ref{method}.
 
 \subsubsection{Parameter Tuning}
 

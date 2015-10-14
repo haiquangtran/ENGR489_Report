@@ -124,21 +124,26 @@ This model recommends dishes to users as soon as they have liked a dish. These r
 
 \todo{do yo use Cui?}
 
+\subsection{Popularity Function}
+In cases of the ``Cold Start" problem, where a new user has joined the system but has not rated any items, recommendations based on popular food dishes are a way of recommending items that have a higher chance that the will user like the food dish compared with random recommendations. There are many factors that need to be considered when using a popularity function based on binary events (Likes/Dislikes). An example of this, would be the case where a food dish has a high number of likes, but also a high number of dislikes, how should this food dish be ranked in the total recommendations list in terms of popularity? For a problem such as this, a simple equation that takes the average such as the equation: $average= likes/(likes+dislikes)$ \cite{popularity}. This would be able to handle this case, however, what if a food dish has only 1 rating? Based on the equation finding the average, a food dish with only 1 ``Like" rating would be ranked at the top of the recommendations list since it has a 100\% positive ratio. However, this should not be the case, since the amount of users having rated that item is small in comparison with other food dishes \cite{popularity}. The lower bound of the Wilson Score Confidence Interval is an equation that is able to handle these cases considering binary ratings (Like/Dislike) \cite{wilson1927probable}. 
+
+The lower bound of the Wilson Score Confidence Interval is defined in equation \ref{wilson}  \cite{wilson1927probable, popularity}. The $\hat{p}$ is the observed fraction of ``Like" items, $n$ is the number of total binary ratings, $z$ is the confidence interval, and $z_{\alpha/2}$ is the $(1-\alpha/2)$ quantile of the standard normal distribution \cite{popularity}.    
+
+\begin{equation} \label{wilson}
+\left(\hat{p} + \frac{z^2_{\alpha/2}}{2n} - z_{\alpha/2} \sqrt{[\hat{p}(1-\hat{p}) + z^2_{\alpha/2}/4n]/n}\right)/(1 + z^2_{\alpha/2}/n)
+\end{equation}
+
+The lower bound of the Wilson Score Confidence Interval estimates the portion of ``Like" ratings with respect to uncertainty from having a small number of rating samples \cite{popularity}. Given the number of ratings, a confidence interval is used to estimate the real portion of positive ratings within the confidence interval \cite{popularity}. Therefore, an implementation of Wilson's Score Confidence Interval is used at a 95\% confidence interval to recommend popular items to the user in the situation where there is insufficient ratings to provide personalised recommendations. 
+
 \section{Event Variations with ALS} \label{algorithms}
 
 The use of different events can influence the recommendations that are provided by the system. For example, using multiple explicit ratings such as Likes and Dislikes could affect the ALS algorithm. To understand how different events affect the recommender system, we implement variations of rating information with the ALS algorithm.
-
-
-\todo{Are these names good enough?}
-\todo{Should I State this in a pilot study, and then in the actual experiment compare only DUAL ALS vs Hybrid?}
 
 \subsection{\todo{Single ALS approach}}
 
 \todo{Add image}
 
 The Single ALS algorithm uses the model described in the modifications from the previous section. It contains a single ALS algorithm which is used to learn the latent feature vectors from the ``Like" and ``Dislike" events. In this model, a ``Like" event is represented in the recommender system by a value of 1.0, where as the ``Dislike" event is represented by a value of -1.0. \todo{Check whether it corresponds to 0 or not}. Since ALS works by capturing latent factors of users and items using feature vectors, having the Like events and Dislike events in the same model may correlate with each other, however, may be affected by the proportion of events since they are positive (likes) and negative (dislike) events. For example, if there is a larger amount of users that have disliked a specific item compared to the number of likes, the feature vector captured by that item may all correlate to negative values in the feature space. This may lead to inaccurate recommendations, where having another event such as ``Dislikes" actually deviates away from the main goal and can cause noisy information in the algorithm. For this reason, a more pratical approach in theory, would be to separate the different events in an independent ALS algorithm, and then combine the results from both algorithms at the end of the computation phase. In the next system (Dual ALS), we explore this theory to see if it is able to correlate the ``Like" and ``Dislike" events of users, testing whether this provides more accurate personalised recommendations to the user. 
-
-\subsubsection{\todo{Item based approach? (Undecided)}}
 
 \subsection{Dual ALS approach} 
 \todo{Explain the implicit event equation}
@@ -147,6 +152,7 @@ This model differs from the Single ALS approach as it separates the ``Like" even
 
 \todo{explain implementation details?}
 
+\subsection{Item ALS approach}
 
 \section{Hybrid ALS (Content-boosted) approach}
 

@@ -8,18 +8,18 @@ The objectives of this report focus on providing a base recommendation system th
 \todo{CHECK THESE WITH SHARON, HOW DO WE KNOW IT IS A GOOD ITEM? NEED TO DEFINE IN INTRO. FILTER THESE OUT, SOME ARE VERY SIMILAR.}
 \todo{These need to be revised by checking with introduction}
 \begin{itemize}
-     \item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
-     \item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
-     % \item{What are suitable variations for binary events (Like/Dislike) for a ALS latent factor CF approach?}
-     \item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
-     \item{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}
-     \item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
-     \item{\todo{Do user preferences add value to collaborative filtering?}}
-     \item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
-     \item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
-     \item{What are suitable parameters for a latent factor approach deployable in a commercial environment?}
-     \item{Is the ALS appraoch appropriate for a real world commercial environment?}
-     \item{Do ALS latent factor CF approaches ``Find Good Items"?}
+	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
+	\item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
+	% \item{What are suitable variations for binary events (Like/Dislike) for a ALS latent factor CF approach?}
+	\item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
+	\item{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}
+	\item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
+	\item{\todo{Do user preferences add value to collaborative filtering?}}
+	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
+	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
+	\item{What are suitable parameters for a latent factor approach deployable in a commercial environment?}
+	\item{Is the ALS appraoch appropriate for a real world commercial environment?}
+	\item{Do ALS latent factor CF approaches ``Find Good Items"?}
 \end{itemize}
 
 \section{Design}
@@ -33,10 +33,10 @@ Due to time constraints and requirement of real user data for CF evaluation, an 
 \subsection{Setup/Tools}
 The following equipment was used to run the experiment:
 \begin{itemize}
-     \item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
-     \item{NVIDIA Quadro K620 GPU 2GB DDR3}
-     \item{8GB DD3 RAM}
-     \item{Arch 64bit GNU/Linux Operating System}
+	\item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
+	\item{NVIDIA Quadro K620 GPU 2GB DDR3}
+	\item{8GB DD3 RAM}
+	\item{Arch 64bit GNU/Linux Operating System}
 \end{itemize}
 
 \subsection{Participants}
@@ -96,13 +96,13 @@ The dataset can be seen in the following table \ref{table:original_dataset}:
 
 \todo{put into table}
 \begin{itemize}
-     \item{100 food dishes}
-     \item{91 users}
-     \item{9100 total ratings}
-     \item{\todo{18223 Like/Love ratings}} 
-     \item{\todo{1000 Dislike/Hate ratings}}
-     \item{\todo{7000 Neutral ratings}}
-     \item{673 food preferences}
+	\item{100 food dishes}
+	\item{91 users}
+	\item{9100 total ratings}
+	\item{\todo{18223 Like/Love ratings}} 
+	\item{\todo{1000 Dislike/Hate ratings}}
+	\item{\todo{7000 Neutral ratings}}
+	\item{673 food preferences}
 \end{itemize}
 
 \begin{table}[h!]
@@ -381,16 +381,16 @@ In addition to the overall precision, we decide to measure the results of the to
 \todo{Write this whole section}
 \todo{Rewrite all of these points into sentences}
 \begin{itemize}
-     \item{Offline experiment may not be enough, users may feel different}
-     \item{Contradictions in the data and participation}
-     \item{Proportion of items and user}
-     \item{The labelling of data, removing the location, price etc}
-     \item{The amount of users, and the amount of ratings, and the amount of items. Variety of food choices for vegans etc. }
-     \item{The participants recruited - need to be more generalised (Mainly from students)}
-     \item{Tuning the parameters? or unbiased datasets}
-     \item{Online evaluation - novelty, serependity, etc, how can users give opinions about items they've never tried before}
-     \item{Density and sparsity of the matrix}
-     \item{The survey questions - need to ask the right questions and about how you ask the question.}
+	\item{Offline experiment may not be enough, users may feel different}
+	\item{Contradictions in the data and participation}
+	\item{Proportion of items and user}
+	\item{The labelling of data, removing the location, price etc}
+	\item{The amount of users, and the amount of ratings, and the amount of items. Variety of food choices for vegans etc. }
+	\item{The participants recruited - need to be more generalised (Mainly from students)}
+	\item{Tuning the parameters? or unbiased datasets}
+	\item{Online evaluation - novelty, serependity, etc, how can users give opinions about items they've never tried before}
+	\item{Density and sparsity of the matrix}
+	\item{The survey questions - need to ask the right questions and about how you ask the question.}
 \end{itemize}
 \todo{From design decisions}
 Not enough representation of vegans or vegetarians

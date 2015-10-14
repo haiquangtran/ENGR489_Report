@@ -1,33 +1,31 @@
 \chapter{Evaluation}\label{C:evaluation}
 
-\todo{Baseline Predictor?}
 \section{Objectives}
 
-The objectives of this report focuses on a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in section \ref{C:intro} \todo{Check this section is right}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in section \ref{algorithms} \todo{in regards to the overall goal of ``Find Good Items"}. The main objectives of the experiment are to answer the following questions:
+The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in section \ref{algorithms}. The main objectives of the experiment are to answer the following questions in regards to the goal of ``Find Good Items":
 
 \todo{CHECK THESE WITH SHARON, HOW DO WE KNOW IT IS A GOOD ITEM? NEED TO DEFINE IN INTRO. FILTER THESE OUT, SOME ARE VERY SIMILAR.}
+\todo{These need to be revised by checking with introduction}
 \begin{itemize}
 	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
-	\item{Are personalised recommendations superior than recommendations based on item popularity for the use case of ``Find Good Items"?}
+	\item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
 	% \item{What are suitable variations for binary events (Like/Dislike) for a ALS latent factor CF approach?}
 	\item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
-	\item{Do user preferences add value to collaborative filtering?}
-	\item{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}
+	\item{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}
+	\item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
+	\item{\todo{Do user preferences add value to collaborative filtering?}}
+	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
 	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
 	\item{What are suitable parameters for a latent factor approach deployable in a commercial environment?}
-	\item{Is the ALS appraoch appriopriate for a real world commerical environment?}
+	\item{Is the ALS appraoch appropriate for a real world commercial environment?}
 	\item{Do ALS latent factor CF approaches ``Find Good Items"?}
-	\todo{If have more time maybe try answer these}
-	\item{\todo{Is item similarity CF more accurate than user based for latent factor models}}
-	\item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
 \end{itemize}
 
 \section{Design}
 
-\todo{The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case.} CF heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences such as cuisine type, meat type etc. Additionally, the survey asked participants how they felt about food dishes. This data was used for an offline experiment to evaluate the latent factor CF and hybrid CF recommendation systems. \todo{Does this sentence make sense?} Quantitative results based on the survey data were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items". The quantitative results consist of the following evaluation metrics: accuracy, precision, recall, area under the curve the receiving operator curve, and precision at top N (10). 
+The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes on a Likert Scaled Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve the receiving operator curve, and precision at top N (10). 
 
-
-Due to time constraints and the amount of data required to evaluate CF approaches, an online/user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable model for further online or user evaluation. 
+Due to time constraints and requirement of real user data for CF evaluation, an online or user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable CF model for further online and user evaluation. 
 
 \todo{The following sections further detail the design of the experiment, the reasoning behind the metrics used, and the results.}
 
@@ -36,7 +34,7 @@ The following equipment was used to run the experiment:
 \begin{itemize}
 	\item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
 	\item{NVIDIA Quadro K620 GPU 2GB DDR3}
-	\item{8gb DD3 RAM}
+	\item{8GB DD3 RAM}
 	\item{Arch 64bit GNU/Linux Operating System}
 \end{itemize}
 
@@ -95,17 +93,6 @@ The ratings collected from the survey consist of the following rating values: Ha
 The original data collected from the survey consists of the following:
 The dataset can be seen in the following table \ref{table:original_dataset}:
 
-\todo{put into table}
-\begin{itemize}
-	\item{100 food dishes}
-	\item{91 users}
-	\item{9100 total ratings}
-	\item{\todo{18223 Like/Love ratings}} 
-	\item{\todo{1000 Dislike/Hate ratings}}
-	\item{\todo{7000 Neutral ratings}}
-	\item{673 food preferences}
-\end{itemize}
-
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|l|} 
@@ -137,11 +124,10 @@ The dataset can be seen in the following table \ref{table:original_dataset}:
      Food Intolerances (Negative) & \todo{88} \\ [1ex] 
      \hline
 \end{tabular}
-\caption{Table to test captions and labels}
+\caption{A table showing the original dataset collected from the survey.}
 \label{table:original_dataset}
 \end{table}
 
-\todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
 \todo{talk about SPARSITY \cite{zhang}}
 \todo{Add average Like and dislike ratings per user.}
 \todo{Add min and max ratings of likes and dislikes from user?}
@@ -194,7 +180,7 @@ Collaborative filtering algorithms depend heavily on user data to give personali
      Total Food Preference Ratings & \todo{613} \\ [1ex] 
      \hline
 \end{tabular}
-\caption{Table to test captions and labels}
+\caption{A table showing the cleansed dataset where all the users that provided contradictory or invalid answers to the questions, had been removed.}
 \label{table:cleansed_dataset}
 \end{table}
 
@@ -202,40 +188,39 @@ Collaborative filtering algorithms depend heavily on user data to give personali
 
 In this experiment, an offline evaluation is performed to evaluate the performance of CF algorithms based on the goal of ``Find Good Items". The method used consists of partitioning the dataset, tuning parameters from the recommendation system, and evaluating the performance of CF algorithms using binary recommendation accuracy metrics \cite{zhang}. The following sections detail background knowledge required to understand the experiment, the experiment method, the experimental results, and the limitations and discussion. 
 
-\subsubsection{Data Partitioning}
+\subsubsection{Data Partitioning} \label{partitioning}
 
-Standard offline evaluations consist of partitioning a dataset into a training set and a test set, containing rating triplets described in section \ref{dataset}. The training set is used by the recommendation system to learn the food preferences of users, providing recommendations based on predictions made about what the user from learning their preferences. Since the training set and test set are separate datasets, all rating triplets in the test set are unseen to the recommendation system and have not been learnt by the recommendation system during the training process. Therefore the ratings inside the test set is used to evaluate the performance of the recommendation system by checking whether the user has liked or disliked items recommended by the system. In addition, this is used to evaluate the generalisability of the recommendation system, giving insight to how well it may perform in a real scenario since the model has not seen the instances from the test data. In cases where the recommendation system contains tunable parameters, the dataset is partitioned into three datasets: a training set, a testing set, and a validation set. In the context of recommender systems, the validation set is used to find the optimal parameter settings but can also be used to reduce overfitting of the data, providing insight to the generalisability of the model. The validation set is used similarly to a test set to find the optimal parameters, after the recommender system has trained on the training set. After the optimal parameters have been found on the validation set, the test set is then used to evaluate the final performance of the recommender system. For partitioning the datasets, the \textit{skip-every-nth protocol} is used which is specifically tailored towards recommender systems \cite{zhang}.
+Standard offline evaluations consist of partitioning a dataset into a training set and a test set, containing rating triplets described in section \ref{dataset}. The training set is used by the recommendation system to learn the food preferences of users, providing recommendations based on predictions made about what the user likes from learning their preferences. Since the training set and test set are separate datasets, all rating triplets in the test set are unseen to the recommendation system and have not been learnt by the recommendation system during the training process. Therefore the ratings inside the test set is used to evaluate the performance of the recommendation system by checking whether the user has liked or disliked items recommended by the system. In addition, this is used to evaluate the generalisability of the recommendation system, giving insight to how well it may perform in a real scenario since the model has not seen the instances from the test data. 
 
-The \textit{skip every nth protocol} \cite{zhang} is used to partition the dataset into a training set and a test set. The \textit{skip-every-nth protocol} consists of randomising the ordering of users, and randomising the ratings within each user in a sequence that is contiguous to the user, aggregating the result in a list sequence \cite{zhang}. The protocol iterates through this list of user ratings assigning every \textit{nth} rating to the test set, the remaining ratings are assigned to the training set. The \textit{skip-every-nth protocol} ensures that ``the sparsity of the training dataset is minimally disturbed, and guarantees a (n - 1):1 size ratio between training and test data for all users up to decimal rounding" \cite{zhang}. However, since the \textit{nth} value affects the user ratings that are involved in the test set, this means users with few ratings may not be in the test set since their ratings may be skipped during the partitioning process. In these cases, evaluation is done \textit{n} times with the same ordering, but offsetting the partitioning each run by 1. This ensures that every user rating is used exactly once in the test data \cite{zhang}. 
+In cases where the recommendation system contains tunable parameters, the dataset is partitioned into three datasets: a training set, a testing set, and a validation set. In the context of recommender systems, the validation set is used to find the optimal parameter settings but can also be used to reduce overfitting of the data, providing insight to the generalisability of the model. The validation set is used to evaluate the performance of the parameters, after the model has learnt on the training set. After the optimal parameters are found from the validation set, the test set is then used to evaluate the final performance of the recommender system. This prevents biases since the optimal parameters have not been learnt using the test set. Partitioning protocols and techniques exist to determine the partitioning of the datasets. This project uses the \textit{skip-every-nth protocol} which is specifically tailored towards recommender systems \cite{zhang}.
 
-The experiments in this report use the \textit{skip-every-10th protocol} as the partitioning of the training set and the test set for final evaluation of the recommender system. This is detailed further in the report, in section \ref{method}.
+The \textit{skip every nth protocol} \cite{zhang} is used to partition the dataset into a training set and a test set. The \textit{skip-every-nth protocol} consists of randomising the ordering of users, and randomising the ratings within each user in a sequence that is contiguous to the user, aggregating the result in a list sequence \cite{zhang}. The protocol iterates through this list of user ratings assigning every \textit{nth} rating to the test set, the remaining ratings are assigned to the training set. The \textit{skip-every-nth protocol} ensures that ``the sparsity of the training dataset is minimally disturbed, and guarantees a (n - 1):1 size ratio between training and test data for all users up to decimal rounding" \cite{zhang}. However, since the \textit{nth} value affects the user ratings that are involved in the test set, this means users with few ratings may not be in the test set since their ratings may be skipped during the partitioning process. In these cases, evaluation is done \textit{n} times with the same ordering, but offsetting the partitioning each run by 1. This ensures that every user rating is used exactly once in the test set \cite{zhang}. 
+
+The experiments in this report use the \textit{skip-every-10th protocol} to the dataset into a training set and the test set for final evaluation of the recommender system. This is detailed in section \ref{method}.
 
 \subsubsection{Parameter Tuning}
 
-Each algorithm has several parameters which influences the way it performs on final evaluation, hence the need to find the optimal parameters. To find the optimal parameters, we tune the parameters on the training set created by the skip-every-10th protocol and use k-fold cross validation. In this way, the test dataset remains uncontaminated since the optimised parameters have not been trained on the test data. 
-We use standard 10-fold cross validation to determine the optimal parameters. In the context of this project, the goal of k-fold cross validation is used to determine a model with optimised parameters during the training phase which will limit problems of over-fitting. 
+Standard CF latent factor models have several parameters influencing the accuracy of recommendations, therefore, tuning parameters should be performed for optimal performance. Parameter tuning is typically performed using a training set and a validation set previously described in section \ref{partitioning}. However, a validation set is not required as K-fold cross validation can be performed to find the optimal parameters of a model instead. 
 
-\todo{May need to reexplain this. difficult to understand?}
-K-fold cross validation consists of partitioning the dataset, in our case, the training set into k equal sized subsets. We randomise the training set before partitioning the set into k subsets. A subset from the k subsets is then selected as the validation data, and the remaining subsets (k-1) are used as the training data. Evaluation metrics are then calculated. This is repeated k times where each subset is used as the validation subset exactly once, and the results from the metrics are averaged to determine how good the parameters are for that run. This process is then repeated in multiple runs with different parameters, then the optimal parameters are chosen for the final evaluation. 
-\todo{Sorry OK?}
-\todo{
-K-fold cross validation was chosen as it considers the variance in the data by averaging the results, and uses each data point exactly once, mitigating results the likelihood of lucky one-off results. In addition, it reduces the likelihood of overfitting. 
-}
-\todo{Add the main goal of K-fold which is to evaluate an overall system}
+K-fold cross validation \cite{kfold, campochiaro2009metrics} consists of partitioning a dataset into $k$ equal size folds (subsets). In the context of this project, the rating data contained within each fold is selected randomly. One fold from $k$ folds is selected as the validation set, the remaining folds $(k-1)$ are used as the training set. Evaluation metrics described in the following sections \ref{accuracy},\ref{precision}, \ref{roc}, \ref{auc} are then calculated. This is repeated $k$ times where each fold is used exactly once as a validation set. The evaluation results are then averaged, providing insight to how well the parameters perform for that run. In this project, K-fold validation is repeated multiple times, tuning the parameters in each run to find the optimal parameters. The optimal parameters found from multiple runs are then used for the final evaluation of the recommender system using the test set.
 
-\subsubsection{\todo{Should I reiterate on the Recommendation Algorithms here?}}
-\subsubsection{\todo{Baseline Predictor}}
+The advantage of K-fold cross validation is that every rating point is used exactly once in the validation set, and used in a training set $k-1$ times \cite{kfold}. However, since K-fold cross validation performs evaluation $k$ times, it can be computationally expensive to run \cite{kfold}.
 
-\subsubsection{\todo{Recommendation} Accuracy}
+A standard 10-fold cross validation is used to determine the optimal parameters in our experiments. 10-fold cross validation is performed on the training set, and is not performed on the test set. In this way, the test set remains uncontaminated since the optimised parameters have not been learnt from any rating data from the test set, preventing bias.
 
-In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision end users make in a real world scenario where decisions are based on binary recommendations such as acceptance or rejection \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation}. Therefore, we use recommendation accuracy as a metric since our goal is to ``Find Good Items".\todo{figure out where to put this} For recommendation algorithms that output rating predictions, a threshold-cutoff is used to determine the good items from the bad items \cite{zhang}.
+\subsubsection{Baseline Popularity Predictor}
 
-\todo{This part is confusing}
-However, there are caveats to using recommendation accuracy. Recommendation accuracy does not measure the quality of the items recommended as it does not measure the ability of an algorithm to accurately predict ratings, thus, does not focus on the correct ordering of the recommendations list based on the users preference of items. \todo{clarify this, may need to explain more such as deviations etc. Also top-N is not our use case... users could get bored after awhile. we don't care about ranking as long as users like the recs.}. This also means that it does not guarantee the user will see all the liked items in the top-N recommendations list. In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
+The baseline predictor provides a base performance which is used to compare the performance of CF algorithms against. In this experiment, a baseline predictor that provides non-personalised recommendations is used, recommending food dishes to users based on popularity of food dishes. The popularity of the item is based on the ``Like" ratings and ``Dislike" ratings from users. The popularity function used in the recommender system is the Wilson Score Confidence Interval described in section \ref{subsection:popularity}. The recommender system is able to output a list of top $n$ recommended food dishes, each containing a score based on the popularity of the food dish. Since the Wilson Score Confidence Interval normalises the popularity score between the ranges of 0.0 to 1.0, an optimal threshold is applied which determines which food dishes will be recommended and which will not. The optimal threshold is found from a Receiving Operating Characteristic (ROC) curve detailed in further in Sections \ref{roc}, \ref{auc}).
 
-For these reasons, we use recommendation accuracy with supporting metrics of precision, recall, and precision at N. 
+\subsubsection{Recommendation Accuracy} \label{accuracy}
 
-\subsubsection{Precision, Recall, and Precision at N}
+In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision users make in a real world scenario where decisions are based on ``acceptance or rejection" of items from the recommendations given \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation} as it can ``evaluate how well the system is at assisting the final decision of the user" \cite{zhang}. 
+
+Since the goal of this project is to ``Find Good Items", recommendation accuracy is used as a primary metric in our experiments. Although recommendation accuracy can measure the good and bad items for each user, it can not measure how much a user will like a food dish, or how much a user will dislike a food dish. All recommended food dishes are predicted to be liked by the user, and all unrecommended food dishes are predicted to be disliked. This means recommendation accuracy is unable to determine the ranking of preference for recommendations given to users, not being guaranteed to see their top preference in recommendations list based on $n$ items. 
+
+For these reasons, recommendation accuracy is used with supporting metrics of precision (Section \ref{precision}), recall (Section \ref{precision}), precision at top $N$ (Section \ref{precision}), and the area under the receiving operating characteristic curve (Section \ref{auc}). 
+
+\subsubsection{Precision, Recall, and Precision at N} \label{precision}
 \todo {Should I use all of these? Precision of the whole test data? Recall of the whole dataset? or just precision @ N?}
 
 Binary recommendations can fall into one of four categories. \todo{TP, FP, TN, FN - Show table. Expand on this}
@@ -276,15 +261,15 @@ Precision at N looks at the top recommendations list, and sees how many true lik
 % length at which precision is measured should be appropriate for the user task
 % and content domain.
 
-\subsubsection{ROC Curves}
+\subsubsection{ROC Curves} \label{roc}
 \todo{redo}
 In the context of this project, Receiver Operating Characteristic (ROC) curves \todo{CITE THIS} are used to visualise all the possible thresholds on a graph displaying how well a model is able to distinguish recommendations that the user will like or dislike. The True Positive (TP) rate which is the y-axis, shows the sensitivity of the model. This means that it shows the fraction in which liked items by specific users are correctly recommended to the users. The False Positive (FP) rate which is the x-axis, shows the fraction in which disliked items by specific users are incorrectly recommended as items they would like. 
 
-\subsubsection{Area Under The Curve}
+\subsubsection{Area Under The Curve} \label{auc}
 \todo{Explain this}
 
 
-\subsection{Method} \label{Method}
+\subsection{Method} \label{method}
 
 \todo{Rewrite all of this. Just check if content is correct.}
 
@@ -406,6 +391,8 @@ People may not fill in survey correctly.
 Some people may have filled out dishes that they haven't tried before. This could affect the results because often what people do is different to what they think. 
 There were cases where people filled out the form inaccurately, such that they chose random dishes. We know this because there are cases where someone states that they are “vegetarians” but then say they like “meat” etc.
 Cleanse these cases to give better predictions
+
+In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
 
 \section{Discussion}
 

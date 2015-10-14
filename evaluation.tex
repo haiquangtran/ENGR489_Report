@@ -212,7 +212,7 @@ A standard 10-fold cross validation is used to determine the optimal parameters 
 
 The baseline predictor provides a base performance which is used to compare the performance of CF algorithms against. In this experiment, a baseline predictor that provides non-personalised recommendations is used, recommending food dishes to users based on popularity of food dishes. The popularity of the item is based on the ``Like" ratings and ``Dislike" ratings from users. The popularity function used in the recommender system is the Wilson Score Confidence Interval described in section \ref{subsection:popularity}. The recommender system is able to output a list of top $n$ recommended food dishes, each containing a score based on the popularity of the food dish. Since the Wilson Score Confidence Interval normalises the popularity score between the ranges of 0.0 to 1.0, an optimal threshold is applied which determines which food dishes will be recommended and which will not. The optimal threshold is found from a Receiving Operating Characteristic (ROC) curve detailed in further in Sections \ref{roc}, \ref{auc}).
 
-\subsubsection{\todo{Recommendation} Accuracy} \label{accuracy}
+\subsubsection{Recommendation Accuracy} \label{accuracy}
 
 In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision users make in a real world scenario where decisions are based on ``acceptance or rejection" of items from the recommendations given \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation} as it can ``evaluate how well the system is at assisting the final decision of the user" \cite{zhang}. 
 
@@ -221,9 +221,26 @@ Since the goal of this project is to ``Find Good Items", recommendation accuracy
 For these reasons, recommendation accuracy is used with supporting metrics of precision (Section \ref{precision}), recall (Section \ref{precision}), precision at top $N$ (Section \ref{precision}), and the area under the receiving operating characteristic curve (Section \ref{auc}). 
 
 \subsubsection{Precision, Recall, and Precision at N} \label{precision}
-\todo {Should I use all of these? Precision of the whole test data? Recall of the whole dataset? or just precision @ N?}
 
-Binary recommendations can fall into one of four categories. \todo{TP, FP, TN, FN - Show table. Expand on this}
+There are four possible categories that binary recommendations from a recommender system can provide. Recommendations that are given to users, are are seen as  
+There are four possible categories that recommendations from a binary recommendation system can 
+Binary recommendations can fall into one of four categories as shown in Table \ref{table:categories}.
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|} 
+     \hline
+      & Recommended & Not Recommended \\ [0.5ex] 
+     \hline
+     Preferred & True-Positive (TP) & False-Negative (FN)\\
+     \hline
+     Not Preferred & False-Positive (FP) & True-Negative (TN) \\
+     \hline
+\end{tabular}
+\caption{Categories recommendations}
+\label{table:categories}
+\end{table}
 
 For binary ratings, precision and recall are often used as metrics. Precision measures the relevant recommendations (fidelity) to the user \todo{add equation for precision}, whereas Recall measures the relevant recommendations from the total preferred items (completeness) \todo{add equation for recall}. 
 
@@ -332,7 +349,7 @@ From running these algorithms multiple times, it is clear that the results give 
 \subsection{Recommendation Accuracy}
 Recommendation accuracy is the most suitable for the use case of ``Find Good Items". From the results, the hybrid collaborative filtering seems to provide the highest accuracy in this case. The preferences from each user describing the attributes the user likes and dislikes, provides extra information to the recommender system, thus resulting in the higher accuracy. However, this information may not be available. \todo{Hybrid achieved x accuracy}. The dual algorithm was able to provide more accurate predictions than the single algorithm. This validates objective \todo{do this} where the dual algorithm was able to correlate the events of likes and dislikes better than use of the single algorithm.
 
-\subsection{Overall Precision}
+\subsection{Precision}
 \todo{Need to rewrite}
 The precision is computed by iterating over the test set containing the rated items from the users, checking the whether the recommender system can accurately predict whether the test point is liked by the user, or disliked by the user. In terms of the goal of ``Find Good Items", precision looks at all of the recommended items from the recommender system, for completeness. From the results, Dual ALS was able to achieve a higher precision over the Single ALS approach over multiple runs (30). Dual ALS was able to achieve an average precision of 95.73\%, while Single ALS achieved an average precision of 87.38\%. This means the Dual ALS approach was able to more accurately recommend items the user preferred rather than the Single ALS. Since the average precision of the Single ALS is lower, it means that the recommender system recommended more items that users indicated they disliked (false positives).
 

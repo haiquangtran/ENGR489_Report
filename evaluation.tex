@@ -4,26 +4,23 @@
 
 The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in section \ref{algorithms}. The main objectives of the experiment are to answer the following questions in regards to the goal of ``Find Good Items":
 
-\todo{CHECK THESE WITH SHARON, HOW DO WE KNOW IT IS A GOOD ITEM? NEED TO DEFINE IN INTRO. FILTER THESE OUT, SOME ARE VERY SIMILAR.}
-\todo{These need to be revised by checking with introduction}
 \begin{itemize}
 	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
 	\item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
-	% \item{What are suitable variations for binary events (Like/Dislike) for a ALS latent factor CF approach?}
 	\item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
-	\item{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}
+	\item{\todo{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}}
 	\item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
 	\item{\todo{Do user preferences add value to collaborative filtering?}}
 	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
 	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
-	\item{What are suitable parameters for a latent factor approach deployable in a commercial environment?}
-	\item{Is the ALS appraoch appropriate for a real world commercial environment?}
-	\item{Do ALS latent factor CF approaches ``Find Good Items"?}
+	\item{\todo{What are suitable parameters for a latent factor approach deployable in a commercial environment?}}
+	\item{\todo{Is the ALS approach appropriate for a real world commercial environment?}}
+	\item{\todo{Do ALS latent factor CF approaches ``Find Good Items"?}}
 \end{itemize}
 
 \section{Design}
 
-The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes on a Likert Scaled Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve the receiving operator curve, and precision at top N (10). 
+The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes on a Likert Scaled Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve (the receiving operator curve), and precision at top N (10). 
 
 Due to time constraints and requirement of real user data for CF evaluation, an online or user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable CF model for further online and user evaluation. 
 
@@ -467,7 +464,6 @@ Overall, Dual ALS is performs better than single ALS in the context of using bin
 % Users will have needed to rate a number of items
 % There must be a vast amount of already rated items in the system
 % Some users may not tried dishes so may not be able to label it accurately?
-
 
 
 

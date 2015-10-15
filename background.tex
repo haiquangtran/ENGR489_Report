@@ -108,9 +108,9 @@ These feature vectors contain a specified number of factors for each item and us
 
 Since the user vector represents how much they like about the characteristics of the dish, and the item vector represents the portion of how much of the dish contains those properties \cite{koren2009matrix}, we can use the dot product - multiplying the dish containing a specific property from the item vector with how much the user likes that property from the user vector, and repeat this for all elements in the vectors to see the overall interest that the user has of the dish. This represents the active user's interest about the overall dish and is used to estimate the rating a user will give to the item. 
 
-Now that we understand how the predicted ratings for an item and user are computed, you may be wondering how we infer the item and user vectors explained above. 
+% Now that we understand how the predicted ratings for an item and user are computed, you may be wondering how we infer the item and user vectors explained above. 
 
-To do this, the system learns the model by fitting the previously observed ratings. However, directly modelling the observed ratings can lead to over fitting, being overspecialized leading to inaccurate future predictions.
+To infer the item and user vectors explained above, the system learns the model by fitting the previously observed ratings. However, directly modelling the observed ratings can lead to over fitting, being overspecialized leading to inaccurate future predictions.
 
 To prevent this, the idea is to use a regularized model that is used to generalize the previous ratings in a way that is able to predict future unknown ratings. To learn the vectors for the items and users, the system uses an equation that minimizes the regularized squared error on the set of known ratings.
 
@@ -124,9 +124,11 @@ To prevent this, the idea is to use a regularized model that is used to generali
 
 % Now you may be wondering how these feature vectors are learnt. These feature vectors are learnt through an equation, in which we minimise the square error to find the best latent features. By doing this, we use two algorithms to find the minimum error and to find the appropriate feature vectors.
 
-\subsubsection{Alternating Least Squares}
+\subsubsection{Alternating Least Squares} \label{als}
 
-The main purpose of Alternating Least Squares (ALS) is to find the minimum error from equation \ref{eq:2}, which is used to learn the factors in each of the vectors based on the rating matrix. ALS works to find the item and user vectors by initializing the vectors with random values depending on how many factors are specified. From this, it fixes values of one of the vectors first such as the item vector, then computes and reassigns values of the user vector according to the minimization equation, shown as equation \ref{eq:2} above. After this, it alternates - the user vector values are now fixed, and the re-computation of the item feature values occur, trying achieve the result of the smallest value for the minimization equation. This technique keeps alternating between fixing the vector values, until there is a convergence where the values in the two vectors no longer change the minimization equation, or there is small changes, hence the name Alternating Least Squares. This is used to find the minimum error from the equation mentioned above and to learn the factors in each of the vectors. 
+The main purpose of Alternating Least Squares (ALS) is to find the minimum error from equation \ref{eq:2}, which is used to learn the factors in each of the vectors based on the rating matrix. ALS works to find the item and user vectors by initializing the vectors with random values depending on how many factors are specified. From this, it fixes values of one of the vectors first such as the item vector, then computes and reassigns values of the user vector according to the minimization equation, shown as equation \ref{eq:2} above. After this, it alternates - the user vector values are now fixed, and the re-computation of the item feature values occur, trying achieve the result of the smallest value for the minimization equation. This technique keeps alternating between fixing the vector values, until there is a convergence where the values in the two vectors no longer change the minimization equation, or there are minimal changes, hence the name Alternating Least Squares. This is used to find the minimum error from the equation mentioned above and to learn the factors in each of the vectors. 
+
+\todo{Why do I choose this? Report results from literature}
 
 \subsection{Hybrid-based Collaborative Filtering}
 \todo{Consider redoing this}

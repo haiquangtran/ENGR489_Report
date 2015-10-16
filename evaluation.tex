@@ -20,12 +20,14 @@ The objectives of this report focus on providing a base recommendation system th
 
 \section{Design}
 
-The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes on a Likert Scaled Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve (the receiving operator curve), and precision at top N (10). 
+The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes using a Likert Scale Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve (the receiving operator curve), and precision at top N (10). 
 
 Due to time constraints and requirement of real user data for CF evaluation, an online or user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable CF model for further online and user evaluation. 
 
 \todo{The following sections further detail the design of the experiment, the reasoning behind the metrics used, and the results.}
 
+\subsection{\todo{System tools/Analysis Tool chain}}
+Ruby
 \subsection{Setup/Tools}
 The following equipment was used to run the experiment:
 \begin{itemize}
@@ -37,7 +39,8 @@ The following equipment was used to run the experiment:
 
 \subsection{Participants}
 
-A total of 91 participants were involved in the experiment. The majority of participants were students studying at the school of Engineering and Computer Science (ECS) from Victoria University (VIC). An estimated number of 55 students were from a first year ECS lecture and tutorial. An estimated number of 10 participants recruited were in their honours or masters year in ECS, and an estimated number of 20 participants were from a Summer of Tech event that was held at Kelburn Campus at VIC. The remaining participants were students from around the ECS labs from VIC.
+\todo{FINISH OFF IANS COMMENTS}
+A total of 91 participants were involved in the experiment. The majority of participants were students studying at the school of Engineering and Computer Science (ECS) from Victoria University (VIC). An estimated number of 55 students were from a first year COMP102 ECS lecture and tutorial. An estimated number of 10 participants recruited were in their honours or masters year in ECS, \todo{found in the Honours/Masters CO232 lab}, and an estimated number of 20 participants were from a Summer of Tech event that was held at Kelburn Campus at VIC. The remaining participants were students from around the ECS labs from VIC.
 
 The ages and gender of participants were not captured due to drawbacks in the ethics process. It is estimated the majority of participants are students in the age range of 17-24 since the majority were recruited from the School of Engineering and Computer Science at Victoria University. There may be a minority of participants that are under or over the age range of 17-24, and may not be students. In addition, it is likely there are more male participants than female participants due to the location of recruitment.
 
@@ -82,6 +85,7 @@ Quantitative data was collected from participants in the form of a survey. Parti
 
 The survey contained 100 food dishes, 17 food preferences, and 5 food intolerances for participants to rate. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish at the current time of rating or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so fourth. All food dishes were captured from food vendors in the facility of Kelburn campus at Victoria University of Wellington. Only the title of the food dishes were shown to participants, other information such as images were explicitly excluded. This was to prevent biases around the imagery, the price of the dish, the food vendor of where the food can be purchased etc since these factors can influence the way participants rate the dishes (especially if the majority of participants are students). For example, a participant could like a food dish such as a Butter Chicken Pie from a specific food vendor, but hate it from another food vendor. The image of a food dish may also influence the way participants rate a dish, therefore, excluding this information enables the representation of the participants general food preferences to be captured. A variety of food dishes have also been included in the survey to ensure there are options for all users such as users with intolerances, and users that are vegans or vegetarians. The following section details the data collected from the survey. 
 
+\todo{Can be it's own section}
 \subsection{Dataset} \label{dataset}
 
 In the context of this project, a rating is referred to as a set of $(u, i, r)$ triplets, where a user $u$ has given a rating $r$ on an item $i$. 
@@ -205,9 +209,10 @@ The advantage of K-fold cross validation is that every rating point is used exac
 
 A standard 10-fold cross validation is used to determine the optimal parameters in our experiments. 10-fold cross validation is performed on the training set, and is not performed on the test set. In this way, the test set remains uncontaminated since the optimised parameters have not been learnt from any rating data from the test set, preventing bias.
 
+\todo{Move earlier?}
 \subsubsection{Baseline Popularity Predictor}
 
-The baseline predictor provides a base performance which is used to compare the performance of CF algorithms against. In this experiment, a baseline predictor that provides non-personalised recommendations is used, recommending food dishes to users based on popularity of food dishes. The popularity of the item is based on the ``Like" ratings and ``Dislike" ratings from users. The popularity function used in the recommender system is the Wilson Score Confidence Interval described in section \ref{subsection:popularity}. The recommender system is able to output a list of top $n$ recommended food dishes, each containing a score based on the popularity of the food dish. Since the Wilson Score Confidence Interval normalises the popularity score between the ranges of 0.0 to 1.0, an optimal threshold is applied which determines which food dishes will be recommended and which will not. The optimal threshold is found from a Receiving Operating Characteristic (ROC) curve detailed further in Sections \ref{roc}, \ref{auc}).
+The baseline predictor provides a base performance which is used to compare the performance of CF algorithms against. In this experiment, a baseline predictor provides non-personalised recommendations, recommending food dishes to users based on the popularity of food dishes. The popularity of a food dish is based on the ``Like" ratings and ``Dislike" ratings from users. The popularity function used in the recommender system is the Wilson Score Confidence Interval described in Section \ref{subsection:popularity}. The recommender system is outputs a list of top $n$ recommended food dishes, each containing a score based on the popularity of the food dish. Since the Wilson Score Confidence Interval normalises the popularity score between ranges of 0.0 to 1.0, an optimal threshold is applied which determines food dishes that will be recommended. The optimal threshold is found from a Receiving Operating Characteristic (ROC) curve detailed further in Sections \ref{roc}, \ref{auc}).
 
 \subsubsection{Recommendation Accuracy} \label{accuracy}
 
@@ -404,8 +409,7 @@ In addition to the overall precision, we decide to measure the results of the to
 % To resolve this, we may have to compute two engines, for likes and dislikes. 
 % Also the cause of this may be because we are not training with explicit ratings.
 
-
-\section{Limitations}
+\section{Limitations to Generalisability}
 % \cite{martin2009recsys}
 % Examples of this problem
 % include the lack of standard treatment of items for which
@@ -429,6 +433,7 @@ In addition to the overall precision, we decide to measure the results of the to
 	\item{Online evaluation - novelty, serependity, etc, how can users give opinions about items they've never tried before}
 	\item{Density and sparsity of the matrix}
 	\item{The survey questions - need to ask the right questions and about how you ask the question.}
+	\item{HOW MUCH IS GOOD ENOUGH?}
 \end{itemize}
 \todo{From design decisions}
 Not enough representation of vegans or vegetarians
@@ -448,12 +453,15 @@ In addition, recommendation accuracy is identifying items that the user is alrea
 
 \subsection{\todo{Latent size}}
 \todo{directly from design decisions}
-\todo{Should I include stuff like this in the report?}
+\todo{Should I include stuff like this in the report? YES!}
 This affects the amount of features that will be used in SVD.
 
 With the current amount of data, it seems that using a smaller latent size affects the accuracy. This is because having a smaller latent size will capture all the ``Strong" patterns from the ratings, as opposed to having a larger number of latent sizes, where the rating patterns are spread across more characteristics, meaning that the feature values for these characteristics will be smaller. More feature vectors -> the smaller the strength of the characteristics that it captures from the previous rating patterns. This may capture quirky characteristics from the users rating patterns...however, Less feature vectors -> the stronger the strength of the characteristics that it captures from the previous rating patterns. 
 
 Overall, Dual ALS is performs better than single ALS in the context of using binary events.
+
+\section{Challenges}
+
 % \section{\todo{Offline evaluation}}
 % OFFLINE EVALUATION
 % \todo{directly from design decisions}

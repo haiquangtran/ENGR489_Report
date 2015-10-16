@@ -1,30 +1,26 @@
 \chapter{Evaluation}\label{C:evaluation}
 
-\todo{Baseline Predictor?}
 \section{Objectives}
 
 The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in section \ref{algorithms}. The main objectives of the experiment are to answer the following questions in regards to the goal of ``Find Good Items":
 
-\todo{CHECK THESE WITH SHARON, HOW DO WE KNOW IT IS A GOOD ITEM? NEED TO DEFINE IN INTRO. FILTER THESE OUT, SOME ARE VERY SIMILAR.}
-\todo{These need to be revised by checking with introduction}
 \begin{itemize}
 	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
 	\item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
-	% \item{What are suitable variations for binary events (Like/Dislike) for a ALS latent factor CF approach?}
 	\item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
-	\item{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}
+	\item{\todo{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}}
 	\item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
 	\item{\todo{Do user preferences add value to collaborative filtering?}}
 	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
 	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
-	\item{What are suitable parameters for a latent factor approach deployable in a commercial environment?}
-	\item{Is the ALS appraoch appropriate for a real world commercial environment?}
-	\item{Do ALS latent factor CF approaches ``Find Good Items"?}
+	\item{\todo{What are suitable parameters for a latent factor approach deployable in a commercial environment?}}
+	\item{\todo{Is the ALS approach appropriate for a real world commercial environment?}}
+	\item{\todo{Do ALS latent factor CF approaches ``Find Good Items"?}}
 \end{itemize}
 
 \section{Design}
 
-The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes on a Likert Scaled Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve the receiving operator curve, and precision at top N (10). 
+The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes on a Likert Scaled Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve (the receiving operator curve), and precision at top N (10). 
 
 Due to time constraints and requirement of real user data for CF evaluation, an online or user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable CF model for further online and user evaluation. 
 
@@ -94,17 +90,6 @@ The ratings collected from the survey consist of the following rating values: Ha
 The original data collected from the survey consists of the following:
 The dataset can be seen in the following table \ref{table:original_dataset}:
 
-\todo{put into table}
-\begin{itemize}
-	\item{100 food dishes}
-	\item{91 users}
-	\item{9100 total ratings}
-	\item{\todo{18223 Like/Love ratings}} 
-	\item{\todo{1000 Dislike/Hate ratings}}
-	\item{\todo{7000 Neutral ratings}}
-	\item{673 food preferences}
-\end{itemize}
-
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|l|} 
@@ -136,11 +121,10 @@ The dataset can be seen in the following table \ref{table:original_dataset}:
      Food Intolerances (Negative) & \todo{88} \\ [1ex] 
      \hline
 \end{tabular}
-\caption{Table to test captions and labels}
+\caption{A table showing the original dataset collected from the survey.}
 \label{table:original_dataset}
 \end{table}
 
-\todo{range of food dishes, i.e. vegan, vegetarian, intolerance}
 \todo{talk about SPARSITY \cite{zhang}}
 \todo{Add average Like and dislike ratings per user.}
 \todo{Add min and max ratings of likes and dislikes from user?}
@@ -193,7 +177,7 @@ Collaborative filtering algorithms depend heavily on user data to give personali
      Total Food Preference Ratings & \todo{613} \\ [1ex] 
      \hline
 \end{tabular}
-\caption{Table to test captions and labels}
+\caption{A table showing the cleansed dataset where all the users that provided contradictory or invalid answers to the questions, had been removed.}
 \label{table:cleansed_dataset}
 \end{table}
 
@@ -205,7 +189,7 @@ In this experiment, an offline evaluation is performed to evaluate the performan
 
 Standard offline evaluations consist of partitioning a dataset into a training set and a test set, containing rating triplets described in section \ref{dataset}. The training set is used by the recommendation system to learn the food preferences of users, providing recommendations based on predictions made about what the user likes from learning their preferences. Since the training set and test set are separate datasets, all rating triplets in the test set are unseen to the recommendation system and have not been learnt by the recommendation system during the training process. Therefore the ratings inside the test set is used to evaluate the performance of the recommendation system by checking whether the user has liked or disliked items recommended by the system. In addition, this is used to evaluate the generalisability of the recommendation system, giving insight to how well it may perform in a real scenario since the model has not seen the instances from the test data. 
 
-In cases where the recommendation system contains tunable parameters, the dataset is partitioned into three datasets: a training set, a testing set, and a validation set. In the context of recommender systems, the validation set is used to find the optimal parameter settings but can also be used to reduce overfitting of the data, providing insight to the generalisability of the model. The validation set is used to evaluate the performance of the parameters, after the model has learnt on the training set. After the optimal parameters are found from the validation set, the test set is then used to evaluate the final performance of the recommender system. This prevents biases since the optimal parameters have not been learnt using the test set. Partitioning protocols and techniques exist to determine the partitioning of the datasets. This project uses the \textit{skip-every-nth protocol} which is specifically tailored towards recommender systems \cite{zhang}.
+In cases where the recommendation system contains tunable parameters, the dataset is partitioned into three datasets: a training set, a testing set, and a validation set. In the context of recommender systems, the validation set is used to find the optimal parameter settings but can also be used to reduce overfitting of the data, providing insight to the generalisability of the model. The validation set is used to evaluate the performance of the parameters, after the model has learnt on the training set. After the optimal parameters are found from the validation set, the test set is then used to evaluate the final performance of the recommender system. This prevents biases since the optimal parameters have not been learnt using the test set. Partitioning protocols and techniques exist to determine the partitioning of the datasets. This project uses the \textit{skip-every-nth protocol} which is specifically designed for recommender systems \cite{zhang}.
 
 The \textit{skip every nth protocol} \cite{zhang} is used to partition the dataset into a training set and a test set. The \textit{skip-every-nth protocol} consists of randomising the ordering of users, and randomising the ratings within each user in a sequence that is contiguous to the user, aggregating the result in a list sequence \cite{zhang}. The protocol iterates through this list of user ratings assigning every \textit{nth} rating to the test set, the remaining ratings are assigned to the training set. The \textit{skip-every-nth protocol} ensures that ``the sparsity of the training dataset is minimally disturbed, and guarantees a (n - 1):1 size ratio between training and test data for all users up to decimal rounding" \cite{zhang}. However, since the \textit{nth} value affects the user ratings that are involved in the test set, this means users with few ratings may not be in the test set since their ratings may be skipped during the partitioning process. In these cases, evaluation is done \textit{n} times with the same ordering, but offsetting the partitioning each run by 1. This ensures that every user rating is used exactly once in the test set \cite{zhang}. 
 
@@ -221,25 +205,52 @@ The advantage of K-fold cross validation is that every rating point is used exac
 
 A standard 10-fold cross validation is used to determine the optimal parameters in our experiments. 10-fold cross validation is performed on the training set, and is not performed on the test set. In this way, the test set remains uncontaminated since the optimised parameters have not been learnt from any rating data from the test set, preventing bias.
 
-\subsubsection{\todo{Baseline Predictor}}
+\subsubsection{Baseline Popularity Predictor}
 
-\subsubsection{\todo{Recommendation} Accuracy} \label{accuracy}
+The baseline predictor provides a base performance which is used to compare the performance of CF algorithms against. In this experiment, a baseline predictor that provides non-personalised recommendations is used, recommending food dishes to users based on popularity of food dishes. The popularity of the item is based on the ``Like" ratings and ``Dislike" ratings from users. The popularity function used in the recommender system is the Wilson Score Confidence Interval described in section \ref{subsection:popularity}. The recommender system is able to output a list of top $n$ recommended food dishes, each containing a score based on the popularity of the food dish. Since the Wilson Score Confidence Interval normalises the popularity score between the ranges of 0.0 to 1.0, an optimal threshold is applied which determines which food dishes will be recommended and which will not. The optimal threshold is found from a Receiving Operating Characteristic (ROC) curve detailed further in Sections \ref{roc}, \ref{auc}).
 
-In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision end users make in a real world scenario where decisions are based on binary recommendations such as acceptance or rejection \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation}. Therefore, we use recommendation accuracy as a metric since our goal is to ``Find Good Items".\todo{figure out where to put this} For recommendation algorithms that output rating predictions, a threshold-cutoff is used to determine the good items from the bad items \cite{zhang}.
+\subsubsection{Recommendation Accuracy} \label{accuracy}
 
-\todo{This part is confusing}
-However, there are caveats to using recommendation accuracy. Recommendation accuracy does not measure the quality of the items recommended as it does not measure the ability of an algorithm to accurately predict ratings, thus, does not focus on the correct ordering of the recommendations list based on the users preference of items. \todo{clarify this, may need to explain more such as deviations etc. Also top-N is not our use case... users could get bored after awhile. we don't care about ranking as long as users like the recs.}. This also means that it does not guarantee the user will see all the liked items in the top-N recommendations list. In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
+In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision users make in a real world scenario where decisions are based on ``acceptance or rejection" of items from the recommendations given \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation} as it can ``evaluate how well the system is at assisting the final decision of the user" \cite{zhang}. 
 
-For these reasons, we use recommendation accuracy with supporting metrics of precision, recall, and precision at N. 
+Since the goal of this project is to ``Find Good Items", recommendation accuracy is used as a primary metric in our experiments. Although recommendation accuracy can measure the good and bad items for each user, it can not measure how much a user will like a food dish, or how much a user will dislike a food dish. All recommended food dishes are predicted to be liked by the user, and all unrecommended food dishes are predicted to be disliked. This means recommendation accuracy is unable to determine the ranking of preference for recommendations given to users, not being guaranteed to see their top preference in the recommendations list based on $n$ items. 
+
+For these reasons, recommendation accuracy is used with supporting metrics of precision (Section \ref{precision}), recall (Section \ref{precision}), precision at top $N$ (Section \ref{precision}), and the area under the receiving operating characteristic curve (Section \ref{auc}). 
 
 \subsubsection{Precision, Recall, and Precision at N} \label{precision}
-\todo {Should I use all of these? Precision of the whole test data? Recall of the whole dataset? or just precision @ N?}
 
-Binary recommendations can fall into one of four categories. \todo{TP, FP, TN, FN - Show table. Expand on this}
+There are four possible categories that binary recommendations from a recommender system can be classified as. Recommendations that are given to users are either preferred food dishes. Users either like foods 
+
+There are four possible categories that recommendations from a binary recommendation system can 
+Binary recommendations can fall into one of four categories as shown in Table \ref{table:categories}.
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|} 
+     \hline
+      & Recommended & Not Recommended \\ [0.5ex] 
+     \hline
+     Preferred & True-Positive (TP) & False-Negative (FN)\\
+     \hline
+     Not Preferred & False-Positive (FP) & True-Negative (TN) \\
+     \hline
+\end{tabular}
+\caption{Categories recommendations}
+\label{table:categories}
+\end{table}
 
 For binary ratings, precision and recall are often used as metrics. Precision measures the relevant recommendations (fidelity) to the user \todo{add equation for precision}, whereas Recall measures the relevant recommendations from the total preferred items (completeness) \todo{add equation for recall}. 
 
 Precision at N looks at the top recommendations list, and sees how many true liked items are in that list, and how many false liked items are not in the list. This can be used to measure the portion of relevant items that are in the top-N recommendation list.
+
+\begin{math}
+Precision = \frac{\#TP}{\#TP + \#FP}
+\end{math}
+
+\begin{math}
+Recall = \frac{\#TP}{\#TP + \#FN}
+\end{math}
 
 % Recall, in its purest sense, is almost always impractical to measure in a
 % recommender system. In the pure sense, measuring recall requires knowing
@@ -304,11 +315,38 @@ In this section we present the results of the experiments described in Section \
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{images/contaminated_accuracy.png}
-\caption{Recommendation Accuracy from two variations of the ALS algorithm ran 30 times.}
+\includegraphics[scale=0.7]{recent_images/accuracy.png}
+\caption{Comparing Recommendation Accuracy of various ALS algorithm ran 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{recent_images/precision.png}
+\caption{Comparing Recommendation Precision of various ALS algorithm ran 30 times.}
+\label{fig:algorithms}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{recent_images/auc.png}
+\caption{Comparing Recommendation Area Under the ROC Curve of various ALS algorithm ran 30 times.}
+\label{fig:algorithms}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{recent_images/recall.png}
+\caption{Comparing Recommendation Recall of various ALS algorithm ran 30 times.}
+\label{fig:algorithms}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{recent_images/top_n.png}
+\caption{Comparing Recommendation Top N=10 Precision of various ALS algorithm ran 30 times.}
+\label{fig:algorithms}
+\end{figure}
 
 \begin{figure}
 \centering
@@ -344,7 +382,7 @@ From running these algorithms multiple times, it is clear that the results give 
 \subsection{Recommendation Accuracy}
 Recommendation accuracy is the most suitable for the use case of ``Find Good Items". From the results, the hybrid collaborative filtering seems to provide the highest accuracy in this case. The preferences from each user describing the attributes the user likes and dislikes, provides extra information to the recommender system, thus resulting in the higher accuracy. However, this information may not be available. \todo{Hybrid achieved x accuracy}. The dual algorithm was able to provide more accurate predictions than the single algorithm. This validates objective \todo{do this} where the dual algorithm was able to correlate the events of likes and dislikes better than use of the single algorithm.
 
-\subsection{Overall Precision}
+\subsection{Precision}
 \todo{Need to rewrite}
 The precision is computed by iterating over the test set containing the rated items from the users, checking the whether the recommender system can accurately predict whether the test point is liked by the user, or disliked by the user. In terms of the goal of ``Find Good Items", precision looks at all of the recommended items from the recommender system, for completeness. From the results, Dual ALS was able to achieve a higher precision over the Single ALS approach over multiple runs (30). Dual ALS was able to achieve an average precision of 95.73\%, while Single ALS achieved an average precision of 87.38\%. This means the Dual ALS approach was able to more accurately recommend items the user preferred rather than the Single ALS. Since the average precision of the Single ALS is lower, it means that the recommender system recommended more items that users indicated they disliked (false positives).
 
@@ -354,7 +392,7 @@ In the context of this project, Recall measures the fraction in which liked food
 
 \subsection{Precision at top N (10)}
 \todo{Need to rewrite}
-In addition to the overall precision, we decide to measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. The reason why we decided to see this, is because it is suited towards providing insight about how users may perceive the recommendation algorithm in a commercial environment. For example, in an offline evaluaiton, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
+In addition to the overall precision, we decide to measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. The reason why we decided to see this, is because it is suited towards providing insight about how users may perceive the recommendation algorithm in a commercial environment. For example, in an offline evaluation, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
 
 % \subsection{\todo{Implicit events}}
 % \todo{directly from design decisions}
@@ -404,6 +442,8 @@ Some people may have filled out dishes that they haven't tried before. This coul
 There were cases where people filled out the form inaccurately, such that they chose random dishes. We know this because there are cases where someone states that they are “vegetarians” but then say they like “meat” etc.
 Cleanse these cases to give better predictions
 
+In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
+
 \section{Discussion}
 
 \subsection{\todo{Latent size}}
@@ -424,7 +464,6 @@ Overall, Dual ALS is performs better than single ALS in the context of using bin
 % Users will have needed to rate a number of items
 % There must be a vast amount of already rated items in the system
 % Some users may not tried dishes so may not be able to label it accurately?
-
 
 
 

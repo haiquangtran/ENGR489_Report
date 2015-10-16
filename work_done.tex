@@ -1,4 +1,4 @@
-\chapter{System Design}\label{C:work_done}
+\chapter{System Design \& Implementation}\label{C:work_done}
 
 \section{Characteristics}
 
@@ -117,6 +117,7 @@ In this equation, \begin{math} c_{ui} \end{math} is the confidence level and \be
 
 \subsubsection{Modifications to the Engine}
 
+\todo{HOW MUCH WORK ? CONTRIBUTION}
 Using this template, we modified this engine to take into account ``Like" and ``Dislike" events, removing the view and purchase events. We modified the CF algorithm in the engine to consider a ``Like" event as positive result, giving it the preference value of a 1. In contrast, we made the algorithm in the engine consider a ``Dislike" event to be a negative result, giving it the preference value of a -1. Since users may be able change their minds about liking or disliking a dish, we modified the CF algorithm to only take into account the most recent like/dislike event that occurs from the user, if there are multiple identical like/dislike events on a dish from that user. Filtering in this recommendation system was also added. Users are now able to filter recommendations based on their preferences such as their meat type, their cuisine type, and their food type. As well as this, users can see recommendations that are within their price range, if specified. 
 
 If dishes are no longer available, then we are able to send a query to the recommendation engine to tell it that the dish is unavailable. Another feature is that we are also able to send a query to the recommendation engine to say that a user has already seen that dish, and not to recommend that seen dish anymore. In this way, the user only sees new dishes that they have not been recommended yet.

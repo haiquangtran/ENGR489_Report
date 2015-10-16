@@ -39,12 +39,18 @@ The following equipment was used to run the experiment:
 
 \subsection{Participants}
 
-\todo{Have a table with estimated counts?}
-A total of 91 participants were involved in the experiment. The majority of participants were students studying at the school of Engineering and Computer Science (ECS) from Victoria University of Wellington (Vic). An estimated number of 55 students were from a first year COMP102 (ECS) lecture and tutorial. An estimated number of 10 participants were in their honours or masters year in ECS recruited from the Honours CO232 lab at Vic, and an estimated number of 20 participants were from a Summer of Tech event that was held at Kelburn Campus at Vic. The remaining participants were students from around the 200 level Cotton (ECS) labs from Vic. The data collected from participants were approved by the Human Ethics Committee (HEC), and can be seen in Appendix \todo{DO THIS} \ref{appendix:hec}.
+A total of 91 participants were involved in the experiment. The majority of participants were students studying at the school of Engineering and Computer Science (ECS) from Victoria University of Wellington (Vic). An estimated number of 55 students were from a first year COMP102 (ECS) lecture and tutorial. An estimated number of 10 participants were in their honours or masters year in ECS recruited from the Honours CO232 lab at Vic, and an estimated number of 20 participants were from a Summer of Tech event that was held at Kelburn Campus at Vic. The remaining participants were students from around the 200 level Cotton (ECS) labs from Vic. The data collected from participants were approved by the Human Ethics Committee (HEC), and can be seen in Appendix \ref{appendix:hec}.
 
 The ages and gender of participants were not captured due to drawbacks in the HEC process. It is estimated the majority of participants are students in the age range of 17-24 since the majority were recruited from the School of Engineering and Computer Science at Victoria University. It is possible a small number of participants are under or over the age range of 17-24, and may not be students. In addition, it is likely there are more male participants than female participants due to the location of recruitment.
 
-Participants were asked to fill out surveys capturing their food preferences, food intolerances, and their opinions about food dishes. The following details the data around the participants strict food preferences and collected from the survey:
+Participants were asked to fill out surveys capturing their food preferences, food intolerances, and their opinions about food dishes. Strict food preferences were presented to participants as seen in Figure \ref{fig:strict_prefs}. The data around the participants strict food preferences collected from the survey can be seen in Table \ref{table:food_participants}:
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{images/strict_prefs.png}
+\caption{Participants in the survey were asked to rate their food preferences and their opinions about food dishes based on using a Likert Scale rating system that best reflected how they felt about the item shown. The figure above illustrates the strict food preferences that are shown to participants.}
+\label{fig:strict_prefs}
+\end{figure}
 
 \begin{table}[h!]
 \centering
@@ -80,12 +86,23 @@ Quantitative data about user food ratings were collected from participants in a 
 
 \begin{figure}
 \centering
-\includegraphics[scale=1.0]{images/survey_preferences.png}
-\caption{Participants in the survey were asked to rate their food preferences and their opinions about food dishes based on using a Likert Scale rating system that best reflected how they felt about the item shown. The figure above illustrates a small amount of food preferences shown to participants.}
+\includegraphics[scale=0.8]{images/survey_preferences.png}
+\caption{Participants in the survey were asked to rate their food preferences based on using a Likert Scale rating system that best reflected how they felt about the food preference shown. The figure above illustrates a 4 food preferences that are shown to participants.}
 \label{fig:survey}
 \end{figure}
 
-The survey contained 100 food dishes, 17 food preferences, and 5 food intolerances for participants to rate. The full list can be found in Appendix \ref{appendix:survey} \todo{DO THIS}. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish at the current time of rating or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so fourth. All food dishes were captured from food vendors in the facility of Kelburn campus at Victoria University of Wellington. Only the title of the food dishes were shown to participants, other information such as images were explicitly excluded. This was to prevent biases around the imagery, the price of the dish, the food vendor of where the food can be purchased etc, since these factors can influence the way participants rate the dishes (especially if majority of participants are students). For example, a participant could like a food dish such as a Butter Chicken Pie from a specific food vendor, but hate it from another food vendor. The image of a food dish may also influence the way participants rate a dish, therefore, excluding this information enables the representation of the participants general food preferences to be captured. A variety of food dishes have also been included in the survey to ensure there are options for all users such as users with intolerances, and users that are vegans or vegetarians. Only one vegetarian user had notified on the survey that their were no vegetarian dishes in the sushi category. The following section details the data collected from the survey. 
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{images/survey_foods.png}
+\caption{Participants in the survey were asked to rate food dishes based on using a Likert Scale rating system that best reflected how they felt about the food dish shown. The figure above illustrates a 3 food dishes that are shown to participants.}
+\label{fig:survey_food}
+\end{figure}
+
+The survey contained 100 food dishes, 21 food preferences, and 5 food intolerances for participants to rate. The full list can be found in Appendix \ref{appendix:survey}. Any unrated items were classified as Neutral ratings inferring participants had no opinion about the food dish at the current time of rating or that they had not tried the food dish before. The survey was grouped into categories for participants to filter through the food dishes efficiently. All participants were shown the same food dishes but the ordering of the categories were randomised to help mitigate biases such as participants rating only the first items they see and so fourth. All food dishes were captured from food vendors in the facility of Kelburn campus at Victoria University of Wellington. Only the title of the food dishes were shown to participants, other information such as images were explicitly excluded. This was to prevent biases around the imagery, the price of the dish, the food vendor of where the food can be purchased etc, since these factors can influence the way participants rate the dishes (especially if majority of participants are students). For example, a participant could like a food dish such as a Butter Chicken Pie from a specific food vendor, but hate it from another food vendor. The image of a food dish may also influence the way participants rate a dish, therefore, excluding this information enables the representation of the participants general food preferences to be captured. A variety of food dishes have also been included in the survey to ensure there are options for all users such as users with intolerances, and users that are vegans or vegetarians. 
+
+Despite this, mistakes were made in the creation of the survey. A small number of food dishes have been incorrectly labelled ``vegetarian" such as Chicken Curry \& Feta, and Chicken Fried Rice. The survey ``Intolerances" section should have also contained the following options: Other, N/A. In addition, the survey should have asked users to only rate food dishes they have explicitly tried before, rather than rating food dishes that best reflected their opinion. The latter is ambiguous since participants may rate food dishes based on dishes they want to try. This is not an accurate representation of actual food preference from the users, which may influence results in the experiment. Another mistake was raised by a vegetarian participant who had notified on the survey that their were no vegetarian dishes in the sushi category. This mistake was based on the choice of food dishes in the survey, since there are 100 food dishes, the length of the survey may cause fatigue in participants and it can be difficult defining a set length.   
+
+The following section details the data collected from the survey. 
 
 \section{Dataset} \label{dataset}
 
@@ -359,27 +376,6 @@ In this section we present the results of the experiments described in Section \
 \includegraphics[scale=0.4]{images/results_tuning.png}
 \caption{Averaged results ran 30 times with the same optimal parameters (contaminated).}
 \label{fig:results}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{images/single_als_30_runs.png}
-\caption{Individual 30 runs of the standard single ALS algorithm. (contaminated)}
-\label{fig:single_algorithm}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{images/dual_als_30_runs.png}
-\caption{Individual 30 runs of the dual ALS algorithm. (contaminated)}
-\label{fig:dual_algorithm}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{images/hybrid_als_30_runs.png}
-\caption{Individual 30 runs of the Hybrid ALS algorithm which takes into account the content preferences of the user and considers these preferences when making recommendations. (contaminated)}
-\label{fig:dual_algorithm}
 \end{figure}
 
 \todo{Check this - massive Brain dump to get content down (probably wrong as well)}

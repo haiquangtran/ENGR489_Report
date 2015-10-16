@@ -6,49 +6,53 @@ This chapter explains the background and literature of recommender system techni
 
 Content-based filtering (CBF) has been widely used in recommender systems \cite{koren2011, hybrid,toward, bogers2009collaborative}. CBF focuses on recommending items to users based on attributes of items corresponding to attributes a user has explicitly rated or implicitly rated \cite{koren2011}. Users can explicitly rate item attributes to a user profile, or machine-learning techniques such as naive Bayes \cite{koren2011, bogers2009collaborative} can implicitly learn the attributes of users to build a user profile, making recommendations based on the user profile. Pandora \cite{pandora, howepandora}, a music streaming station, automatically plays similar recommended songs a user may enjoy when the user indicates a song they like. The recommendations are based on approximately 400 attributes of a song, and are implicitly learn from the user when they like a song \cite{howepandora}.
 
-However, content-based filtering is prone to recommending a small subset of items, since it recommends items based on attributes, leading to overspecialisation and thus, restricting variety \cite{toward}. Another problem of content-based filtering is that it may be difficult to extract features from items and users, and manually labelling these features may not be practical \cite{toward}.
+However, content-based filtering is prone to recommending a small subset of items, since it recommends items based on attributes, leading to overspecialisation and thus, restricting variety \cite{toward}. Another problem of content-based filtering is that it may be difficult to extract features (from items \& users), and manually labelling these features may not be practical \cite{toward}.
 
-Traditional collaborative filtering address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. However, in the ``Cold Start" problem (when new users or items have insufficient information to provide recommendations), content-based filtering is superior than collaborative filtering because it does not rely on the opinion of other users \cite{koren2009matrix}.
+Traditional collaborative filtering address these concerns since attributes are ignored, and recommendations are based on actions of other users, providing a range of recommendations that are not restricted to specific attributes \cite{koren2009matrix}. However, in the ``Cold Start" problem: occurring when new users or items have insufficient information to provide recommendations, content-based filtering is superior to collaborative filtering because it does not rely on the opinion of other users \cite{koren2009matrix}.
 
-For these reasons, content-based filtering is not addressed in detail, but the basic idea of content-based filtering is explained because hybrid collaborative filtering approaches are based on it. This approach is implemented and examined in the experiment. The following sections explain the details of collaborative filtering.  
+For these reasons, content-based filtering is not addressed in detail, but the basic idea of content-based filtering is explained since hybrid collaborative filtering approaches generally utilise content-based filtering to increase the recommendation accuracy \cite{survey}. An implementation of hybrid collaborative filtering is implemented in this project.  
 
 \section{Collaborative Filtering}
 
-Collaborative filtering (CF) is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative, survey}. The main idea behind collaborative filtering is that rating behaviours of others can be used to predict items that the active user will be interested in. Intuitively, this algorithm stems from the assumption that users having similar opinions on items they both rated tend to have similar tastes to each other, having similar opinions about other items  \cite{schafer2007collaborative}. For example, consider a friend with whom you share common food interests. Perhaps you both like eating chicken sandwiches. Since you and your friend have similar tastes, your friend may then be able to suggest to you another food dish that you might enjoy such as Thai Green Curry. Collaborative filtering uses the same concept, but usually on a larger scale. 
+Collaborative filtering (CF) is a popular technique that has been successfully used in recommender systems \cite{itembased, schafer2007collaborative, survey}. The main idea behind collaborative filtering is that rating behaviours of others can be used to predict items the active user will be interested in. Intuitively, this algorithm stems from the assumption that users having similar opinions on items they both rated, tend to have similar tastes, resulting in similar opinions about other items \cite{schafer2007collaborative}. For example, consider a friend with whom you share common food interests. Perhaps you both like eating chicken sandwiches. Since you both have similar tastes, your friend may then be able to suggest another food dish you might enjoy such as Thai Green Curry. Collaborative filtering uses the same concept, but usually on a larger scale. 
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{images/User-Item}
-\caption{A user-item ratings matrix containing scaled ratings from 1-5. Typically the user-item ratings matrix is sparsely filled, since there will be missing entries where users have not rated a subset of items. The missing entries are represented by the question marks (?) in the matrix. }
+\caption{A user-item ratings matrix containing scaled ratings from 1-5. Typically the user-item ratings matrix is sparsely filled, since there will be missing entries where users have not rated items. The missing entries are represented by the question marks (?) in the matrix. }
 \label{fig:matrix}
 \end{figure}
 
-Users express their preferences for a variety of items through ratings which can be in various forms such as 1-5 star ratings, or binary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) triplet. These ratings can be represented in the form of a matrix, where the rows of the matrix are users, the columns of the matrix are items, and the ratings are represented inside the matrix (See Figure \ref{fig:matrix}). Since the matrix contains sets of rating triplets, the (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix is usually sparse.
+Users express preferences for a variety of items through ratings that can be in various forms such as 1-5 star ratings, or binary scale ratings such as likes/dislikes. These ratings are typically represented as a (User, Item, Rating) tuple. These ratings are represented in a matrix, where rows of the matrix are users, columns of the matrix are items, and ratings are represented inside the matrix as shown in Figure \ref{fig:matrix}. Since the matrix contains sets of rating tuples, the (User, Item) pairs will exist where a user has not yet rated the item, thus the matrix is usually sparse.
 
-Since the matrix can be sparse, collaborative filtering can struggle when there are not enough ratings to provide accurate recommendations to users. Sparse ratings can also lead to another issue called the 'Cold Start' problem, where ratings for new items or new users have not yet been collected. In this context, content-based filtering is superior \cite{koren2009matrix}. However, the advantage of collaborative filtering is that it does not require domain knowledge of items or users to provide recommendations. It focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering once the active user has rated enough items \cite{koren2009matrix, schafer2007collaborative}. 
+Since the matrix can be sparse, collaborative filtering can struggle when there are not enough ratings to provide accurate recommendations to users. Sparse ratings can also lead to another issue called the ``Cold Start" problem, where ratings for new items or new users have not yet been collected. In this context, content-based filtering is superior \cite{koren2009matrix}. However, the advantage of collaborative filtering is that it does not require domain knowledge of items or users to provide recommendations. It focuses on the previous behaviours of users and their rating history, providing recommendations that are generally more accurate than content based filtering once the active user has rated enough items \cite{koren2009matrix, schafer2007collaborative}. 
 
-Using the matrix, a list of top N recommendations is usually given to the user representing the items they will like, computed through collaborative filtering techniques. For example, the active user may be recommended 10 food dishes that might be of interest to them whenever they log onto the application What's On The Menu (WOTM) specified in Section \ref{section:wotm}.  
+Using the matrix, a list of top N recommendations is given to users representing items they are predicted to prefer, computed through collaborative filtering techniques. For example, the active user may be recommended 10 food dishes that might be of interest to them whenever they log onto the application What's On The Menu (WOTM) specified in Section \ref{section:wotm}.  
 
-There are three main areas of CF, these areas are memory-based CF techniques, model-based CF techniques, and hybrid-based CF techniques. In this project, we will be examining in particular, the neighbourhood methods which are a form of memory-based CF techniques, and latent factor models which are a form of model-based CF techniques \cite{survey, koren2009matrix}. Neighbourhood methods, and Latent factor models will be explained in the following sections. 
-
-% \section{Challenges}
-% \subsection{Cold Start}
-% \subsection{Data Sparsity}
-% \subsection{Synonyms}
-% \subsection{Scalability}
-% \subsection{Grey Sheep}
-% \subsection{Shilling attacks}
-% \subsection{Diversity and the Long Tail}
+Three main areas CF consist of memory-based CF techniques, model-based CF techniques, and hybrid-based CF techniques. Neighbourhood methods are a form of memory-based CF techniques, latent factor models are a form of model-based CF techniques, and hybrid-based collaborative filtering techniques are a combination of collaborative filtering techniques and other recommender techniques such as content-based filtering \cite{survey, koren2009matrix}.
 
 \section{Neighbourhood Methods}
 
-Neighbourhood CF methods can be classified into the class of memory-based CF techniques because they use the entire or a sample of the ratings matrix to find the similarity between users (or items) through a heuristic \cite{memorybased, schafer2007collaborative}. The main idea of this approach is to use the ratings matrix to compute the similarity between users (or items) which are then used for recommendations. This typically involves finding all user-user similarities (or item-item similarities) and using neighbourhood algorithms such as K-Nearest Neighbour to find the K most similar users (or items), referred to as neighbours. The K most similar users (or K most similar items) are then used to predict how the active user will feel about specific items, thus being able to make recommendations for the active user based on their neighbours. Since these neighbours may contain quirky characteristics that are not common among the users, methods tend to take the weighted average of the neighbours ratings or simple weighted average to generate predictions for the active user \cite{survey}. 
+Neighbourhood CF methods are classified as memory-based CF techniques because the entire ratings matrix is used to find similarity between users (or items) through a similarity measure \cite{memorybased, schafer2007collaborative}. 
 
-Common similarity measures that are used are Pearson's Correlation, Cosine similarity, Euclidean distance, Jaccardian similarity and so forth, finding similar users to the active user (or similar items that the active user has previously performed actions on). The most common neighbourhood method that is used to find the most similar users (or items) is the K-Nearest Neighbour algorithm. This algorithm finds the K-nearest neighbours based on a heuristic, in this case, the similarity measure. Other neighbourhood algorithms are K-Means, K-d Trees, and Locality Sensitive Hashing \cite{survey}. 
+Similarity measures used to find similar users (or items) are Pearson's Correlation \cite{zeng2003similarity, itembased, mahoutaction}, Cosine similarity \cite{itembased}, Euclidean distance \cite{similarity, mahoutaction}, and so fourth. These similarity measures are used in neighbourhood approaches such as K-Nearest Neighbour. Other neighbourhood algorithms are K-Means \cite{survey}, K-d Trees \cite{survey}, and Locality Sensitive Hashing \cite{survey}. 
+
+Recommendations are given to users based on similarity of users (or items). This involves finding all user-user similarities (or item-item similarities) and using neighbourhood algorithms such as K-Nearest Neighbour to find the K most similar users (or items), referred to as neighbours. The K neighbours are then used to predict how the active user will feel about specific items, thus being able to make recommendations based on the neighbours. Since these neighbours may contain quirky characteristics that are not common among users, methods tend to take the weighted average of the neighbours ratings or simple weighted average to generate predictions for the active user \cite{survey}. 
+
+
+\todo{Look at this uncommented and see if you want to add advantages etc}
+% Memory-based methods have the advantages of being able to
+% rapidly incorporate the most up-to-date information and relatively
+% accurate prediction, but they suffer from poor scalability for large
+% numbers of users because the search for all similar users will be
+% much slower when the database becomes large. If the size of the
+% training set is N, then the time complexity of the memory-based
+% method is O(NM) \cite{zeng2003similarity}. 
+
+
+% % Neighbourhood methods suffer scalability problems with large datasets, and decrease performance on sparse
 
 % A key problem of collaborative filtering is how to combine and weight the preferences of user neighbors. Sometimes, users can immediately rate the recommended items. As a result, the system gains an increasingly accurate representation of user preferences over time.
-
-The following section explains the difference between user-based CF and item-based CF.
 
 % +Advantages
 %     -   explain
@@ -61,20 +65,16 @@ The following section explains the difference between user-based CF and item-bas
 %     - scalability and problems with large datasets
 %     - adding new items required inclusion of the new item and re-insertion of all elements in the structure
 
-
-
 \subsection{User-based Collaborative Filtering}
 
-The defining characteristic of user-based CF is based upon similarities between users \cite{mahoutaction}. A concrete example would be two users that rated the same food dishes similarly, the first user has indicated that they like the Big Mac and the Whopper Burger; similarly, the second user indicated that they like the Big Mac too, therefore, since these two users previous ratings are similar (both like Big Macs), they are to be considered similar; we can then recommend to the second user that they should try the Whopper Burger, since the users have similar opinions about the item. User-based CF has the same idea with the example, but typically works better on a larger scale - more ratings, more users, and more items are involved. 
-
+The defining characteristic of user-based CF is based upon similarities between users \cite{mahoutaction}. An example would be two users that rated the same food dishes similarly. The first user enjoys eating burgers indicated by rating various burgers positively. Similarly, the second user indicated from their ratings that they enjoy burgers too. A similarity between the two is now inferred based directly on their food preferences. Since they share common food preferences, recommendations can be given to each based on the assumption that they will prefer each other's other food preferences. The logic of user-based recommendations is based upon this idea \cite{mahoutaction}, typically on a larger scale - more ratings, more users, and more items involved. 
 
 \subsection{Item-based Collaborative Filtering}
 
-Another approach that is commonly used is Item-based CF. Instead of finding users that are similar to each other, item-based CF focuses on recommending items that are similar \cite{mahoutaction}. Similar items are extracted by the rating patterns of other users rather than the attributes of the item - two items are considered similar if users rate them similarly \cite{schafer2007collaborative}. For example, a user could have previously liked the following dishes: a chicken sandwich, chicken nuggets, and chicken soup. Item-based CF will find similar items that the user has previously rated by using a similarity measure. By using this technique, it may recommend items based on the users previous interests, suggesting new items such as chicken salad, or a chicken burger since users who like the previous dishes of the active user tend to like these dishes. This is the main idea behind item based collaborative filtering. 
-
+\todo{Show image if have time}
+Item-based CF recommends new items to the user based on how similar they are to previously preferred items rated by the user \cite{mahoutaction}. Similar items are based on rating patterns of other users rather than attributes of the item; two items are considered similar if users rate them similarly \cite{schafer2007collaborative}. Consider an example where a user has previously liked the following dishes: Thai Green Curry, Roti Channai With Chicken, and Butter Chicken Pie. Based on the users previously rated items, item-based CF finds similar items based on similar ratings from others. This is the key distinction between user-based CF and item-based CF, where items are recommended either based on similar users, or based on similar items \cite{mahoutaction}.    
 
 \section{Latent Factor Models}
-
 
 % \textcolor{red}{
 % Latent factor models, such as matrix factorization (aka, SVD), comprise
@@ -132,12 +132,12 @@ The main purpose of Alternating Least Squares (ALS) is to find the minimum error
 
 \todo{Why do I choose this? Report results from literature}
 
-\subsection{Hybrid-based Collaborative Filtering}
+\section{Hybrid-based Collaborative Filtering}
 \todo{Consider redoing this}
 For traditional collaborative filtering techniques, they mainly suffer from the cold start problem from the sparsity of ratings in the user ratings matrix \todo{reference}. Matrix factorization techniques also may suffer from problems such as the curse of dimensionality \todo{Curse of dimensionality?}. Content-basd filtering techniques generally provide good recommendations, and are superior in this context, however, suffer from providing recommendations that are predictable and are restricted to content that is similar, thus, making factors such as novelty or serendipity non-existent. For these reasons, hybrid collaborative filtering approaches have been used. There are many approaches to hybrid-collaborative filtering approaches, but typically range from using collaborative filtering and content-based filtering in order to alleviate the disadvantages, and complement instead. The following are techniques which can be found in \todo{cite the link yo. What about binary choices??}
-\subsubsection{Mix and Match}
-\subsubsection{Content-boosted filtering}
-\subsubsection{Switch}
+\subsection{Mix and Match}
+\subsection{Content-boosted filtering}
+\subsection{Switch}
 \todo{yadadadada}
 
 \section{Literature Review \& Applications}
@@ -177,11 +177,6 @@ It is evident that there has been an abundance of existing research on collabora
 For this reason, this project focuses on the goal of providing a recommender system that fits the needs for the ``What's On The Menu" application. This involves considering how users ratings will be collected, the user experience, the recommendation process, and what factors are considered to be important in the recommendation process such as the trade-offs between scalability, prediction accuracy, and performance.
 
 A focus on the recommender system will be on how to make the user experience as easy as possible for users. The user experience affects the collection of ratings from users and the frequency in which users will rate food dishes, thus affecting the quality of recommendations. Another focus will be on the performance of providing recommendations to the users. \todo{Keep? In this case, prediction accuracy may be less important than the speed/performance of recommendations being produced.} If the recommendation process is slow, users are less likely to continue using the application. On the other hand, if prediction accuracy is not accurate, then users will be recommended items that may not be of interest. A fair trade-off must be considered. 
-
-\todo{Feedback from examiner}
-\todo{
-Regarding section 4.1. about performance vs prediction accuracy, there were some essays discussing the results of the Netflix challenge; I believe (please check) the conclusion was that very simple methods such as SVD work well when there is enough data. Performance and accuracy are not contrary goals in this case - high performance is needed to deal with large amounts of data; the O(N\^3) scaling of a standard SVD would not work. I believe the methods that won the challenge were similar to SVD, but with a performance that was cubic in the rank rather than the number of data points. 
-}
 
 % In terms of scalability, the "What's On The Menu" application is not particularly expected to contain anywhere near the number of users or items as existing recommender systems used by Netflix, Facebook, and Google. For this reason, neighbourhood methods may be a good choice, as they provide for the ability to explain the reasoning behind the recommendations, as well as give good prediction-accuracy results. Scalability should not be a top concern with this application. Therefore, real time computation may be a factor to consider.
 

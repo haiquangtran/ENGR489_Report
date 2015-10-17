@@ -84,8 +84,6 @@ Item-based CF recommends new items to users based on how similar the items are t
 
  Item-based collaborative filtering techniques were developed to address scalability limitations of the user-based techniques \cite{survey}. \citeauthor{itembased} \cite{itembased} analyzed various item-based recommendation algorithms, computing item-item similarities and comparing the accuracy with traditional KNN user based collaborative filtering techniques \cite{itembased}. \citeauthor{itembased} found that items remained fairly static in the system, whereas user behaviours and preferences would often change. Because items were found mostly static, it meant precomputation could occur for item similarities. By having precomputed item similarities, traditional item-based collaborative filtering can then be applied, thus performance and scalability would be increased \cite{scalable}.
  
-\todo{Show image if have time}
-
  Consider an example where a user has previously liked the following dishes: Thai Green Curry, Roti Channai With Chicken, and Butter Chicken Pie. Based on the users previously rated items, item-based CF finds similar items based on similar ratings from others. This is the key distinction between user-based CF and item-based CF, where items are recommended either based on similar users, or based on similar items \cite{mahoutaction}.    
 
 

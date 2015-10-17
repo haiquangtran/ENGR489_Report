@@ -1,22 +1,17 @@
 \chapter{Evaluation}\label{C:evaluation}
 
 \section{Objectives}
-
-The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in Section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in Section \ref{algorithms}. The main objectives of the experiment are to answer the following questions in regards to the goal of ``Find Good Items":
-
-\begin{itemize}
+\begin{enumerate} \label{experiment_objectives}
 	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
 	\item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
-	\item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
-	\item{\todo{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}}
-	\item{\todo{Can the base recommendation provide recommendations during the ``Cold Start" problem? or when the ratings matrix is sparse?}}
-	\item{\todo{Do user preferences add value to collaborative filtering?}}
-	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
+	\item{Does a hybrid weighted CF approach provide superior recommendations to a standard ALS approach?}
+	\item{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}
 	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
-	\item{\todo{What are suitable parameters for a latent factor approach deployable in a commercial environment?}}
-	\item{\todo{Is the ALS approach appropriate for a real world commercial environment?}}
-	\item{\todo{Do ALS latent factor CF approaches ``Find Good Items"?}}
-\end{itemize}
+	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
+\end{enumerate}
+
+The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in Section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in Section \ref{algorithms}. The main objectives of the experiment are to answer the questions in Section \ref{experiment_objectives} in regard to the goal of ``Find Good Items"
+
 
 \section{User Study}
 
@@ -171,9 +166,9 @@ Collaborative filtering algorithms depend heavily on user data to give personali
      \hline
      Food Dishes & 100 \\
      \hline
-     Available Food Preferences & \todo{17} \\ 
+     Available Food Preferences & 21 \\ 
      \hline
-     Available Food Intolerances & \todo{5} \\ 
+     Available Food Intolerances & 5 \\ 
      \hline
      Total Ratings & 8000 \\
      \hline
@@ -190,9 +185,9 @@ Collaborative filtering algorithms depend heavily on user data to give personali
 \label{table:cleansed_dataset}
 \end{table}
 
-\section{Design}
+\section{Experimental Background}
 
-In this experiment, an offline evaluation is performed to evaluate the performance of CF algorithms based on the goal of ``Find Good Items". The method used consists of partitioning the dataset, tuning parameters from the recommendation system, and evaluating the performance of CF algorithms using binary recommendation accuracy metrics \cite{zhang}. The following sections detail background knowledge required to understand the experiment, the experiment method, the experimental results, and the limitations and discussion. 
+In this experiment, an offline evaluation is performed to evaluate the performance of CF algorithms based on the goal of ``Find Good Items". The method used consists of partitioning the dataset, tuning parameters from the recommendation system, and evaluating the performance of CF algorithms using binary recommendation accuracy metrics \cite{zhang}. 
 
 \subsubsection{Data Partitioning} \label{partitioning}
 
@@ -214,11 +209,6 @@ The advantage of K-fold cross validation is that every rating point is used exac
 
 A standard 10-fold cross validation is used to determine the optimal parameters in our experiments. 10-fold cross validation is performed on the training set, and is not performed on the test set. In this way, the test set remains uncontaminated since the optimised parameters have not been learnt from any rating data from the test set, preventing bias.
 
-\todo{Move earlier?}
-\subsubsection{Baseline Popularity Predictor}
-
-The baseline predictor provides a base performance which is used to compare the performance of CF algorithms against. In this experiment, a baseline predictor provides non-personalised recommendations, recommending food dishes to users based on the popularity of food dishes. The popularity of a food dish is based on the ``Like" ratings and ``Dislike" ratings from users. The popularity function used in the recommender system is the Wilson Score Confidence Interval described in Section \ref{subsection:popularity}. The recommender system is outputs a list of top $n$ recommended food dishes, each containing a score based on the popularity of the food dish. Since the Wilson Score Confidence Interval normalises the popularity score between ranges of 0.0 to 1.0, an optimal threshold is applied which determines food dishes that will be recommended. The optimal threshold is found from a Receiving Operating Characteristic (ROC) curve detailed further in Sections \ref{roc}, \ref{auc}).
-
 \subsubsection{Recommendation Accuracy} \label{accuracy}
 
 In the context of recommender systems, recommendation accuracy measures the performance of a recommender system based on how well the system can correctly distinguish whether a user will like an item or whether they will not. This is similar to the decision users make in a real world scenario where decisions are based on ``acceptance or rejection" of items from the recommendations given \cite{zhang}. Therefore, recommendation accuracy metrics are appropriate for the use case of ``Find Good Items" \cite{evaluation} as it can ``evaluate how well the system is at assisting the final decision of the user" \cite{zhang}. 
@@ -229,11 +219,7 @@ For these reasons, recommendation accuracy is used with supporting metrics of pr
 
 \subsubsection{Precision, Recall, and Precision at N} \label{precision}
 
-There are four possible categories that binary recommendations from a recommender system can be classified as. Recommendations that are given to users are either preferred food dishes. Users either like foods 
-
-There are four possible categories that recommendations from a binary recommendation system can 
-Binary recommendations can fall into one of four categories as shown in Table \ref{table:categories}.
-
+There are four possible categories that binary recommendations from a recommender system can be classified as \cite{zhang}. These four possible categories can be seen in Table \ref{table:categories}. Recommended items preferred by users result in a True-Positive (TP). This represents an accurate result from the recommender system, since the user preferred the recommended item. Recommended items not preferred by users result in a False-Positive (FP). This represents an inaccurate result from the recommender system, since the user did not prefer the recommended item. Non-recommended items preferred by users result in a False-Negative (FN). This represents an inaccurate result from the recommender system, since the user preferred an item, but the item was not recommended by the recommender system. Non-recommended items not preferred by users result in a True-Negative (TN). This represents an accurate result from the recommender system, since the user did not prefer an item, and the item was not recommended by the recommender system.
 
 \begin{table}[h!]
 \centering
@@ -250,17 +236,19 @@ Binary recommendations can fall into one of four categories as shown in Table \r
 \label{table:categories}
 \end{table}
 
-For binary ratings, precision and recall are often used as metrics. Precision measures the relevant recommendations (fidelity) to the user \todo{add equation for precision}, whereas Recall measures the relevant recommendations from the total preferred items (completeness) \todo{add equation for recall}. 
+For binary ratings, precision and recall are often used as metrics. Precision measures the relevant recommendations (fidelity) to the user shown in Equation \ref{eq:precision}, whereas recall measures the relevant recommendations from the total preferred items (completeness) \ref{eq:precision}. 
 
-Precision at N looks at the top recommendations list, and sees how many true liked items are in that list, and how many false liked items are not in the list. This can be used to measure the portion of relevant items that are in the top-N recommendation list.
+Precision at $N$ uses Equation \ref{eq:precision} but only looks at the top $N$ recommendations list where $N$ is the number of recommended top items to the user. Precision at $N$ gives insight as to how many true liked items are in that list, and how many false liked items are not in the list. This can be used to measure the portion of relevant items that are recommended to users based on the top $N$ recommendation list, where only $N$ recommendations are shown.
 
-\begin{math}
+\begin{equation} \label{eq:precision}
+\centering
 Precision = \frac{\#TP}{\#TP + \#FP}
-\end{math}
+\end{equation}
 
-\begin{math}
+\begin{equation} \label{eq:recall}
+\centering
 Recall = \frac{\#TP}{\#TP + \#FN}
-\end{math}
+\end{equation}
 
 % Recall, in its purest sense, is almost always impractical to measure in a
 % recommender system. In the pure sense, measuring recall requires knowing
@@ -294,15 +282,12 @@ Recall = \frac{\#TP}{\#TP + \#FN}
 % length at which precision is measured should be appropriate for the user task
 % and content domain.
 
-\subsubsection{ROC Curves} \label{roc}
+\subsubsection{ROC Curves and Area Under The Curve} \label{roc} \label{auc}
 \todo{redo}
-In the context of this project, Receiver Operating Characteristic (ROC) curves \todo{CITE THIS} are used to visualise all the possible thresholds on a graph displaying how well a model is able to distinguish recommendations that the user will like or dislike. The True Positive (TP) rate which is the y-axis, shows the sensitivity of the model. This means that it shows the fraction in which liked items by specific users are correctly recommended to the users. The False Positive (FP) rate which is the x-axis, shows the fraction in which disliked items by specific users are incorrectly recommended as items they would like. 
+In the context of this project, Receiver Operating Characteristic (ROC) curves can be used to visualise all the trade-offs between the True-Positive Rate, and the False-Positive Rate of a recommender system. The ROC cruve is computed by using all possible thresholds on a graph , and visualising the trade-off between the True-Positive Rate and the False-Positive Rate, displaying how well a model is able to distinguish recommendations that the users find relevant. The True Positive (TP) rate which is the y-axis, shows the sensitivity of the model. This means that it shows the fraction in which liked items by specific users are correctly recommended to the users. The False Positive (FP) rate which is the x-axis, shows the fraction in which disliked items by specific users are incorrectly recommended as items they would like. The Area Under The Curve (AUC) is a measure that can determine how good the recommender system is over all the thresholds, where a AUC of 1.0 specifies a recommendation system that recommends items perfectly to users. 
 
-\subsubsection{Area Under The Curve} \label{auc}
-\todo{Explain this}
+\section{Experimental Design}
 
-\subsection{\todo{System tools/Analysis Tool chain}}
-Ruby
 \subsection{Setup/Tools}
 The following equipment was used to run the experiment:
 \begin{itemize}
@@ -311,8 +296,21 @@ The following equipment was used to run the experiment:
 	\item{8GB DD3 RAM}
 	\item{Arch 64bit GNU/Linux Operating System}
 \end{itemize}
+The following programming languages and tools were used in the experiment:
+\begin{itemize}
+	\item{The programming language Ruby for the application WOTM}
+	\item{PredictionIO 9.4 using HBase for the event server, and running on Spark}
+	\item{PredictionIO Engine written in Scala using Apache MLLib}
+\end{itemize}
 
 \subsection{Method} \label{method}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{recent_images/evaluation_workflow.png}
+\caption{Evaluation for 1 run. Multiple runs are computed, and the results are averaged.}
+\label{fig:evaluation_workflow}
+\end{figure}
 
 \todo{Rewrite all of this. Just check if content is correct.}
 
@@ -333,49 +331,49 @@ The second method is essentially the same as the first, except we tune the param
 
 In this section we present the results of the experiments described in Section \ref{method}. We will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commercial/real world environment.  
 
-\begin{figure}
+\begin{figure}[!tbp]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{recent_images/accuracy.png}
+    \caption{Comparing Recommendation Accuracy of various ALS algorithm run 30 times.}
+    \label{fig:algorithms}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{recent_images/precision.png}
+    \caption{Comparing Recommendation Precision of various ALS algorithm run 30 times.}
+    \label{fig:algorithms}
+  \end{minipage}
 \centering
-\includegraphics[scale=0.7]{recent_images/accuracy.png}
-\caption{Comparing Recommendation Accuracy of various ALS algorithm run 30 times.}
-\label{fig:algorithms}
+  \hfill
+  \begin{minipage}[b]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{recent_images/recall.png}
+    \caption{Comparing Recommendation Precision of various ALS algorithm run 30 times.}
+    \label{fig:algorithms}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{recent_images/auc.png}
+    \caption{Comparing Recommendation Area Under the ROC Curve of various ALS algorithm run 30 times.}
+    \label{fig:algorithms}
+  \end{minipage}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{recent_images/precision.png}
-\caption{Comparing Recommendation Precision of various ALS algorithm run 30 times.}
-\label{fig:algorithms}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.7]{recent_images/auc.png}
-\caption{Comparing Recommendation Area Under the ROC Curve of various ALS algorithm run 30 times.}
-\label{fig:algorithms}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.7]{recent_images/recall.png}
-\caption{Comparing Recommendation Recall of various ALS algorithm run 30 times.}
-\label{fig:algorithms}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.7]{recent_images/top_n.png}
+\includegraphics[scale=0.4]{recent_images/top_n.png}
 \caption{Comparing Recommendation Top N=10 Precision of various ALS algorithm run 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.4]{images/results_tuning.png}
+\includegraphics[scale=0.3]{images/results_tuning.png}
 \caption{Averaged results ran 30 times with the same optimal parameters (contaminated).}
 \label{fig:results}
 \end{figure}
 
-\todo{Check this - massive Brain dump to get content down (probably wrong as well)}
+
 From running these algorithms multiple times, it is clear that the results give similar results. 
 
 \subsection{Recommendation Accuracy}
@@ -452,14 +450,11 @@ In addition, recommendation accuracy is identifying items that the user is alrea
 \section{Discussion}
 
 \subsection{\todo{Latent size}}
-\todo{directly from design decisions}
-\todo{Should I include stuff like this in the report? YES!}
-This affects the amount of features that will be used in SVD.
 
+This affects the amount of features that will be used in ALS.
 With the current amount of data, it seems that using a smaller latent size affects the accuracy. This is because having a smaller latent size will capture all the ``Strong" patterns from the ratings, as opposed to having a larger number of latent sizes, where the rating patterns are spread across more characteristics, meaning that the feature values for these characteristics will be smaller. More feature vectors -> the smaller the strength of the characteristics that it captures from the previous rating patterns. This may capture quirky characteristics from the users rating patterns...however, Less feature vectors -> the stronger the strength of the characteristics that it captures from the previous rating patterns. 
 
 Overall, Dual ALS is performs better than single ALS in the context of using binary events.
 
-\section{Challenges}
 
 

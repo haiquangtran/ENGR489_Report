@@ -1,6 +1,6 @@
 \chapter{System Design \& Implementation}\label{C:work_done}
 
-The main factor of this project is that it focuses on a recommendation system for a mobile application, rather than a website application. This affects how users will interact with the system, since with a mobile interface, the small form factor influences decisions based upon this, such as the ratings that are available from users. Since existing components of WOTM are done in the programming language Ruby, it means we are confined to this language. In addition, the data in the application has already been modelled, including the dishes, restaurants, and users etc. The only data that had not been modelled was the data required for the recommender system such as Like/Dislikes and food preferences.   
+The main factor of this project is that it focuses on a recommendation system for a mobile application, rather than a website application. This affects how users will interact with the system, since with a mobile interface, the small form factor influences design decisions such as the ratings available from users. Since existing components of WOTM are done in the programming language Ruby, it means we are confined to this language. In addition, the data in the application has already been modelled, including the dishes, restaurants, and users etc. The only data that had not been modelled was the data required for the recommender system such as Like/Dislikes and food preferences.   
 
 \section{Design Decisions}
 
@@ -29,17 +29,6 @@ The main advantage of using PredictionIO is that engines can be easily swapped o
 Additionally, these engines implement a DASE architecture \cite{predictionio}. DASE stands for Data, Algorithms, Serving, and Evaluator. These components are considered to be independent in the engine which allows for separation of concerns. Implementation of various algorithms can be applied at the Algorithms stage, and enables results from the various algorithms to be combined at the Serving stage to produce hybrid CF approaches for recommendations.
 
 PredictionIO already contains a range of customizable engines, including engines that use Alternating Least Squares (Section \ref{als}) for CF. The PredictionIO community is active and new engines are frequently being produced. Additionally, there is concise documentation and support available. For these reasons, we found PredictionIO to be our best candidate and decided to use it. 
-
-% \subsection{Online Learning vs Offline Learning}
-
-% In a mobile application, speed and performance of recommendations is arguably more important than the prediction-accuracy. For instance, a user is more likely to use an application that provides fast recommendations to the users but less accurate recommendations, as opposed to an application that provides slow recommendations to the users but are accurate. In this case, the former is to be more accepted because users are able to easily skip inaccurate recommendations, whereas in the latter, users will have to wait for the recommendations to appear which may cause their attention to drift. 
-
-% With this in consideration, it is important to provide fast recommendations to users, thus a model-based approaches would be more appropriate than neighbourhood methods. A model-based CF approach means that a model can be constructed and trained offline. Once the model is deployed, it will provide instant recommendations to the users because less computation needs to be done in real time, since the model has learnt what the user likes offline. As well as this, a model based approach means that expensive computation can be computed offline, providing high scalability. However, the disadvantage of a CF model based approach is that it must be regularly trained to take into account the recent new actions of the users. Therefore, regular intervals to train the model need to be defined depending on how often users rate dishes.
-
-% Neighbourhood methods of CF perform online learning, meaning that they do the computation in real time. For instance, in user-based CF when a user likes a dish, then the algorithm will be performed then and there, finding similar users, then finding neighbours that are similar to that user, providing a recommendation. This technique is easy to implement, but does not scale well, and is slower than the modelled approach. However, depending on the size of data that is expected to be collected from this 'WOTM', it may be a valid approach if the data is not expected to be large (millions of ratings). As new users and new items grow in the application, it is expected that the amount of ratings will exponentially grow as well, therefore there is a possibility that scalability may have to be considered in the long term. As of now, we will focus on the performance of the recommender system.  
-
-% For this reason, we will examine both online learning and offline learning, and see how implementations of the CF algorithm affect the performance of the recommendations that are produced.  
-
 
 \subsection{User Experience}
 
@@ -81,9 +70,9 @@ This section explains what has been implemented according to the design decision
 
 PredictionIO \cite{predictionio} provides many template engines, some of which use CF algorithms to make recommendations to users. In particular, there is a template engine that uses Alternating Least Squares, learning user preferences based on previous rating patterns. This engine is called the ``E-Commerce Recommendation Engine", and will be built upon to suit the use case of ``Find Good Items" in this project. 
 
-\subsubsection{E-Commerce Recommendation Engine}
+\subsubsection{Default Recommendation Engine}
 
-The E-Commerce Recommendation Engine is written in the programming language Scala and is made to provide personalised recommendations for e-commerce applications. This engine uses Alternating Least Squares (ALS) which is a model-based CF technique. This means the model is built from training on users ratings, identifying patterns and learning about recommendations the users may be interested in. The training process occurs offline to minimize the computation cost for online use, providing fast recommendations. The engine comes with the following (out of the box) functionality \cite{predictionio}.
+The E-Commerce Recommendation Engine \cite{predictonio} is written in the programming language Scala and is made to provide personalised recommendations for e-commerce applications. This engine uses Alternating Least Squares (ALS) which is a model-based CF technique. This means the model is built from training on users ratings, identifying patterns and learning about recommendations the users may be interested in. The training process occurs offline to minimize the computation cost for online use, providing fast recommendations. The engine comes with the following (out of the box) functionality \cite{predictionio}.
 \begin{enumerate}
  \item Exclude out-of-stock items
  \item Provide recommendation to new users who sign up after the model is trained
@@ -91,34 +80,27 @@ The E-Commerce Recommendation Engine is written in the programming language Scal
  \item Recommend popular items if no information about the user is available
 \end{enumerate}
 
-\todo{Redo this}
-Default events in the engine are \textit{view} events and \textit{purchase} events.
-Since \textit{view} and \textit{purchase} ratings are implicit events and not explicit events such as Likert scaled ratings from values 1-5, the implicit events have to be represented differently in the ratings matrix. An implicit event such as \textit{view} or \textit{purchase} event maps to a binary preference value of 1. Missing events map to a binary preference value of 0. 
+Default events in the engine are \textit{view} events and \textit{purchase} events. In order to receive recommendations, the engine must be built by running pio-build, trained by running pio-train, and deployed by running pio-deploy. Once the recommendation engine is deployed, queries can be sent to the engine by creating a client object, and sepcifying the user, and the number of recommendations for that user as seen below: 
 
-A binary preference value of 1 indicates that the user likes the item, and a binary preference of 0 indicates no preference for the user. Additionally, implicit events also have a confidence value associated with it. These confidence values represent the confidence levels of the binary preference values being true. In this case, preference values for the \textit{view} and \textit{purchase} events correlate to the value of 1. Multiple identical events such as a user viewing the same item multiple times correlate to higher confidence levels since the confidence level is an aggregation of preference values. This means that there is a higher confidence level that the binary preference value is true, in this case, that the user will like the item because the user viewed or purchased the same item multiple times, recommendations taking this into account \todo{how? how can this be calculated?}. 
+\begin{lstlisting} 
+# Create client object.
+client = PredictionIO::EngineClient.new('http://localhost:8000')
 
-\todo{Move this to the Hybrid Section}
+# Query PredictionIO for 10 recommendations.
+recommendations = client.send_query(user: user_id, num: 10)
+\end{lstlisting}
 
-Alternating Least Squares is then used with the same steps in equation \ref{eq:2}, except with a different minimization equation that considers the implicit events. This minimization equation is for implicit events shown in Equation \cite{implicit}.
+\section{Modifications to Default Recommendation Engine}
 
-\begin{equation}\label{eq:3}\tag{3}
-\displaystyle min_{q*,p*} \sum_{ (u,i) \in K} c_{ui}(b_{ui} - q_{i}^T p_{u})^2 + \lambda (\| q_{i} \|^2 + \| p_{u} \|^2 )
-\end{equation}
-
-In this equation, \begin{math} c_{ui} \end{math} is the confidence level and \begin{math} b_{ui} \end{math} is the binary preference value. 
-
-\subsubsection{Modifications to the Engine}
-
-\todo{HOW MUCH WORK ? CONTRIBUTION}
-Using this template, we modified this engine to take into account ``Like" and ``Dislike" events, removing the \textit{view} and \textit{purchase} events. We modified the CF algorithm in the engine to consider a ``Like" event as positive result, giving it the preference value of a 1. In contrast, we made the algorithm in the engine consider a ``Dislike" event to be a negative result, giving it the preference value of a -1. Since users may be able change their minds about liking or disliking a dish, we modified the CF algorithm to only take into account the most recent like/dislike event that occurs from the user, if there are multiple identical like/dislike events on a dish from that user. Filtering in this recommendation system was also added. Users are now able to filter recommendations based on their preferences such as their meat type, their cuisine type, and their food type. As well as this, users can see recommendations that are within their price range, if specified. 
+Modification of the default recommendation engine was performed to take into account binary ratings: ``Like" and ``Dislike", removing the \textit{view} and \textit{purchase} events. The CF algorithm is modified in the engine to consider a ``Like" event as positive result, giving it a preference value of 1.0. In contrast, the algorithm was modified in the engine to consider a ``Dislike" event to be a negative result, giving it a preference value of -1.0. Since users may be able change their minds about liking or disliking a dish, we modified the CF algorithm to only take into account the most recent like/dislike event that occurs from the user, if there are multiple identical like/dislike events on a dish from that user. Filtering in this recommendation system was also added. Users are now able to filter recommendations based on their preferences such as their meat type, their cuisine type, and their food type. As well as this, users can see recommendations that are within their price range, if specified. 
 
 If dishes are no longer available, then we are able to send a query to the recommendation engine to tell it that the dish is unavailable. Another feature is that we are also able to send a query to the recommendation engine to say that a user has already seen that dish, and not to recommend that seen dish anymore. In this way, the user only sees new dishes that they have not been recommended yet.
 
-This model recommends dishes to users as soon as they have liked a dish. These recommendations are also based on the ratings of other users rating patterns, which means that the ratings matrix should be dense. If the model cannot learn what the user likes, or the user has not rated anything yet, then it defaults to recommending the most popular dishes to the users. The advantage of this is that users get to see the trending dishes that other users prefer, however the disadvantage is that it may create bias results in the system because popular dishes will only be seen by new users. This means that new users will only rate the popular dishes, causing problems in the recommender engine. To extend this engine, we need to only recommend dishes to users after they have rated a certain number of dishes. Random dishes should be shown until they have rated a certain number of dishes. 
-
-\todo{do yo use Cui?}
+This model recommends dishes to users as soon as they have liked a dish. These recommendations are also based on the ratings of other users rating patterns, which means that the ratings matrix should be dense. If the model cannot learn what the user likes, or the user has not rated anything yet, then it defaults to recommending the most popular dishes to the users. The advantage of this is that users get to see the trending dishes that other users prefer, however the disadvantage is that it may create bias results in the system because popular dishes will only be seen by new users. This means that new users will only rate the popular dishes, causing problems in the recommender engine. To extend this engine, we need to only recommend dishes to users after they have rated a certain number of dishes. 
 
 \subsection{Popularity Function} \label{subsection:popularity}
+
+The default recommendation engine originally provides a popularity function that is a count of \textit{view} on each item. For binary ratings, this popularity function is insufficient to provide popular recommendations with since it does not take into account negative ratings such as Dislike. Therefore, the popularity function in the default recommendation is overridden by a new popularity function implementation based on binary ratings ``Likes/Dislikes". 
 
 In cases of the ``Cold Start" problem, where a new user has joined the system but has not rated any items, recommendations based on popular food dishes are a way of recommending items that have a higher chance the user will like the food dish compared with random recommendations. There are many factors considered when using a popularity function based on binary events (Likes/Dislikes). An example of this, would be the case where a food dish has a high number of likes, but also a high number of dislikes. For a problem such as this, a simple equation that takes the average would suffice such as the equation: $average= likes/(likes+dislikes)$ \cite{popularity}. However, the average does not work if an item has few ratings. For example, a food dish with only 1 ``Like" rating would be ranked at the top of the recommendations list since it has a 100\% positive ratio. However, this should not be the case, since the amount of users having rated the item is small in comparison with other food dishes \cite{popularity}. 
 
@@ -130,47 +112,87 @@ The lower bound of the Wilson Score Confidence Interval is defined in equation \
 \left(\hat{p} + \frac{z^2_{\alpha/2}}{2n} - z_{\alpha/2} \sqrt{[\hat{p}(1-\hat{p}) + z^2_{\alpha/2}/4n]/n}\right)/(1 + z^2_{\alpha/2}/n)
 \end{equation}
 
-The lower bound of the Wilson Score Confidence Interval estimates the portion of ``Like" ratings with respect to uncertainty from having a small number of rating samples \cite{popularity}. Given the number of ratings, a confidence interval is used to estimate the real portion of positive ratings within the confidence interval \cite{popularity}. Therefore, an implementation of Wilson's Score Confidence Interval is used at a 95\% confidence interval to recommend popular items to the user in the situation where there is insufficient ratings to provide personalised recommendations. 
+The lower bound of the Wilson Score Confidence Interval estimates the portion of ``Like" ratings with respect to uncertainty from having a small number of rating samples \cite{popularity}. Given the number of ratings, a confidence interval is used to estimate the real portion of positive ratings within the confidence interval \cite{popularity}. Therefore, an implementation of Wilson's Score Confidence Interval is used at a 95\% confidence interval to recommend popular items to the user in the situation where there is insufficient ratings to provide personalised recommendations.
 
-\section{Event Variations with ALS} \label{algorithms}
+\section{ALS Implementations} \label{algorithms}
 
-The use of different events can influence the recommendations that are provided by the system. For example, using multiple explicit ratings such as Likes and Dislikes could affect the ALS algorithm. To understand how different events affect the recommender system, we implement variations of rating information with the ALS algorithm.
+The utilisation of binary ratings can influence recommendations that are provided by the system, since binary ratings lack fine-grained data that can be benefited by the recommender system. For example, using multiple explicit ratings such as Likes and Dislikes could provide worse recommendations than using 1-5 star ratings produced by the ALS algorithm. To understand how binary ratings affect the recommender system, implementation of various ALS algorithms explored to try and utilise the information in binary ratings.
 
-\subsubsection{\todo{Item Based ALS}}
+\subsubsection{Baseline Popularity Predictor}
 
-\subsubsection{\todo{Popularity}}
+The baseline predictor provides a base performance which is used to compare the performance of CF algorithms against. In the experiment, a baseline predictor provides non-personalised recommendations, recommending food dishes to users based on the popularity of food dishes. The popularity of a food dish is based on the ``Like" ratings and ``Dislike" ratings from users. The popularity function used in the recommender system is the Wilson Score Confidence Interval described in Section \ref{subsection:popularity}. The recommender system outputs a list of top $n$ recommended food dishes, each containing a score based on the popularity of the food dish. Since the Wilson Score Confidence Interval normalises the popularity score between ranges of 0.0 to 1.0, an optimal threshold is applied which determines food dishes that will be recommended. The optimal threshold is found from a Receiving Operating Characteristic (ROC) curve in Sections \ref{roc}, \ref{auc}).
 
-\subsection{\todo{Single ALS approach}}
+\subsection{Single ALS}
 
-\todo{Add image}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{recent_images/Single_ALS_architecture.png}
+\caption{Hybrid ALS Architecture.}
+\label{fig:single_architecture}
+\end{figure}
 
 The Single ALS algorithm uses the model described in the modifications from the previous section. It contains a single ALS algorithm which is used to learn the latent feature vectors from the ``Like" and ``Dislike" events. In this model, a ``Like" event is represented in the recommender system by a value of 1.0, where as the ``Dislike" event is represented by a value of -1.0. \todo{Check whether it corresponds to 0 or not}. Since ALS works by capturing latent factors of users and items using feature vectors, having the Like events and Dislike events in the same model may correlate with each other, however, may be affected by the proportion of events since they are positive (likes) and negative (dislike) events. For example, if there is a larger amount of users that have disliked a specific item compared to the number of likes, the feature vector captured by that item may all correlate to negative values in the feature space. This may lead to inaccurate recommendations, where having another event such as ``Dislikes" actually deviates away from the main goal and can cause noisy information in the algorithm. For this reason, a more practical approach in theory, would be to separate the different events in an independent ALS algorithm, and then combine the results from both algorithms at the end of the computation phase. In the next system (Dual ALS), we explore this theory to see if it is able to correlate the ``Like" and ``Dislike" events of users, testing whether this provides more accurate personalised recommendations to the user. 
 
 \subsection{Dual ALS approach} 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{recent_images/Dual_ALS_architecture.png}
+\caption{Dual ALS Architecture.}
+\label{fig:dual_architecture}
+\end{figure}
+
 \todo{Explain the implicit event equation}
 
 This model differs from the Single ALS approach as it separates the ``Like" events from the ``Dislike" events in separate models, then merges the results to try and find a correlation between these events from the user, resulting the final recommendation list. We achieve this by defining a ``Like" and ``Dislike" corresponding to positive values of 1.0. Since recommendations are based on the learnt latent factors from the ratings given (Likes \& Dislike), each model with provide the highest predicted scores of items based on the single rating event (Like or Dislike). By separating the events into two separate models, one model is able to predict the most ``Liked" dishes, while the other model is able to predict the most ``Disliked" dishes. By defining positive values for ``Like" and ``Dislike" events, the models predicted ``Disliked" dishes and ``Liked" dishes will provide positive scores for each item. Therefore, we merge these scores at the Serving phase (See Figure \todo{Display image}) where the ``Disliked" item scores are subtracted from the ``Liked" item scores. The idea is that the Dual ALS algorithm will be able to recommend items that strongly correlate with both events from the users since the final recommendation list will contain food dishes where the predicted ``Disliked" food items have been negated from the recommendations list, providing more accurate recommendations.
 
-\todo{explain implementation details?}
 
-\subsection{Item ALS approach}
+Since \textit{view} and \textit{purchase} ratings are implicit events and not explicit ratings such as Likert Scale ratings from values 1-5, the implicit events have to be represented differently in the ratings matrix. An implicit event such as \textit{view} or \textit{purchase} event maps to a binary preference value of 1. Missing events map to a binary preference value of 0. 
 
-\section{Hybrid ALS (Content-boosted) approach}
+A binary preference value of 1 indicates that the user likes the item, and a binary preference of 0 indicates no preference for the user. Additionally, implicit events also have a confidence value associated with it. These confidence values represent the confidence levels of the binary preference values being true. In this case, preference values for the \textit{view} and \textit{purchase} events correlate to the value of 1. Multiple identical events such as a user viewing the same item multiple times correlate to higher confidence levels since the confidence level is an aggregation of preference values. This means that there is a higher confidence level that the binary preference value is true, in this case, that the user will like the item because the user viewed or purchased the same item multiple times, recommendations taking this into account \todo{how? how can this be calculated?}. 
 
-\todo{Add an image of the engine}
+Alternating Least Squares is then used with the same steps in equation \ref{eq:2}, except with a different minimization equation that considers the implicit events. This minimization equation is for implicit events shown in Equation \cite{implicit}.
 
-\todo{REDO - this is horrible}
+\begin{equation}\label{eq:3}\tag{3}
+\displaystyle min_{q*,p*} \sum_{ (u,i) \in K} c_{ui}(b_{ui} - q_{i}^T p_{u})^2 + \lambda (\| q_{i} \|^2 + \| p_{u} \|^2 )
+\end{equation}
 
-In this section, we extend the Dual ALS algorithm by taking into account the user preferences of attributes in a food dish, creating a content-boosted hybrid CF system. Food dishes contain metadata that is abundant, especially at the granularity of the food dishes that WOTM will provide. A food dish, for example, may contain ingredients, a food type, a meat type, and a cuisine type. On a higher level, food dishes may be associated with a restaurant, a type of category, or a type of location where it is purchased. Because WOTM is currently in development, only broad granularity of the food dishes have been specified: food type, meat type, and cuisine type. This meta data is sent to the recommendation engine along with the food dishes so content-based filtering can be applied. In the context of the first iteration for the WOTM application, users will be able to explicitly specify their preferences (Meat type, Food type, Cuisine) before they start getting recommendations. As mentioned in Section \todo{do this section}, collaborative filtering suffers from the ``Cold Start" problem when the ratings matrix is sparse \todo{(Although ALS takes advantage of sparsity)}. In these cases, content-based filtering can alleviate the ``Cold Start" problem. \todo{Since users explicitly label their preferences, these can be used to add a rating score based upon how many of the items each dish contains of the users preferences. In this case, we used a score of 0.1 but should ideally be changed accordingly}. When the ALS algorithm lacks rating information (user feature vector), then content-based filtering will take over, alleviating the ``Cold Start" problem. When the user has rated enough food dishes for ALS to provide recommendations, then these content-based scores act as content-boosters which add more personalised recommendations based on the users preferences. In this way, more personalised recommendations are given to users on the addition of the food dish attributes.
+In this equation, \begin{math} c_{ui} \end{math} is the confidence level and \begin{math} b_{ui} \end{math} is the binary preference value. 
 
 
-\todo{}
- We can use the profile we build from the content
+\subsection{Hybrid ALS}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{recent_images/Hybrid_ALS_architecture.png}
+\caption{Hybrid ALS Architecture.}
+\label{fig:hybrid_architecture}
+\end{figure}
+
+In this section, the Dual ALS algorithm is extended by taking into account the user preferences of attributes in a food dish, creating a content-boosted hybrid CF system. Food dishes contain metadata that is abundant, especially at the granularity of the food dishes that WOTM will provide. A food dish, for example, may contain ingredients, a food type, a meat type, and a cuisine type. On a higher level, food dishes may be associated with a restaurant, a type of category, or a type of location where it is purchased. Because WOTM is currently in development, only broad granularity of the food dishes have been specified: food type, meat type, and cuisine type. This meta data is sent to the recommendation engine along with the food dishes so content-based filtering can be applied. In the context of the first iteration for the WOTM application, users will be able to explicitly specify their preferences (Meat type, Food type, Cuisine) before they start getting recommendations. As mentioned in Section \todo{do this section}, collaborative filtering suffers from the ``Cold Start" problem when the ratings matrix is sparse \todo{(Although ALS takes advantage of sparsity)}. In these cases, content-based filtering can alleviate the ``Cold Start" problem. \todo{Since users explicitly label their preferences, these can be used to add a rating score based upon how many of the items each dish contains of the users preferences. In this case, we used a score of 0.1 but should ideally be changed accordingly}. When the ALS algorithm lacks rating information (user feature vector), then content-based filtering will take over, alleviating the ``Cold Start" problem. When the user has rated enough food dishes for ALS to provide recommendations, then these content-based scores act as content-boosters which add more personalised recommendations based on the users preferences. In this way, more personalised recommendations are given to users on the addition of the food dish attributes.
+
+
+We can use the profile we build from the content
 of items to make good recommendations to
 users, even if there are no other users similar to
 them. We can also filter out items.
 
+\begin{lstlisting} 
+# Query PredictionIO for 10 recommendations based
+recommendation = client.send_query(user: user_id, positivePreferences: ["Meat", "Salad"], negativePreferences: ["Pie", ""], num: 10)
+\end{lstlisting}
 
 \todo{Negative preferences, explain positive preferences etc etc }
 \todo{explain heaps of other stuff as well}
 
+
+\subsection{Item ALS}
+
+The ALS algorithm requires offline training to learn the food preferences of users. Therefore, recommendations based on updated user information only occurs when ALS has already learnt about the information offline, and the user has not rated any new food dishes. For real-time recommendations based on recent actions of the users, Item-based filtering is implemented in the Hybrid ALS system. Item-based filtering is performed when an extra query parameter is specified and sent to the recommendation engine. The specified query takes in an array of item ids the current user has previously liked as seen below: 
+
+\begin{lstlisting} 
+# Query PredictionIO for 10 recommendations based on similar the item ids given.
+recommendations = client.send_query(user: user_id, items: [1,2],num: 10)
+\end{lstlisting}
+
+Based on these items, the Hybrid CF will then perform item-based CF by performing the Cosine-similarity measure using the array of Liked items from the user. This measure is used to find similar items, returning a list of items based on the cosine angle, where a cosine angle of 1 between two items represents ideal similarity, and a cosine angle of -1 between two items represents the opposite. Recommendations are provided to users based on items with the highest cosine-similarity scores. 

@@ -2,14 +2,14 @@
 
 \section{Objectives}
 
-The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in Section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in section \ref{algorithms}. The main objectives of the experiment are to answer the following questions in regards to the goal of ``Find Good Items":
+The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in Section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in Section \ref{algorithms}. The main objectives of the experiment are to answer the following questions in regards to the goal of ``Find Good Items":
 
 \begin{itemize}
 	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
 	\item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
 	\item{Does a content-boosted hybrid CF approach provide superior recommendations to a standard latent factor approach?}
 	\item{\todo{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}}
-	\item{\todo{Can the base recommendation provide recommendations during the Cold Start problem? or when the ratings matrix is sparse?}}
+	\item{\todo{Can the base recommendation provide recommendations during the ``Cold Start" problem? or when the ratings matrix is sparse?}}
 	\item{\todo{Do user preferences add value to collaborative filtering?}}
 	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
 	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
@@ -20,11 +20,9 @@ The objectives of this report focus on providing a base recommendation system th
 
 \section{Design}
 
-The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking participants to rate their food preferences, indicate their food intolerances, and rate food dishes using a Likert Scale Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve (the receiving operator curve), and precision at top N (10). 
+The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking them to rate their food preferences, indicate their food intolerances, and rate food dishes using a Likert Scale Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve (the receiving operator curve), and precision at top N (10). 
 
 Due to time constraints and requirement of real user data for CF evaluation, an online or user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable CF model for further online and user evaluation. 
-
-\todo{The following sections further detail the design of the experiment, the reasoning behind the metrics used, and the results.}
 
 \subsection{\todo{System tools/Analysis Tool chain}}
 Ruby
@@ -39,9 +37,9 @@ The following equipment was used to run the experiment:
 
 \subsection{Participants}
 
-A total of 91 participants were involved in the experiment. The majority of participants were students studying at the school of Engineering and Computer Science (ECS) from Victoria University of Wellington (Vic). An estimated number of 55 students were from a first year COMP102 (ECS) lecture and tutorial. An estimated number of 10 participants were in their honours or masters year in ECS recruited from the Honours CO232 lab at Vic, and an estimated number of 20 participants were from a Summer of Tech event that was held at Kelburn Campus at Vic. The remaining participants were students from around the 200 level Cotton (ECS) labs from Vic. The data collected from participants were approved by the Human Ethics Committee (HEC), and can be seen in Appendix \ref{appendix:hec}.
+A total of 91 participants were involved in the experiment. The majority of participants were students studying at the school of Engineering and Computer Science (ECS) from Victoria University of Wellington (VUW). An estimated number of 55 students were from a first year COMP102 (ECS) lecture and tutorial. An estimated number of 10 participants were in their honours or masters year in ECS recruited from the Honours CO232 lab at VUW, and an estimated number of 20 participants were from a Summer of Tech event that was held at Kelburn Campus at VUW. The remaining participants were students from around the 200 level Cotton (ECS) labs from VUW. The data collected from participants were approved by the Human Ethics Committee (HEC), and can be seen in Appendix \ref{appendix:hec}.
 
-The ages and gender of participants were not captured due to drawbacks in the HEC process. It is estimated the majority of participants are students in the age range of 17-24 since the majority were recruited from the School of Engineering and Computer Science at Victoria University. It is possible a small number of participants are under or over the age range of 17-24, and may not be students. In addition, it is likely there are more male participants than female participants due to the location of recruitment.
+The ages and gender of participants were not captured due to continual changes submitted in the HEC process. It is estimated the majority of participants are students in the age range of 17-24 since the majority were recruited from the School of Engineering and Computer Science at Victoria University. It is possible a small number of participants are under or over the age range of 17-24, and may not be students. In addition, it is likely there are more male participants than female participants due to the location of recruitment.
 
 Participants were asked to fill out surveys capturing their food preferences, food intolerances, and their opinions about food dishes. Strict food preferences were presented to participants as seen in Figure \ref{fig:strict_prefs}. The data around the participants strict food preferences collected from the survey can be seen in Table \ref{table:food_participants}:
 
@@ -203,7 +201,7 @@ Collaborative filtering algorithms depend heavily on user data to give personali
 \label{table:cleansed_dataset}
 \end{table}
 
-\subsection{Overview}
+\section{Experiment Overview}
 
 In this experiment, an offline evaluation is performed to evaluate the performance of CF algorithms based on the goal of ``Find Good Items". The method used consists of partitioning the dataset, tuning parameters from the recommendation system, and evaluating the performance of CF algorithms using binary recommendation accuracy metrics \cite{zhang}. The following sections detail background knowledge required to understand the experiment, the experiment method, the experimental results, and the limitations and discussion. 
 
@@ -215,7 +213,7 @@ In cases where the recommendation system contains tunable parameters, the datase
 
 The \textit{skip every nth protocol} \cite{zhang} is used to partition the dataset into a training set and a test set. The \textit{skip-every-nth protocol} consists of randomising the ordering of users, and randomising the ratings within each user in a sequence that is contiguous to the user, aggregating the result in a list sequence \cite{zhang}. The protocol iterates through this list of user ratings assigning every \textit{nth} rating to the test set, the remaining ratings are assigned to the training set. The \textit{skip-every-nth protocol} ensures that ``the sparsity of the training dataset is minimally disturbed, and guarantees a (n - 1):1 size ratio between training and test data for all users up to decimal rounding" \cite{zhang}. However, since the \textit{nth} value affects the user ratings that are involved in the test set, this means users with few ratings may not be in the test set since their ratings may be skipped during the partitioning process. In these cases, evaluation is done \textit{n} times with the same ordering, but offsetting the partitioning each run by 1. This ensures that every user rating is used exactly once in the test set \cite{zhang}. 
 
-The experiments in this report use the \textit{skip-every-10th protocol} to the dataset into a training set and the test set for final evaluation of the recommender system. This is detailed in section \ref{method}.
+The experiments in this report use the \textit{skip-every-10th protocol} to the dataset into a training set and the test set for final evaluation of the recommender system.
 
 \subsubsection{Parameter Tuning}
 
@@ -334,40 +332,40 @@ The second method is essentially the same as the first, except we tune the param
 
 \section{Experimental Results}
 
-In this section we present the results of the experiments described in Section \ref{Method}. We will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commercial/real world environment.  
+In this section we present the results of the experiments described in Section \ref{method}. We will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commercial/real world environment.  
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{recent_images/accuracy.png}
-\caption{Comparing Recommendation Accuracy of various ALS algorithm ran 30 times.}
+\caption{Comparing Recommendation Accuracy of various ALS algorithm run 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{recent_images/precision.png}
-\caption{Comparing Recommendation Precision of various ALS algorithm ran 30 times.}
+\caption{Comparing Recommendation Precision of various ALS algorithm run 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{recent_images/auc.png}
-\caption{Comparing Recommendation Area Under the ROC Curve of various ALS algorithm ran 30 times.}
+\caption{Comparing Recommendation Area Under the ROC Curve of various ALS algorithm run 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{recent_images/recall.png}
-\caption{Comparing Recommendation Recall of various ALS algorithm ran 30 times.}
+\caption{Comparing Recommendation Recall of various ALS algorithm run 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{recent_images/top_n.png}
-\caption{Comparing Recommendation Top N=10 Precision of various ALS algorithm ran 30 times.}
+\caption{Comparing Recommendation Top N=10 Precision of various ALS algorithm run 30 times.}
 \label{fig:algorithms}
 \end{figure}
 
@@ -386,6 +384,7 @@ Recommendation accuracy is the most suitable for the use case of ``Find Good Ite
 
 \subsection{Precision}
 \todo{Need to rewrite}
+\todo{REFERENCE TABLE}
 The precision is computed by iterating over the test set containing the rated items from the users, checking the whether the recommender system can accurately predict whether the test point is liked by the user, or disliked by the user. In terms of the goal of ``Find Good Items", precision looks at all of the recommended items from the recommender system, for completeness. From the results, Dual ALS was able to achieve a higher precision over the Single ALS approach over multiple runs (30). Dual ALS was able to achieve an average precision of 95.73\%, while Single ALS achieved an average precision of 87.38\%. This means the Dual ALS approach was able to more accurately recommend items the user preferred rather than the Single ALS. Since the average precision of the Single ALS is lower, it means that the recommender system recommended more items that users indicated they disliked (false positives).
 
 \subsection{Recall}
@@ -394,7 +393,7 @@ In the context of this project, Recall measures the fraction in which liked food
 
 \subsection{Precision at top N (10)}
 \todo{Need to rewrite}
-In addition to the overall precision, we decide to measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. The reason why we decided to see this, is because it is suited towards providing insight about how users may perceive the recommendation algorithm in a commercial environment. For example, in an offline evaluation, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
+In addition to the overall precision, we measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. This is suited towards providing insight about how users may perceive the recommendation algorithm in a real-world environment. For example, in an offline evaluation, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
 
 % \subsection{\todo{Implicit events}}
 % \todo{directly from design decisions}
@@ -427,7 +426,7 @@ In addition to the overall precision, we decide to measure the results of the to
 	\item{The amount of users, and the amount of ratings, and the amount of items. Variety of food choices for vegans etc. }
 	\item{The participants recruited - need to be more generalised (Mainly from students)}
 	\item{Tuning the parameters? or unbiased datasets}
-	\item{Online evaluation - novelty, serependity, etc, how can users give opinions about items they've never tried before}
+	\item{Online evaluation - novelty, serendipity, etc, how can users give opinions about items they've never tried before}
 	\item{Density and sparsity of the matrix}
 	\item{The survey questions - need to ask the right questions and about how you ask the question.}
 	\item{HOW MUCH IS GOOD ENOUGH?}
@@ -458,17 +457,5 @@ With the current amount of data, it seems that using a smaller latent size affec
 Overall, Dual ALS is performs better than single ALS in the context of using binary events.
 
 \section{Challenges}
-
-% \section{\todo{Offline evaluation}}
-% OFFLINE EVALUATION
-% \todo{directly from design decisions}
-% Offline evaluation does not determine whether users will like novel items or not. We cannot possibly measure this, since there are a vast amount of missing ratings from the users. 
-% With an offline evaluation, we can only test against what the users have rated. Therefore, we cannot really test the novelty factor, as we can’t know if the user will like the top n list of recommendations since many will be missing. For this, we can use precision and recall but it means that the result will be dependent on the amount of rated positive items the user has done, and how many appear in the list. For this reason, there will be many FALSE POSITIVES, because users have not rated this item. 
-% Therefore, an ONLINE evaluation would be the best to get a gauge on how the users really feel about the recommendations. There are a couple factors that are needed for this:
-% A real system
-% Users will have needed to rate a number of items
-% There must be a vast amount of already rated items in the system
-% Some users may not tried dishes so may not be able to label it accurately?
-
 
 

@@ -18,22 +18,11 @@ The objectives of this report focus on providing a base recommendation system th
 	\item{\todo{Do ALS latent factor CF approaches ``Find Good Items"?}}
 \end{itemize}
 
-\section{Design}
+\section{User Study}
 
 The goal of the experiment is to provide a base recommendation system that provides personalised food dish recommendations to users in regard to the ``Find Good Items" use case. Collaborative filtering (CF) heavily relies on user data to provide recommendations. To capture data, a survey was given to participants asking them to rate their food preferences, indicate their food intolerances, and rate food dishes using a Likert Scale Rating system that best reflected their opinion about food dishes. This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach. Binary recommendation accuracy metrics were used to evaluate the performance of the CF algorithms in regards to the goal of ``Find Good Items", consisting of the following: recommendation accuracy, precision, recall, area under the curve (the receiving operator curve), and precision at top N (10). 
 
 Due to time constraints and requirement of real user data for CF evaluation, an online or user study was unable to be conducted. Therefore, an offline evaluation is done to determine a suitable CF model for further online and user evaluation. 
-
-\subsection{\todo{System tools/Analysis Tool chain}}
-Ruby
-\subsection{Setup/Tools}
-The following equipment was used to run the experiment:
-\begin{itemize}
-	\item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
-	\item{NVIDIA Quadro K620 GPU 2GB DDR3}
-	\item{8GB DD3 RAM}
-	\item{Arch 64bit GNU/Linux Operating System}
-\end{itemize}
 
 \subsection{Participants}
 
@@ -201,7 +190,7 @@ Collaborative filtering algorithms depend heavily on user data to give personali
 \label{table:cleansed_dataset}
 \end{table}
 
-\section{Experiment Overview}
+\section{Design}
 
 In this experiment, an offline evaluation is performed to evaluate the performance of CF algorithms based on the goal of ``Find Good Items". The method used consists of partitioning the dataset, tuning parameters from the recommendation system, and evaluating the performance of CF algorithms using binary recommendation accuracy metrics \cite{zhang}. The following sections detail background knowledge required to understand the experiment, the experiment method, the experimental results, and the limitations and discussion. 
 
@@ -312,6 +301,16 @@ In the context of this project, Receiver Operating Characteristic (ROC) curves \
 \subsubsection{Area Under The Curve} \label{auc}
 \todo{Explain this}
 
+\subsection{\todo{System tools/Analysis Tool chain}}
+Ruby
+\subsection{Setup/Tools}
+The following equipment was used to run the experiment:
+\begin{itemize}
+	\item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
+	\item{NVIDIA Quadro K620 GPU 2GB DDR3}
+	\item{8GB DD3 RAM}
+	\item{Arch 64bit GNU/Linux Operating System}
+\end{itemize}
 
 \subsection{Method} \label{method}
 
@@ -395,6 +394,11 @@ In the context of this project, Recall measures the fraction in which liked food
 \todo{Need to rewrite}
 In addition to the overall precision, we measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. This is suited towards providing insight about how users may perceive the recommendation algorithm in a real-world environment. For example, in an offline evaluation, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
 
+\subsection{Experimental Conclusions}
+
+\todo{
+Find a nice compelling number from section 4.3.2 and claim that as an overall improvement compared to some baseline. You should be touting that in the introduction and conclusion.
+}
 % \subsection{\todo{Implicit events}}
 % \todo{directly from design decisions}
 % Seems like it can’t recognize negative values

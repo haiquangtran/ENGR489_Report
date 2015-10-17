@@ -7,6 +7,15 @@
  \item \todo{Can we use off the shelf recommender system?}
 \end{enumerate}
 
+
+\todo{	Add in a report structure section as well: This report is organized as follows: Chapter~\ref{chap:relatedwork} discusses related work etc. etc. Note, this only works if you put \label{chap:relatedwork} under the \chapter{Related Work} tag.}
+
+\todo{Mention Cold Start Problem?}
+
+\todo{
+The first part is a good motivation. You should pull taste being subjective up to the front.The WOTM application is also a motivation, so present that earlier as a solution to the project of finding food dishes. Then discuss recommendation systems as a core requirement to the WOTM application. Side note, your work doesn't have to be novel. But if you are looking at only like/dislike recommendation systems for food, I would say that is novel anyway.
+}
+
 With the numerous food options around us, it is often difficult to decide what to eat. On some days we may feel like eating our favourite foods, but on other days we could feel more explorative, wanting to try something new. There are many factors that determine our decisions on what we want to eat such as our preferences, our current mood, and what food providers are nearby. Other factors that may contribute is the price of the food dish, the cuisine type, the meat type, and so forth. Additionally, a subset of users have food intolerances which restrict their food options, further making the food decision process difficult.
 
 \todo{There is a jump here, where di recommender system come from?}
@@ -35,7 +44,7 @@ With the numerous food options around us, it is often difficult to decide what t
 It can be difficult to find good food dishes to eat. There are several factors that can influence our decisions. These factors must be considered in a recommender system that is able to provide personalised recommendations to each user. Taste is subjective, people are different. \todo{ introduce earlier} The main goal of this project is to present a base recommender system that is able to ``Find Good Items" for each user, providing personalised recommendations that can be integrated for the application What's On The Menu (WOTM). The challenge in this project, lays within the factors that determine a ``Good Item" for a user, and providing a recommender system that meets the needs of the users. The first is to find an algorithm that will be able to achieve this goal. There are a vast range of techniques that are used for recommendations, however, each algorithm fits a specific context, and relies on conditions that are needed. There are always trade-offs that need to be considered. Factors that should be considered are the scalability, the accuracy, the ``Cold Start" problem, the sparsity, and the computation complexity while considering the user experience (keeping in mind that users must be able to achieve their goal of finding good items.) So what defines a good item? Is it the novelty? the contents of the food dishes? how others feel about the dish? the price and so on? In addition to this, a main problem is not having enough data from users. How can we provide recommendations to the users when they do not indicate enough information to provide personalised recommendations? Another issue is being able to develop a recommender system that can integrate with the existing WOTM application. \todo{In addition, there lacks research in the recommender field of systems that look at only using Binary data driven by usability, in this case, like and dislikes. Most research looks at a more fine grained rating system such as from 1-10 stars. Using only binary data for ratings is a problem in itself. Despite this, the recommender system evaluation process is a problem in itself. How do we know that the recommender system meets our needs? Binary driven by usability -> Like and Dislike}
 
 \section{Motivation}
-
+\todo{ don't know if you really need section 1.2 (motivation). The first part of the report seems to motivate the problem well.}
 \todo{There is limited research on binary recommender systems}
 
 \todo{Add motivation}
@@ -86,6 +95,7 @@ For clarification, we explicitly state the goals of the project in the following
 
 \section{Contributions}
 \begin{itemize}
+    \item{Things like altered the CF algorithm to meet the requirements and performed a 90 person user study and found a 20\% improvement in performance etc.}
 	\item{Dataset}
 	\item{5x algorithms}
 	\item{Evaluation-CF algs}

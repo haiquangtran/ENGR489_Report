@@ -1,12 +1,9 @@
 \chapter{System Design \& Implementation}\label{C:work_done}
 
-\section{Characteristics}
-
-The main factor of this project is that it focuses on a mobile application, rather than a website application. This forces some limitations in terms of how users will interact with the system, since with a mobile interface, the small form factor affects many changes which will be described later on. Since existing components of WOTM are done in the programming language Ruby, it means we are confined to this language. In addition, the data in the application has already been modelled, including the dishes, restaurants, users and so on. The only data that had not been modelled was the data required for the recommender system such as like/dislikes and preferences.   
+The main factor of this project is that it focuses on a mobile application, rather than a website application. This affects how users will interact with the system, since with a mobile interface, the small form factor influencing changes based upon this. Since existing components of WOTM are done in the programming language Ruby, it means we are confined to this language. In addition, the data in the application has already been modelled, including the dishes, restaurants, users and so on. The only data that had not been modelled was the data required for the recommender system such as like/dislikes and preferences.   
 
 \section{Design Decisions}
 
-\todo{Table comparing +/- of approaches would be good here}
 \subsection{Open source projects}
 This section identifies the open source projects that were considered for this project.
 
@@ -16,7 +13,7 @@ Investigations on these systems led to the discovery of PredictionIO, the main o
 
 \subsubsection{PredictionIO}
 
-PredictionIO is an open-source machine learning server that supports multiple algorithms. PredictionIO is used to ``build and deploy predictive applications in a fraction of the time" \cite{predictionio, predictionio2}.
+PredictionIO is an open-source machine learning server that supports multiple algorithms. PredictionIO is used to rapidly produce predictive applications in terms of build and deployment \cite{predictionio, predictionio2}.
 
 \begin{figure}
 \centering

@@ -1,8 +1,10 @@
 \chapter{System Design \& Implementation}\label{C:work_done}
 
-The main factor of this project is that it focuses on a recommendation system for a mobile application, rather than a website application. This affects how users will interact with the system, since with a mobile interface, the small form factor influences design decisions such as the ratings available from users. Since existing components of WOTM are done in the programming language Ruby, it means we are confined to this language. In addition, the data in the application has already been modelled, including the dishes, restaurants, and users etc. The only data that had not been modelled was the data required for the recommender system such as Like/Dislikes and food preferences.   
+One characteristic of this project is that it focuses on a recommendation system for a mobile application, rather than a website application. This affects how users will interact with the system, since with a mobile interface, the small form factor influences design decisions such as what ratings should be collected from users. Since existing components of WOTM are done in the programming language Ruby, it means we are confined to this language. In addition, the data in the application has already been modelled, including the food dishes, restaurants, and users. The only data not modelled is the data required for the recommender system such as the user ratings and food preferences etc.   
 
 \section{Design Decisions}
+
+For designing a recommendation system, the user goals have to be considered. This section details the design decisions regarding the recommendation process.
 
 \subsection{Open source projects}
 
@@ -21,7 +23,6 @@ PredictionIO is an open-source machine learning server that supports multiple al
 \label{fig:predictionIO}
 \end{figure}
 
-
 Figure \ref{fig:predictionIO} represents how PredictionIO is made to integrate with existing applications \cite{predictionio}. Data such as rating events from WOTM is sent to the Event Server where it is stored on PredictionIO. PredictionIO uses a distributed database that is easily scalable. Data from the event server is then used by algorithms from the engines to learn recommendations. These engines are deployed as distributed web services. WOTM can query these deployed engines to retrieve the top N recommendations for a specific user. 
 
 The main advantage of using PredictionIO is that engines can be easily swapped out making it easy to examine and evaluate various CF techniques. This saves time, switching the main focus on CF algorithms rather than configuring settings to accommodate various technology and tools.
@@ -32,7 +33,7 @@ PredictionIO already contains a range of customizable engines, including engines
 
 \subsection{User Experience}
 
-A mobile application encourages user interaction that differs from that of a website. For instance, users are encouraged to use touch events to navigate through pages or to perform certain actions. This leads to design decisions that accommodate such interactions, making it easier for users to perform tasks on mobile applications. The user experience of WOTM affects how rating data is collected from users, which can affect the recommendation system.
+A mobile application encourages user interaction that differs from that of a website. For instance, users are encouraged to use touch events to navigate through pages or to perform certain actions. This leads to design decisions that accommodate such interactions, making it easier for users to perform tasks on mobile applications. The user experience affects the collection of ratings from users, in turn, affecting the frequency in which users will rate food dishes. This will influence the quality of recommendations. Additionally, if the recommendation process is slow, users are less likely to continue using the application. On the other hand, if prediction accuracy is not accurate, then users will be recommended items that may not be of interest. Trade-offs must be considered.  
 
 \subsection{Explicit Feedback}
 

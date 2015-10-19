@@ -1,105 +1,27 @@
 \chapter{Introduction}\label{C:intro}
 
-\todo{Feedback to do from Ian}
-\begin{enumerate}
- \item \todo{People get bored + want new foods to try that they might like}
- \item \todo{WOTM idea -> Contraints is binary decisions}
- \item \todo{Can we use off the shelf recommender system?}
-\end{enumerate}
-
-
-\todo{	Add in a report structure section as well: This report is organized as follows: Chapter~\ref{chap:relatedwork} discusses related work etc. etc. Note, this only works if you put \label{chap:relatedwork} under the {Related Work} tag.}
-
-\todo{Mention Cold Start Problem?}
-
-\todo{
-The first part is a good motivation. You should pull taste being subjective up to the front.The WOTM application is also a motivation, so present that earlier as a solution to the project of finding food dishes. Then discuss recommendation systems as a core requirement to the WOTM application. Side note, your work doesn't have to be novel. But if you are looking at only like/dislike recommendation systems for food, I would say that is novel anyway.
-}
-
 With the numerous food options around us, it is often difficult to decide what to eat. On some days we may feel like eating our favourite foods, but on other days we could feel more explorative, wanting to try something new. There are many factors that determine our decisions on what we want to eat such as our preferences, our current mood, and what food providers are nearby. Other factors that may contribute is the price of the food dish, the cuisine type, the meat type, and so forth. Additionally, a subset of users have food intolerances which restrict their food options, further making the food decision process difficult.
 
-\todo{There is a jump here, where di recommender system come from?}
-\todo{Talk about the Long Tail problem?}
-% The Long Tail problem in the context of recommender
-% systems has been addressed previously in [3] and [4]. In
-% particular, [3] analyzed the impact of recommender systems on
-% sales concentration and developed an analytical model of
-% consumer purchases that follow product recommendations
-% provided by a recommender system. The recommender system
-% follows a popularity rule, recommending the bestselling products
-% to all consumers, and they show that the process tends to increase
-% the concentration of sales. As a result, the treatment is somewhat
-% akin to providing product popularity information. The model in
-% [3] does not account for consumer preferences and their
-% incentives to follow recommendations or not. Also [3] studied the
-% effects of recommender systems on sales concentration and did
-% not address the problem of improving recommendations for the
-% items in the Long Tail, which constitutes the focus of this paper.
-% In [4], a related question has been studied: to which extent
-% recommender systems account for an increase in the Long Tail of
-% the sales distribution. [4] shows that recommender systems
-% increase firm’s profits and affect sales concentration. 
+What’s On The Menu (WOTM) is a web-centric mobile application that is focused on recommending food dishes to users based on their personal food preferences such as meat preference, cuisine preference, food type etc. These recommendations are based on the previous rating patterns of users and are important as it saves time for users and allows users to explore preferred food options they otherwise might not have discovered alone. Taste is subjective, therefore, WOTM aims at providing personalised recommendations to users in order to achieve the overall goal of ``Find Good Items".
 
-\todo{Check this again (Massive massive brain dump)}
-It can be difficult to find good food dishes to eat. There are several factors that can influence our decisions. These factors must be considered in a recommender system that is able to provide personalised recommendations to each user. Taste is subjective, people are different. \todo{ introduce earlier} The main goal of this project is to present a base recommender system that is able to ``Find Good Items" for each user, providing personalised recommendations that can be integrated for the application What's On The Menu (WOTM). The challenge in this project, lays within the factors that determine a ``Good Item" for a user, and providing a recommender system that meets the needs of the users. The first is to find an algorithm that will be able to achieve this goal. There are a vast range of techniques that are used for recommendations, however, each algorithm fits a specific context, and relies on conditions that are needed. There are always trade-offs that need to be considered. Factors that should be considered are the scalability, the accuracy, the ``Cold Start" problem, the sparsity, and the computation complexity while considering the user experience (keeping in mind that users must be able to achieve their goal of finding good items.) So what defines a good item? Is it the novelty? the contents of the food dishes? how others feel about the dish? the price and so on? In addition to this, a main problem is not having enough data from users. How can we provide recommendations to the users when they do not indicate enough information to provide personalised recommendations? Another issue is being able to develop a recommender system that can integrate with the existing WOTM application. \todo{In addition, there lacks research in the recommender field of systems that look at only using Binary data driven by usability, in this case, like and dislikes. Most research looks at a more fine grained rating system such as from 1-10 stars. Using only binary data for ratings is a problem in itself. Despite this, the recommender system evaluation process is a problem in itself. How do we know that the recommender system meets our needs? Binary driven by usability -> Like and Dislike}
+Existing applications such as Yelp \cite{yelp} and Foursquare \cite{foursquare} have similar concepts but lack personalised recommendations for food dishes. These applications focus on a broader scope such as popular restaurants, coffee places, activities, and so forth. This can often lead to a cluttered interface, affecting the user experience, and may provoke confusion in users. Food spotting is an application that focuses on food dishes but does not provide personalised recommendations to users. Instead, they show popular food dishes and focus on crowd-sourcing, relying on users to upload food dishes. What's On The Menu (WOTM) differs as the goal is to recommend personalised food recommendations to the low level granularity of a food dish. This project focuses on the recommendation engine and being able to provide a base recommender system providing personalised recommendations for the application WOTM.
 
-\section{Motivation}
-\todo{ don't know if you really need section 1.2 (motivation). The first part of the report seems to motivate the problem well.}
-\todo{There is limited research on binary recommender systems}
+\section{What's On The Menu Overview} \label{section:wotm}
 
-\todo{Add motivation}
-\subsection{Algorithm is dependent on each use case}
-\subsubsection{Data that can be collected}
-\subsection{Find Good Items}
-\subsection{Novelty/Serendipity}
-\subsection{Commercial Product that can be iterated in the future.}
-\section{Project Objectives}
+What's On The Menu (WOTM) is a system that aims at providing personalised food recommendations to users. It is currently in development and was created by John Clegg from Summer Of Tech. WOTM consists of two components: WOTM Web and WOTM API. WOTM Web is the front-end of the application that deals with interactions in the client browser. WOTM API is the back-end of the application that deals with the application logic and management of data. I will be extending the existing system by integrating a recommendation system into the WOTM API. This component will connect to the other components to provide recommendations to the users, and will manage anything related to the recommendation system.
 
-\todo{Add project goals}
+\section{Requirements}
 
+The core requirements of this project consist of integrating a recommendation system into WOTM. This recommendation system should be able to provide personalised recommendations to users based on the use case of ``Find Good Items". Specifically, ``Find Good Items" are seen as items that a specific user will prefer based on their personal tastes towards food. Therefore, to fulfill this aim the recommendation system must be able to provide personalised recommendations that will perform more accurately than non-personalised recommendations. 
 
-\todo{Is this the reason question or overall project goal?}
-\todo{good reasons \cite{memorybased} \citeauthor{memorybased}} 
- Every year several new techniques are proposed and yet it is not clear which of the techniques work best and under what conditions. 
-The prediction accuracy of the different algorithms depends on the number of users, the number of items, and density, where the nature and degree of dependence differs from algorithm to algorithm.There exists a complex relationship between prediction accuracy, its variance, computation
-time, and memory consumption that is crucial for choosing the most appropriate recommendation algorithm.
-
-
-What’s On The Menu (WOTM) is a web-centric mobile application that is focused on recommending food dishes to users based on their personal food preferences (e.g. Meat preference, Cuisine Preference, Food Preference etc), previous actions such as likes/dislikes, and other factors such as location, price, and so forth. These personalised recommendations are important as it saves time for users and allows users to explore preferred food options they otherwise might not have discovered alone. 
-
-\section{\todo{What's On The Menu Overview (THIS IS THE MOTIVATION)}} \label{section:wotm}
-
-What's On The Menu (WOTM) is a system that aims at providing personalised food recommendations to users. It is currently in development and was created by John Clegg from Summer Of Tech. WOTM consists of two components: WOTM Web and WOTM API. WOTM Web is the front-end of the application that deals with interactions in the client browser. WOTM API is the back-end of the application that deals with the application logic and management of data. \todo{ I will be extending the existing system by creating an additional component called WOTM Recommendations. This component will connect to the other components to provide recommendations to the users, and will manage anything related to the recommendation system. }
-
-Existing applications such as Yelp \cite{yelp} and Foursquare \cite{foursquare} have similar concepts but lack personalised recommendations for food dishes. These applications focus on a broader scope such as popular restaurants, coffee places, activities, and so forth. This can often lead to a cluttered interface, affecting the user experience, and may provoke confusion in users. Food spotting is an application that focuses on food dishes but does not provide personalised recommendations to users. Instead, they show popular food dishes and focus on crowd-sourcing, relying on users to upload food dishes. What's On The Menu (WOTM) differs as the goal is to recommend personalised food recommendations to the low level granularity of a food dish. Specifically, the personalised recommendations will be provided through a recommender system aimed towards the use case of finding ``Good Items" based on the user. This report, specifically focuses on a type of recommender algorithm called Collaborative filtering. 
-
-Collaborative filtering is a popular recommendation technique used to recommend items to users based on previous rating patterns and the behaviours of others \cite{itembased, schafer2007collaborative, survey}. 
-
-\todo{State explicit goals}
-The aim of this project is to provide a base recommendation engine that will be able to provide recommendations for the web-centric mobile application ``What's On The Menu" (WOTM). In particular, the project mainly focuses on Collaborative filtering algorithms, suitable for the application to be used in a commercial environment. The main focus of the project is on the recommendation engine. This involves the algorithms that will be used, the data that will be collected, and how the existing WOTM application will communicate with the recommendation engine. 
-For clarification, we explicitly state the goals of the project in the following points:
-\todo{redo all of this}
-\begin{itemize}
-	\item{Consider a recommendation system that is able to provide accurate recommendations to users for the use case of ``Find Good Items"}
-	\item{Given binary explicit rating data, provide accurate recommendations}
-	\item{This data was used in an offline experiment to evaluate latent factor CF approaches and a hybrid CF approach.}
-	\item{Develop a Food Recommender System}
-	\item{Integrate into WOTM}
-	\item{Develop/Implement algorithm}
-	\item{Create data set}
-	\item{Evaluate them}
-\end{itemize}
-
-% The goal of this project is to find which types of collaborative filtering algorithms best suit the WOTM application. Suitability of these algorithms will be considered on factors that are important for WOTM. The recommender system will have to account for a range of factors from the user experience, the accuracy of the recommendation system, and the speed/performance that the system can provide recommendations to users. This project aims to explore this, by implementing different types of collaborative filtering techniques to recommend food to users based on their personal preferences and previous behaviours.
-
+Another requirement is to examine existing recommendation techniques to find a suitable algorithm for WOTM. Prediction accuracy of various algorithms depend on available user information, the number of users, the number of items and many other factors. Different algorithms perform better in different contexts, thus, an algorithm must be chosen based on the suitability of an application \cite{memorybased}.
 
 \section{Contributions}
+In this project, the following contributions have been made. 
 \begin{enumerate}
-    \item{Things like altered the CF algorithm to meet the requirements and performed a 90 person user study and found a 20\% improvement in performance etc.}
-	\item{User Study/Dataset}
-	\item{5x algorithms}
-	\item{Evaluation-CF algs}
-	\item{Integration of engine stuff into PredictionIO}
-	\item{Binary events in recommender system}
-	\item{People get bored + want new foods to try that they might like}
+	\item{A user study has been conducted collecting a dataset containing 91 users, 100 food items, 4207 positive ratings, and 1638 negative ratings.}
+	\item{A Single SVD CF System, Dual SVD CF System, Item CF System, and a Hybrid CF System have been implemented based on utilizing Binary Ratings (Likes/Dislikes).}
+	\item{An offline evaluation has been conducted for each of the systems above}
+	\item{Integration of recommender system has been implemented in WOTM}
+	\item{Demonstration that a Hybrid CF approach was able to provide personalised recommendations at an accuracy of 87.06\%, outperforming the popularity baseline which provided non-personalised recommendations at an accuracy of 73.84\%}
 \end{enumerate}

@@ -96,35 +96,14 @@
 
 \begin{abstract}
 
-\todo{Rewrite the abstract}
+This project explores recommendation techniques to integrate a recommender system into the web-centric mobile application What's On The Menu (WOTM). This recommendation system should be able to provide personalised recommendations to users based on the use case of ``Find Good Items" seen as items that a user will prefer based on their personal tastes towards food.
 
-\todo{The project compares the ALS method with multiple variations to see which one is suitable in a commercial environment}
+A user study has been conducted collecting a dataset containing 91 users, 100 food items, 4207 positive ratings, and 1638 negative ratings for an offline evaluation for recommender systems. A baseline predictor system recommending non-personalised items based on popularity was compared to four recommender systems, providing personalised recommendations. These systems were an Item-based SVD approach, a Single SVD approach, a Dual SVD approach, and a Hybrid CF approach. 
 
-\todo{Restructure this to start with a brief introduction to the area and a short motivation (a couple of lines)
-	Then state what the report does. I think you say report, not thesis? 
-	Don't give a run down of the report chapter by chapter -- the lit review isn't important here.
-	put some findings in at the end.
-	Also say you did a user study}
-
-
-The project looks at how a recommender system can be used to recommend food dishes to users based on their personal preferences, their previous actions such as likes/dislikes, and other factors such as their location and price. In particular, this project explores collaborative filtering (CF) techniques by leveraging existing research and explores these algorithms to best suit our application domain of recommending food to users. 
-
-The project investigates existing recommender systems that use CF techniques and compares the advantages and disadvantages of each technique to identify suitable CF techniques for our application domain. 
-
-Suitability of these algorithms will be considered on factors that are important for a web-centric mobile application called ``What's On The Menu" currently being developed. The recommender system will have to account for a range of factors from the user experience, the accuracy of the recommendation system, and the speed/performance that the system can provide recommendations to users.
-
-\begin{enumerate}
- \item \todo{I think it is clear that you have done a lot of work and actually have some results. But you need to explicitly state it as well. Take your findings from section 4.3 and put it in the abstract as well. One line about "We found a 23.6\% improvement in prediction accuracy" will help that abstract a lot. }
- \item \todo{Problem}
- \item \todo{Current Solutions}
- \item \todo{Problems with Solutions}
- \item \todo{My Great Idea}
- \item \todo{Results}
- \item \todo{conclusions}
-\end{enumerate}
+Overall, the Hybrid CF system was able to outperform every other system in terms of Accuracy, Precision, Area Under the Curve (ROC). In particular, the Hybrid CF approach was able to provide personalised recommendations at an accuracy of 87.06\%, outperforming the popularity baseline which provided non-personalised recommendations at an accuracy of 73.84\%, fulfilling the goal of ``Find Good Items".  
 
 % The system will be tested using evaluation techniques (yet to be identified) on real user data. The user data will be collected during the course of Trimester 2, and will test the accuracy in addition to the performance and scalability of the system. This is yet to be determined. 
-
+% The project looks at how a recommender system can be used to recommend food dishes to users based on personal food preferences, and previous binary rating patterns (Like/Dislike). 
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,7 +115,7 @@ Suitability of these algorithms will be considered on factors that are important
 \tableofcontents
 
 % we want a list of the figures we defined
-% \listofs{Figures}
+\listoffigures
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

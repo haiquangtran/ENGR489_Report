@@ -4,14 +4,12 @@
 \begin{enumerate} \label{experiment_objectives}
 	\item{Can collaborative filtering provide personalised recommendations to users for the use case of ``Find Good Items"?}
 	\item{Are personalised recommendations superior in accuracy than non-personalised recommendations based on the baseline predictor (item popularity)?}
-	\item{Does a hybrid weighted CF approach provide superior recommendations to a standard ALS approach?}
-	\item{Does an an Item Similarity ALS approach provide more accurate recommendations than user ALS latent factor models?}
-	\item{Do correlated binary events (Like/Dislike) provide more accurate recommendations than non-correlated binary events?}
-	\item{\todo{What are suitable variations of a ALS CF approach that leverage binary events (Like/Dislike)?}}
+	\item{Does a hybrid CF approach provide more accurate recommendations to a SVD CF approach?}
+	\item{Does an item-based SVD CF approach provide more accurate recommendations than a Hybrid CF approach?}
+	\item{Do correlated recommendations using binary ratings (Like/Dislike) provide more accurate recommendations than non-correlated binary ratings?}
 \end{enumerate}
 
-The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in Section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in Section \ref{algorithms}. The main objectives of the experiment are to answer the questions in Section \ref{experiment_objectives} in regard to the goal of ``Find Good Items"
-
+The objectives of this report focus on providing a base recommendation system that is able to fulfill the overall goal of ``Find Good Items" specified in Section \ref{C:intro}. To demonstrate whether the goal has been achieved, item popularity is used as a baseline predictor, comparing CF approaches to the baseline predictor which provides non-personalised recommendations. Additional objectives focus on comparing variations of latent factor CF approaches to a hybrid CF approach presented in Section \ref{algorithms}. The main objectives of the experiment are to answer the questions in Section \ref{experiment_objectives} in regard to the goal of ``Find Good Items".
 
 \section{User Study}
 
@@ -106,34 +104,23 @@ The dataset can be seen in the following table \ref{table:original_dataset}:
      \hline
      Food Dishes & 100 \\
      \hline
-     Available Food Preferences & \todo{17} \\ 
+     Available Food Preferences & 21 \\ 
      \hline
-     Available Food Intolerances & \todo{5} \\ 
+     Available Food Intolerances & 5 \\ 
      \hline
      Ratings & 9100 \\
      \hline
-     Like Ratings (Positive) & \todo{545} \\
+     Like Ratings (Positive) & 4207 \\
      \hline
-     Dislike Ratings (Negative) & \todo{88} \\ [1ex] 
+     Dislike Ratings (Negative) & 1638 \\ [1ex] 
      \hline
-     Love Ratings (Negative) & \todo{88} \\ [1ex] 
-     \hline
-     Hate Ratings (Negative) & \todo{88} \\ [1ex] 
-     \hline
-     Food Preference Ratings (Negative) & \todo{88} \\ [1ex] 
-     \hline
-     Food Intolerances (Negative) & \todo{88} \\ [1ex] 
+     Food Preference Ratings (Negative) & 813 \\ [1ex]
      \hline
 \end{tabular}
 \caption{A table showing the original dataset collected from the survey.}
 \label{table:original_dataset}
 \end{table}
 
-\todo{talk about SPARSITY \cite{zhang}}
-\todo{Add average Like and dislike ratings per user.}
-\todo{Add min and max ratings of likes and dislikes from user?}
-\todo{Add min,max,and average number of ratings for each item}
-\todo{Talk about density in regards to user and item orientation of ratings}
 % 
 % The sparsity of a rating dataset is defined as the density of the vacancies in
 % the user-item rating matrix, as in equation 2.1.
@@ -172,13 +159,13 @@ Collaborative filtering algorithms depend heavily on user data to give personali
      \hline
      Total Ratings & 8000 \\
      \hline
-     Like Ratings (Positive) & \todo{3937} \\
+     Like Ratings (Positive) & 3937 \\
      \hline
-     Dislike Ratings (Negative) & \todo{1440} \\ [1ex] 
+     Dislike Ratings (Negative) & 1440 \\ [1ex] 
      \hline
-     Neutral Ratings (Default) & \todo{2620} \\ [1ex] 
+     Neutral Ratings (Default) & 2620 \\ [1ex] 
      \hline
-     Total Food Preference Ratings & \todo{613} \\ [1ex] 
+     Food Preference Ratings & 613 \\ [1ex] 
      \hline
 \end{tabular}
 \caption{A table showing the cleansed dataset where all the users that provided contradictory or invalid answers to the questions, had been removed.}
@@ -283,23 +270,19 @@ Recall = \frac{\#TP}{\#TP + \#FN}
 % and content domain.
 
 \subsubsection{ROC Curves and Area Under The Curve} \label{roc} \label{auc}
-\todo{redo}
 In the context of this project, Receiver Operating Characteristic (ROC) curves can be used to visualise all the trade-offs between the True-Positive Rate, and the False-Positive Rate of a recommender system. The ROC cruve is computed by using all possible thresholds on a graph , and visualising the trade-off between the True-Positive Rate and the False-Positive Rate, displaying how well a model is able to distinguish recommendations that the users find relevant. The True Positive (TP) rate which is the y-axis, shows the sensitivity of the model. This means that it shows the fraction in which liked items by specific users are correctly recommended to the users. The False Positive (FP) rate which is the x-axis, shows the fraction in which disliked items by specific users are incorrectly recommended as items they would like. The Area Under The Curve (AUC) is a measure that can determine how good the recommender system is over all the thresholds, where a AUC of 1.0 specifies a recommendation system that recommends items perfectly to users. 
 
 \section{Experimental Design}
 
 \subsection{Setup/Tools}
-The following equipment was used to run the experiment:
+The following equipment and tools were used to run the experiment:
 \begin{itemize}
 	\item{Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz}
 	\item{NVIDIA Quadro K620 GPU 2GB DDR3}
 	\item{8GB DD3 RAM}
 	\item{Arch 64bit GNU/Linux Operating System}
-\end{itemize}
-The following programming languages and tools were used in the experiment:
-\begin{itemize}
 	\item{The programming language Ruby for the application WOTM}
-	\item{PredictionIO 9.4 using HBase for the event server, and running on Spark}
+	\item{PredictionIO 9.4 using HBase for the event server, and running on Apache Spark}
 	\item{PredictionIO Engine written in Scala using Apache MLLib}
 \end{itemize}
 
@@ -307,63 +290,52 @@ The following programming languages and tools were used in the experiment:
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.4]{recent_images/evaluation_workflow.png}
+\includegraphics[scale=0.7]{recent_images/evaluation_workflow.png}
 \caption{Evaluation for 1 run. Multiple runs are computed, and the results are averaged.}
 \label{fig:evaluation_workflow}
 \end{figure}
 
-\todo{Rewrite all of this. Just check if content is correct.}
+An offline study is evaluated using the dataset collected from the user study \ref{fig:evaluation_workflow}. The evaluation process can be shown in Figure \ref{fig:evaluation_workflow}. \textit{Skip-every-10th protocol} is used as the partitioning strategy to create a training set and a test set. The test set is used for the final evaluation of the learnt model when the optimal parameters have been found. 10-fold cross validation is performed on the training set multiple times with different parameters for the model until the optimal parameters are discovered. Since cross-validation uses each subset as validation data, we retrain the model on the whole training set data with the optimal parameters obtained from the k-fold validation. Using this model, evaluation is done on the test set computing the recommendation accuracy, the precision, the recall, and the precision at N (10). The results are then averaged over 30 runs. This method means that the parameters are not finalized since different optimal parameters are found every run. 
 
-The method focuses on two cases. The first focus is finding the optimal parameters for each algorithm to finalise the algorithm that performs best. This will be used for future prediction in an online-study or real scenario to see how real users will respond to each algorithm. The next focus is to compare which algorithm performs the best in an offline evaluation.
-
-For the first method, we use the skip-every-10th protocol to obtain a training set and a test set. Using only the training set, we find the optimal parameters for an algorithm by performing 10-fold cross validation. Since cross-validation uses each subset as validation data, we retrain the model on the whole training set data with the optimal parameters obtained from the k-fold validation. Using this model, evaluation is done on the test set computing the recommendation accuracy, the precision, the recall, and the precision at N (10). The results are then averaged over 30 runs. 
-
-\todo{Check this} Each different run uses the skip-every-10th protocol with an offset, so every test point is used exactly once. This method should give an optimal tuned parameters for future prediction used to finalize the system, however, contains biases in the test data. For these reasons, we do the second method to compare the algorithms, since the test set will not be contaminated with data from the tuning phase.
-
-The second method is essentially the same as the first, except we tune the parameters each run to get the best results. In this way, the test data is uncontaminated and we can use this to compare the different algorithms when they perform at their best. However, this method means that the parameters are not finalized, hence why we do the first method. 
-
-\todo{Which one is used in 4.3?}
-% 1) tune the parameters using the whole data set and then do the normal leave-n out training and testing. (this is what Bing suggested) The parameters are tuned and they are finalized. But the testing has bias because some testing cases might be used in tunning. This method is good to finalize a system so it can be used for future prediction.
-
-% 2) k-fold, for each round, you do training, tuning and testing, so you split the data into three parts. Using this method, the parameters are tuned for each round(you do the tuning for k times), so they are not finalized, so it is not good for predicting, but the testing has no bias.
+Therefore, another method is used to finalize the parameters. This method consists of doing the same above, but instead of doing the optimal parameters for every run, we use the same optimal parameters from the first run to test the remaining 29 runs. In this way, the parameters are finalized but the results of the data are contaminated since the learnt model in the remaining runs may have been trained on data from the test dataset from the first run.  
 
 \section{Experimental Results}
 
-In this section we present the results of the experiments described in Section \ref{method}. We will focus on comparing the hybrid CF approach to the standard ALS CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF ALS approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commercial/real world environment.  
+In this section we present the results of the experiments described in Section \ref{method}. We will focus on comparing the hybrid CF approach to the standard SVD CF approach, demonstrating the use of food dish content used inside the hybrid CF technique is able to outperform the standard CF SVD approach. This section also demonstrates the optimal parameters for the different approaches for further investigation in a commercial/real world environment.  
 
 \begin{figure}[!tbp]
   \centering
-  \begin{minipage}[b]{0.4\textwidth}
+  \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{recent_images/accuracy.png}
-    \caption{Comparing Recommendation Accuracy of various ALS algorithm run 30 times.}
-    \label{fig:algorithms}
+    \caption{Average accuracy from 30 runs for different algorithms.}
+    \label{fig:accuracy}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.5\textwidth}
+  \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{recent_images/precision.png}
-    \caption{Comparing Recommendation Precision of various ALS algorithm run 30 times.}
-    \label{fig:algorithms}
+    \caption{Average precision from 30 runs for different algorithms}
+    \label{fig:precision}
   \end{minipage}
 \centering
   \hfill
-  \begin{minipage}[b]{0.5\textwidth}
+  \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{recent_images/recall.png}
-    \caption{Comparing Recommendation Precision of various ALS algorithm run 30 times.}
-    \label{fig:algorithms}
+    \caption{Average recall from 30 runs for different algorithms}
+    \label{fig:recall}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.4\textwidth}
+  \begin{minipage}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{recent_images/auc.png}
-    \caption{Comparing Recommendation Area Under the ROC Curve of various ALS algorithm run 30 times.}
-    \label{fig:algorithms}
+    \caption{Average area under the roc curve for 30 runs over different algorithms}
+    \label{fig:auc}
   \end{minipage}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.4]{recent_images/top_n.png}
-\caption{Comparing Recommendation Top N=10 Precision of various ALS algorithm run 30 times.}
-\label{fig:algorithms}
+\includegraphics[scale=0.6]{recent_images/top_n.png}
+\caption{Average precision at top n (10) for 30 runs over different algorithms}
+\label{fig:top_n}
 \end{figure}
 
 \begin{figure}
@@ -373,88 +345,49 @@ In this section we present the results of the experiments described in Section \
 \label{fig:results}
 \end{figure}
 
+\subsection{Average Recommendation Accuracy}
+Results are shown in \ref{fig:results} and \ref{fig:accuracy}. Recommendation accuracy is the most suitable for the use case of ``Find Good Items". From the results, the hybrid collaborative filtering seems to provide the highest accuracy in this case. The preferences from each user describing the attributes the user likes and dislikes, provides extra information to the recommender system, thus resulting in the higher accuracy. However, this information may not be available. The Hybrid CF approach was able to achieve an accuracy an 87.06 \%, where as the Dual SVD system achieved an 86.74\% accuracy. Although this is just a minor difference, the attributes of a food dish only contain three categories: meat type, food type, and cuisine type. These attributes provide extra information about the user, therefore provide higher accuracy. Although tagging of this information for each dish can be tedious, and is expected that errors may occur in labelling the data which may have affected the accuracy. In the other systems, Single SVD with an accuracy of 82\% was able to outperform the popularity baseline which had a accuracy of 73.84\%. This is expected since Single SVD is able to provide personalised recommendations whereas non-personalised are given by the popularity baseline. An unexpected case was the Item SVD was able to achieve an accuracy of 82.64\%, similar to that of the Single SVD 82.43\%. 
 
-From running these algorithms multiple times, it is clear that the results give similar results. 
+\subsection{Average Precision}
 
-\subsection{Recommendation Accuracy}
-Recommendation accuracy is the most suitable for the use case of ``Find Good Items". From the results, the hybrid collaborative filtering seems to provide the highest accuracy in this case. The preferences from each user describing the attributes the user likes and dislikes, provides extra information to the recommender system, thus resulting in the higher accuracy. However, this information may not be available. \todo{Hybrid achieved x accuracy}. The dual algorithm was able to provide more accurate predictions than the single algorithm. This validates objective \todo{do this} where the dual algorithm was able to correlate the events of likes and dislikes better than use of the single algorithm.
+ From the results shown in \ref{fig:precision} and \ref{fig:results}, Dual SVD was able to achieve a higher precision (93.35\%) over the Single SVD (92.56\%) approach over multiple runs (30). This means the Dual SVD approach was able to more accurately recommend items the user preferred rather than the Single SVD. Since the average precision of the Single SVD is lower, it means that the recommender system recommended more items that users indicated they disliked (false positives). The lowest precision was the popularity baseline which provided non-personalised recommendations with a precision of 90\%. Item SVD achieved 91.64\% precision, where as the Hybrid CF approach achieved the highest precision of 94.19\%. 
 
-\subsection{Precision}
-\todo{Need to rewrite}
-\todo{REFERENCE TABLE}
-The precision is computed by iterating over the test set containing the rated items from the users, checking the whether the recommender system can accurately predict whether the test point is liked by the user, or disliked by the user. In terms of the goal of ``Find Good Items", precision looks at all of the recommended items from the recommender system, for completeness. From the results, Dual ALS was able to achieve a higher precision over the Single ALS approach over multiple runs (30). Dual ALS was able to achieve an average precision of 95.73\%, while Single ALS achieved an average precision of 87.38\%. This means the Dual ALS approach was able to more accurately recommend items the user preferred rather than the Single ALS. Since the average precision of the Single ALS is lower, it means that the recommender system recommended more items that users indicated they disliked (false positives).
+\subsection{Average Recall}
 
-\subsection{Recall}
-\todo{Need to rewrite}
-In the context of this project, Recall measures the fraction in which liked food dishes for each specific user is successfully recommended to the user. Essentially, it determines the sensitivity as it measures how many of the liked food dishes are recommended out of the total amount of actual liked food dishes by users. \todo{Fix this. Recall is closely related to Precision and their is usually a tradeoff between the two, since recall measures the amount of good items recommended, and precision measures the amount of disliked items that are recommended.} \todo{Need to add more}
+From the results shown in \ref{fig:recall} and \ref{fig:results}, the system with the highest recall was the Dual SVD (89.03\%). The popularity baseline had the lowest recall of (72.21\%). The other system had the following recall rates: Single SVD (84.74\%), Item SVD (85.60\%), and Hybrid CF (87.06\%). Interestingly enough, the Hybrid CF performed better on all the other previous metrics (Accuracy and Precision), but had a lower recall rate than Dual SVD. Recall is closely related to Precision and their is usually a tradeoff between the two, since recall measures the amount of good items recommended from the total preference list of the user. This meant the Hybrid CF approach had recommended less of the total preferred items of users, than the Dual SVD approach. This might be the reason why the Hybrid approach had performed better than the Dual SVD in other metrics, since the sensitivity of the recommendations were higher than the Dual SVD system.
 
-\subsection{Precision at top N (10)}
-\todo{Need to rewrite}
-In addition to the overall precision, we measure the results of the top 10 recommendations list to see whether the true liked dishes from the test set are within this recommendations list. Since it is unlikely that each user will have rated every item in the dataset, it means that the amount of false positives will be increased. This is suited towards providing insight about how users may perceive the recommendation algorithm in a real-world environment. For example, in an offline evaluation, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, in this case, we recommend the top 10 dishes, it may establish trust between the user and the recommender system. From the results, Dual ALS was able to achieve a higher precision within the top 10 recommendations list than the Single ALS approach.This means that more liked items from the test set appeared in the top 10 recommendations list when using the Dual ALS approach.    
+\subsection{Average AUC}
+
+From the results shown in \ref{fig:auc} and \ref{fig:results}, the Hybrid CF approach achieved the highest AUC with 91.50\%. The Dual SVD achieved a similar result of 91.20\%. These results imply that the recommendations are good, since 90\% represents a good overall recommendation classifier holistically. Item SVD achieved a AUC of 86.67\%, Single SVD achieved a AUC of 84.76\%, and the popularity baseline achieved an AUC of 72.21\%. These indicate that the other systems performed fairly well. 
+
+\subsection{Average Precision at top N (10)}
+
+From the results shown in \ref{fig:top_n} and \ref{fig:results} all the systems have the same average precision of 27.08\% when 10 items are recommended to them. This means the same amount of preferred user items have appeared in the top 10 recommendations list. This is metric is suited towards providing insight about how users may perceive the recommendation algorithm in a real-world environment. For example, in an offline evaluation, users have already indicated the food dishes they have liked. If these food dishes are displayed at the top of the recommendations list, then it may establish trust between the user and the recommender system. 
 
 \subsection{Experimental Conclusions}
 
-\todo{
-Find a nice compelling number from section 4.3.2 and claim that as an overall improvement compared to some baseline. You should be touting that in the introduction and conclusion.
-}
-% \subsection{\todo{Implicit events}}
-% \todo{directly from design decisions}
-% Seems like it can’t recognize negative values
-% Using the implicit training is not able to classify negative values. 
-% If you look at the values where the actual values were either hate or dislike, then all the predicted values are positive. This may be caused by the ratings of others on the dish.
-% If we look at the data, It is skewed. There are far more likes/loves than dislikes/hates. This may cause the values in the item feature vectors and user feature vectors to all be positive, since all the positive ratings are overpowering the negative values. For instance, a user’s predicted score is reliant on the value of the item feature vector and the user’s feature vector of tastes. The cross product determines the user’s preference for the item. If many other users have rated the item being liked than disliked, then this will positively impact the feature values of the item feature vector such that the negative values are not even considered. 
-% This may also affect the classification accuracy because all the predicted rating dishes are going to be based on positive ratings, meaning that the evaluation may be inaccurate. For instance, since all the item vectors are overpowered by positive ratings, then all the instances in the test set where the user has indicated that they “like/love” the dish will also be positive. This leads to biased results since every dish is positive within a threshold. 
-% To resolve this, we may have to compute two engines, for likes and dislikes. 
-% Also the cause of this may be because we are not training with explicit ratings.
+In terms of the case of ``Find Good Items", all systems were able to achieve the goal, as they all provided personalised recommendations that performed better than non-personalised recommendations based on item popularity. In particular, the Hybrid CF approach was able to provide personalised recommendations at an accuracy of 87.06\%, outperforming the popularity baseline which provided non-personalised recommendations at an accuracy of 73.84\%. This fulfills the objectives 1 and 2 in \ref{experiment_objectives}. 
+
+In terms of objective 3 in \ref{experiment_objectives}, the Item SVD achieved worse performance in all metrics compared to the Hybrid CF approach except precision at top n (10), where it achieved the same result. Item SVD achieved an accuracy of 82.65\%, being dominated by the Hybrid CF approach of 87.06\%. 
+
+The Dual SVD was able to achieve an accuracy of 86.74\%, outperforming Single SVD which achieved 82.43\%. In addition, Dual SVD achieved better results in all other metrics except precision at top N (10), where the result was the same. Therefore, correlated recommendations based on binary ratings provide more accurate recommendations than non-correlated binary ratings. This claim backs up the claim that taking into the relationship between Like/Dislike of items provides overall better recommendations. 
+
+Overall, a Hybrid CF approach was able to outperform every other system in terms of Accuracy, Precision, Area Under the Curve (ROC). Although the Dual SVD achieved a higher recall than the Hybrid, suggesting that more ``Good" items were recommended by the Dual SVD, the Dual SVD may not be better than the Hybrid CF approach since it recommended more items that users did not prefer. Ultimately, this is an important factor to consider, since recommending items users may not like, may cause distrust in the recommendations, leading to users less likely to use the system. 
 
 \section{Limitations to Generalisability}
-% \cite{martin2009recsys}
-% Examples of this problem
-% include the lack of standard treatment of items for which
-% the recommender is unable to make a prediction. The broader
-% goal of user-centered holistic evaluation, including A/B testing
-% of the short- and long-term effects of recommendation differences,
-% is still met by only a few research groups and companies
-% that have the live systems and resources for such evaluation.
 
-% Deploying innovative recommenders is still too hard, and there is a substantial need for research platforms where innovations can be tested without first building up a community of thousands of users. 
-\todo{Write this whole section}
-\todo{Rewrite all of these points into sentences}
+An offline experiment may not be enough as users may feel different in a real user evaluation. Therefore the following points indicate limitations to generalisability:
 \begin{itemize}
-	\item{Offline experiment may not be enough, users may feel different}
-	\item{Contradictions in the data and participation}
-	\item{Proportion of items and user}
-	\item{The labelling of data, removing the location, price etc}
-	\item{The amount of users, and the amount of ratings, and the amount of items. Variety of food choices for vegans etc. }
-	\item{The participants recruited - need to be more generalised (Mainly from students)}
-	\item{Tuning the parameters? or unbiased datasets}
-	\item{Online evaluation - novelty, serendipity, etc, how can users give opinions about items they've never tried before}
-	\item{Density and sparsity of the matrix}
-	\item{The survey questions - need to ask the right questions and about how you ask the question.}
-	\item{HOW MUCH IS GOOD ENOUGH?}
+	\item{Contradictions in the data and participation may lead to inaccurate recommendations}
+	\item{Proportion of items and user may not be accurate in a real system}
+	\item{Density and sparsity of the user-item rating matrix was densely filled.}
+	\item{The survey questions need to ask the right questions}
 \end{itemize}
-\todo{From design decisions}
-Not enough representation of vegans or vegetarians
-Not enough vegetarian or vegan dishes. 
-This may cause recommendations to be minimal etc.
-Also meat lovers may overpower the items?
-Noticed that Vegetarians all rated items with meat as “HATE” this could affect the overall predictions for SVD?
-May not be linearly separable?
-People may not fill in survey correctly.
 Some people may have filled out dishes that they haven't tried before. This could affect the results because often what people do is different to what they think. 
 There were cases where people filled out the form inaccurately, such that they chose random dishes. We know this because there are cases where someone states that they are “vegetarians” but then say they like “meat” etc.
 Cleanse these cases to give better predictions
 
 In addition, recommendation accuracy is identifying items that the user is already aware of, which makes it susceptible to biases involving overfitting and non-novel recommendations \cite{evaluation}. 
-
-\section{Discussion}
-
-\subsection{\todo{Latent size}}
-
-This affects the amount of features that will be used in ALS.
-With the current amount of data, it seems that using a smaller latent size affects the accuracy. This is because having a smaller latent size will capture all the ``Strong" patterns from the ratings, as opposed to having a larger number of latent sizes, where the rating patterns are spread across more characteristics, meaning that the feature values for these characteristics will be smaller. More feature vectors -> the smaller the strength of the characteristics that it captures from the previous rating patterns. This may capture quirky characteristics from the users rating patterns...however, Less feature vectors -> the stronger the strength of the characteristics that it captures from the previous rating patterns. 
-
-Overall, Dual ALS is performs better than single ALS in the context of using binary events.
 
 
 
